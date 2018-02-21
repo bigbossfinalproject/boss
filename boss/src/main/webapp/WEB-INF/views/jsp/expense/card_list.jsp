@@ -8,6 +8,7 @@
 	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 	List<CardViewBean> cList = (List<CardViewBean>) request.getAttribute("cardList");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

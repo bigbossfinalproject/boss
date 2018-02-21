@@ -8,6 +8,7 @@
 	List<TradeBean> tList = (List<TradeBean>) request.getAttribute("trade");
 	List<BankCorpBean> bList = (List<BankCorpBean>) request.getAttribute("bank");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

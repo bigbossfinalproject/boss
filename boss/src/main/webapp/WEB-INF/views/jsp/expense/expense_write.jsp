@@ -20,7 +20,9 @@
 	String tradeSelect = null;
 %>
 <html>
-
+<script type="text/javascript">
+	
+</script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>지출 입력</title>

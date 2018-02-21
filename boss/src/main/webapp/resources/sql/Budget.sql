@@ -1,3 +1,5 @@
+drop table budget purge;
+
 CREATE TABLE budget
 (
 	budget_code number, 

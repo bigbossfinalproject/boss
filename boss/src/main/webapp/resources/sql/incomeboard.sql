@@ -1,3 +1,5 @@
+drop table income purge;
+
 CREATE TABLE income
 (
     root_idn              NUMBER          NOT NULL,  -- 회원 고유번호

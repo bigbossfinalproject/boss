@@ -1,4 +1,7 @@
+drop table income_classification purge
+
 -- 소득 분류 테이블
+
 CREATE TABLE income_classification
 (
     income_code    VARCHAR2(20)    NOT NULL, 

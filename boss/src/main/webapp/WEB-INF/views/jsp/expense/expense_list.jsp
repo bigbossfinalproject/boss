@@ -8,6 +8,7 @@
 	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 	List<ExpenseViewBean> expenseList = (List<ExpenseViewBean>) request.getAttribute("expenseList");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -26,15 +26,10 @@ create table asset(
 	root_id varchar2(20)
 );
 
-alter table asset add(root_id varchar2(20));
 
 insert into asset values('1cs001', 'cash', 1, '2018/02/14', '지갑속 현금', '현금 필요시 사용', 'money', 100000, 100000, 'admin');
 insert into asset values('1bk001', 'account', 1, '2018-02-14', '신한입출금통장', '주 사용 통장', 'fnc011', 1000000, 1000000, 'admin');
 insert into asset values('1bk002', 'account', 1, '2018-02-14', '신한주택청약저축통장', '주택 구입 준비용', 'fnc011', 1500000, 1500000, 'admin');
-
-update asset set root_id='admin' where root_idn = 1;
-
-delete from asset where root_idn = 1;
 
 select * from asset;
 
