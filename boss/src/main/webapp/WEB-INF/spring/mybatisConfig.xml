@@ -17,7 +17,9 @@
 		<typeAlias alias="expenseMonthSum" type="boss.cashbook.model.ExpenseMonthSumBean"/>
 		<typeAlias alias="capitalCorp" type="boss.cashbook.model.CapitalCorpBean"/>
 		<typeAlias alias="incomeBoard" type="boss.income.bean.IncomeBean" />
-		
+		<typeAlias alias="budget" type="boss.com.vs.model.BudgetBean"/>
+		<typeAlias alias="user" type="boss.com.vs.model.User"/> 
+		 
 	</typeAliases>
 	<mappers>
 		<mapper resource="boss/cashbook/dao/object_root.xml"/>
@@ -34,5 +36,8 @@
 		<mapper resource="boss/cashbook/dao/expense_month_sum.xml"/>
 		<mapper resource="boss/cashbook/dao/capital_corp.xml"/>
 		<mapper resource="boss/income/dao/income.xml" />
+		<mapper resource="boss/com/vs/dao/budget.xml"/>
+ 		<mapper resource="boss/com/vs/dao/user.xml"/> 
+ 		
 	</mappers>
 </configuration>
