@@ -18,6 +18,9 @@
     <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 </head>
+<script type="text/javascript">
+	
+</script>
 <body style="width: 1280px; margin: 0 auto;">
 	<header><jsp:include page="/resources/include/header.jsp"/></header>
     
