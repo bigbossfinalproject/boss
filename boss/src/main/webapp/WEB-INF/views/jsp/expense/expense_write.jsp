@@ -18,61 +18,19 @@
 	String name = user.getRoot_name();
 	String email = user.getRoot_email();
 	String tradeSelect = null;
-	
 %>
 <html>
-<!-- <script type="text/javascript">
-	function tradeCheck(){
-		var tradeSelected = document.getElementById("trade_code");
-		var transferSel = document.getElementsByClassName("transfer");
-		var accountSel = document.getElementsByClassName("account");
-		var cardSel = document.getElementsByClassName("card");
-		var cashSel = document.getElementsByClassName("cash");
-		//alert('선택된 옵션 text 값=' + target.options[target.selectedIndex].text);
-		
-		var selectVal = tradeSelected.options[tradeSelected.selectedIndex].value;
-		if(selectVal.indexOf('card') >= 0) {
-			console.log("card선택시 출력값 : "+selectVal.indexOf('card'));
-			cardSel.style.display="block";
-			cashSel.style.display="none";
-			transferSel.style.display="none";
-			accountSel.style.display="none";
-		} else if(selectVal.indexOf('cash') >= 0){
-			console.log("cash선택시 출력값 : "+selectVal.indexOf('cash'));
-			accountSel.style.display="none";
-			cashSel.style.display="block";
-			transferSel.style.display="none";
-			cardSel.style.display="none";
-		} else if(selectVal.indexOf('transfer') >= 0 ) {
-			console.log("transfer선택시 출력값 : "+selectVal.indexOf('transfer'));
-			cashSel.style.display="none";
-			cardSel.style.display="none";
-			accountSel.style.display="none";
-			transferSel.style.display="block";
-		} else if(selectVal.indexOf('account') >= 0 ) {
-			console.log("transfer선택시 출력값 : "+selectVal.indexOf('account'));
-			cashSel.style.display="none";
-			cardSel.style.display="none";
-			accountSel.style.display="block";
-			transferSel.style.display="none";
-		}
-		console.log("선택된 옵션 value 값 : "+selectVal+"\t"+typeof(selectVal));
-	}
-	
-	function expenseChange(){
-		var expCode = document.getElementsByName("expense_code");
-		
-		var prtVal = expCode.options[expCode.selectedIndex].value;
-		console.log("expCode의 타입 : "+typeof(expCode));
-		console.log("expense_code 선택값 : "+prtVal);
-	}
-	
-</script> -->
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>지출 입력 화면</title>
+<title>지출 입력</title>
+    <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 </head>
-<body>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 	아이디 : <%= user.getRoot_id() %> / 이름 : <%= user.getRoot_name() %>회원님 반갑습니다.<br>
 	고유번호 : <%= user.getRoot_idn() %> / 이메일 : <%= user.getRoot_email() %> 입니다.<br>
 	<a href="item_list.do" style="text-decoration: none;">분류항목 목록 보기</a>&nbsp;&nbsp;&nbsp;
@@ -85,6 +43,7 @@
 	<a href="loan_write.do" style="text-decoration: none;">부채 입력</a><br>
 	<a href="card_list.do" style="text-decoration: none;">카드 목록 보기</a>&nbsp;&nbsp;&nbsp;
 	<a href="card_write.do" style="text-decoration: none;">카드 입력</a><br>
+    <a href="list.io" style="text-decoration: none;">소득 보기</a><br>
 	
 	<form action="expense_write_ok.do" method="post">
 		<input type="hidden" name="root_idn" value="<%= idn %>">
@@ -176,5 +135,6 @@
 			</tr>
 		</table>
 	</form>
+    <footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>

@@ -18,8 +18,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>카드 입력 하기</title>
+    <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 </head>
-<body>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 	아이디 : <%= user.getRoot_id() %> / 이름 : <%= user.getRoot_name() %>회원님 반갑습니다.<br>
 	고유번호 : <%= user.getRoot_idn() %> / 이메일 : <%= user.getRoot_email() %> 입니다.<br>
 	<a href="item_list.do" style="text-decoration: none;">분류항목 목록 보기</a>&nbsp;&nbsp;&nbsp;
@@ -131,17 +136,6 @@
 			</tr>
 		</table>
 	</form>
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>
-
-<!-- private String card_code;				servlet에서 작업
-	private int root_idn;							objectroot_참조		hidden
-	private String card_name;					입력
-	private String card_corp_code;			cardcorp_참조
-	private String card_type_code;			servlet에서 작업
-	private String card_type_name;			select선택
-	private int card_expense_date;			cardcorp_참조
-	private String card_use_term;			cardcorp_참조
-	private String bank_code;					bankcorp_참조
-	private String asset_code;				asset_참조
-	private String root_id;						objectroot_참조		hidden -->

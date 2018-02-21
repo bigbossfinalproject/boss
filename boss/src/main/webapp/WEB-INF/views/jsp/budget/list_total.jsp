@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-
-	<table width="500" cellpadding="0" cellspacing="0" border="1">
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+	
+	<table cellpadding="0" cellspacing="0" border="1" style="width: 500px;">
 		
 		<tr>
 			<td>금액</td>
@@ -30,6 +31,7 @@
 			</tr>
 			 --%>	
 	</table>
-
+	
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>

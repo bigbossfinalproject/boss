@@ -15,8 +15,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>부채 입력 화면</title>
+    <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 </head>
-<body>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 	아이디 : <%= user.getRoot_id() %> / 이름 : <%= user.getRoot_name() %>회원님 반갑습니다.<br>
 	고유번호 : <%= user.getRoot_idn() %> / 이메일 : <%= user.getRoot_email() %> 입니다.<br>
 	<a href="item_list.do" style="text-decoration: none;">분류항목 목록 보기</a>&nbsp;&nbsp;&nbsp;
@@ -154,32 +159,6 @@
 			</tr>
 		</table>
 	</form>
-	
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>
-
-<!-- 
-private String item_code;						// 품목분류코드		item_참조
-private String asset_code;					// 자산 코드			asset_참조
-private String capital_code;					// 대출금융사 코드	capitalCorp_참조
-private String loan_name;						// 부채명				text
-private String loan_purpose;					// 용도				text
-private Date loan_begin_date;				// 대출시작일			date
-private Date loan_expense_date;			// 원금/이자 납입일	date
-private int loan_term;							// 대출기간			number
-private int loan_amount;						// 총대출금			number
-
-private int root_idn;								// 회원고유번호		hidden
-private String root_id;							// 회원아이디			hidden
-
-private Date loan_date;						// 입력일자			servlet에서 작업
-private String loan_code;						// 부채코드			servlet에서 작업
-private String principal;						// 상환원금			servlet에서 작업
-private String loan_interest;					// 상환이자			servlet에서 작업
-private Date loan_end_date;					// 대출만료일			servlet에서 작업 _ 자동 입력_date
- -->
- 
- <!--
-private String loan_mean_code;				// 상환방법코드		select value(pandi, princ, expir)
-private String loan_mean;						// 상환방법			select(원리금균등상환, 원금균등상환, 만기일시상환)
- -->

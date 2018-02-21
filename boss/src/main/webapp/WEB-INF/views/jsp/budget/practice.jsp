@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
@@ -50,48 +49,51 @@
     </script>
 </head>
  
-<body>
-<table id="example" border="1px">
-        <tr>
-            <th>옵션명</th>
-            <th>항목명</th>
-            <th>필수항목</th>
-            <th>가격</th>
-            <th>재고</th>
-            <th>옵션추가</th>
-        </tr>
-        <tr class="item1">
-            <td><input type="text" /><button class="addBtn">항목추가</button></td>
-            <td><input type="text" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><button class="delBtn">삭제</button></td>
-        </tr>
-        <tr class="item2">
-            <td><input type="text" /><button class="addBtn">항목추가</button></td>
-            <td><input type="text" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><button class="delBtn">삭제</button></td>
-        </tr>
-        <tr class="item3">
-            <td><input type="text" /><button class="addBtn">항목추가</button></td>
-            <td><input type="text" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><button class="delBtn">삭제</button></td>
-        </tr>
-        <tr class="item4">
-            <td><input type="text" /><button class="addBtn">항목추가</button></td>
-            <td><input type="text" /></td>
-            <td><input type="checkbox" /></td>
-            <td><input type="text" /></td>
-            <td><input type="text" /></td>
-            <td><button class="delBtn">삭제</button></td>
-        </tr>
-</table>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+	
+	<table id="example" border="1">
+	        <tr>
+	            <th>옵션명</th>
+	            <th>항목명</th>
+	            <th>필수항목</th>
+	            <th>가격</th>
+	            <th>재고</th>
+	            <th>옵션추가</th>
+	        </tr>
+	        <tr class="item1">
+	            <td><input type="text" /><button class="addBtn">항목추가</button></td>
+	            <td><input type="text" /></td>
+	            <td><input type="checkbox" /></td>
+	            <td><input type="text" /></td>
+	            <td><input type="text" /></td>
+	            <td><button class="delBtn">삭제</button></td>
+	        </tr>
+	        <tr class="item2">
+	            <td><input type="text" /><button class="addBtn">항목추가</button></td>
+	            <td><input type="text" /></td>
+	            <td><input type="checkbox" /></td>
+	            <td><input type="text" /></td>
+	            <td><input type="text" /></td>
+	            <td><button class="delBtn">삭제</button></td>
+	        </tr>
+	        <tr class="item3">
+	            <td><input type="text" /><button class="addBtn">항목추가</button></td>
+	            <td><input type="text" /></td>
+	            <td><input type="checkbox" /></td>
+	            <td><input type="text" /></td>
+	            <td><input type="text" /></td>
+	            <td><button class="delBtn">삭제</button></td>
+	        </tr>
+	        <tr class="item4">
+	            <td><input type="text" /><button class="addBtn">항목추가</button></td>
+	            <td><input type="text" /></td>
+	            <td><input type="checkbox" /></td>
+	            <td><input type="text" /></td>
+	            <td><input type="text" /></td>
+	            <td><button class="delBtn">삭제</button></td>
+	        </tr>
+	</table>
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>  

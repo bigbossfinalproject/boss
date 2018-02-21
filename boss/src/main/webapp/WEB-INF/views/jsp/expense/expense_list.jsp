@@ -7,15 +7,18 @@
 <%
 	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 	List<ExpenseViewBean> expenseList = (List<ExpenseViewBean>) request.getAttribute("expenseList");
-	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>지출 내역</title>
+<title>지출 보기</title>
+    <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 </head>
-<body>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
 	아이디 : <%= user.getRoot_id() %> / 이름 : <%= user.getRoot_name() %>회원님 반갑습니다.<br>
 	고유번호 : <%= user.getRoot_idn() %> / 이메일 : <%= user.getRoot_email() %> 입니다.<br>
 	<a href="item_list.do" style="text-decoration: none;">분류항목 목록 보기</a>&nbsp;&nbsp;&nbsp;
@@ -59,5 +62,6 @@
 		
 		 
 	</table>
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 </html>

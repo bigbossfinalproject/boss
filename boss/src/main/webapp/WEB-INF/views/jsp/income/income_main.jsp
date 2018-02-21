@@ -3,8 +3,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%@ include file="/resources/include/header.jsp"%>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -55,8 +53,9 @@
 	})
 </script>
 </head>
-<body>
-
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 	<h2 class="text-center">소득 내역</h2>
 
 	<div class="container" id="table">
@@ -104,9 +103,7 @@
 	<hr />
 	<input type="button" value="행 생성" id="add_row" />
 
-
+	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
-<%@ include file="/resources/include/footer.jsp"%>
-
 
 </html>

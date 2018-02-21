@@ -71,7 +71,9 @@
 </head>
 
 
-<body>
+<body style="width: 1280px; margin: 0 auto;">
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 		<br>
 	 	<div class="container">
 				<div class="form-group row pull-right">
@@ -143,7 +145,7 @@
 			</table>
 		</div>
 		
-		
+		<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 
 </html>
