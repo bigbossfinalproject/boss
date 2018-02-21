@@ -28,7 +28,7 @@ public class IncomeController {
 		int root_idn = 1;
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
-		ModelAndView mav = new ModelAndView("jsp/income/income_main");
+		ModelAndView mav = new ModelAndView("income/income_main");
 		mav.addObject("incomeList", list);
 
 		return mav;

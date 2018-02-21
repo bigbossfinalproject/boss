@@ -25,7 +25,7 @@ public class BudgetController {
 	@Autowired
 	private BudgetDaoImpl budgetService;
 	
-	@RequestMapping(value ="/budget_modify")
+	@RequestMapping(value ="/budget_modify.bg")
 	public ModelAndView budget_modify(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		System.out.println("수정");
 		BudgetBean bean=new BudgetBean(); 
@@ -56,7 +56,7 @@ public class BudgetController {
 	
 	
 	
-	@RequestMapping(value ="/budget_delete")
+	@RequestMapping(value ="/budget_delete.bg")
 	public ModelAndView budget_delete(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		System.out.println("삭제");
 		BudgetBean bean=new BudgetBean(); 
@@ -66,14 +66,14 @@ public class BudgetController {
 		int budget_code=Integer.parseInt(request.getParameter("budget_code"));
 		System.out.println("budget_code  = "+budget_code);
 		this.budgetService.deleteBudget(budget_code);
-		response.sendRedirect("budget_list");
+		response.sendRedirect("budget_list.bg");
 		return null;
 	}
 	
 	
 
 	
-	@RequestMapping(value = "/budget_list_total")
+	@RequestMapping(value = "/budget_list_total.bg")
 	public ModelAndView budget_list_total(HttpServletRequest request, HttpServletResponse response){
 		System.out.println("Total_List");
 		BudgetBean bean=null; 
@@ -96,20 +96,20 @@ public class BudgetController {
 	
 	
 	
-	@RequestMapping(value="/write_view")
+	@RequestMapping(value="/write_view.bg")
 	public String write_view(Model model){
 		System.out.println("write_view");
 		
-		return "write_view";
+		return "budget/write_view";
 	}
 	
-	@RequestMapping(value="/practice")
+	@RequestMapping(value="/practice.bg")
 	public String practice(Model model){
 		System.out.println("practice");
 		
-		return "practice";
+		return "budget/practice";
 	}
-	@RequestMapping(value = "/budget_insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget_insert.bg", method = RequestMethod.POST)
 	public void budget_insert(HttpServletRequest request, HttpServletResponse response
 			) throws Exception{
 		System.out.println("인서트");
@@ -134,7 +134,7 @@ public class BudgetController {
 	}
 	
 	
-	@RequestMapping(value = "/UserInsert", method = RequestMethod.POST)
+	@RequestMapping(value = "/UserInsert.bg", method = RequestMethod.POST)
 	public void user_insert(HttpServletRequest request, HttpServletResponse response
 			) throws Exception{
 		System.out.println("인서트");
@@ -164,17 +164,17 @@ public class BudgetController {
 	
 	}
 	
-	@RequestMapping(value="/index",method = RequestMethod.GET)
+	@RequestMapping(value="/index.bg",method = RequestMethod.GET)
 	public String index(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		return "index";
+		return "budget/index";
 	}
 
-	@RequestMapping(value="/dynamicTable",method = RequestMethod.GET)
+	@RequestMapping(value="/dynamicTable.bg",method = RequestMethod.GET)
 	public String dynamicTable(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		return "dynamicTable";
+		return "budget/dynamicTable";
 	}
 	
-	@RequestMapping(value="/UserSearch",method = RequestMethod.POST)
+	@RequestMapping(value="/UserSearch.bg",method = RequestMethod.POST)
 	public void userSearch(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		System.out.println("유저서치");
 		request.setCharacterEncoding("UTF-8");
@@ -182,7 +182,7 @@ public class BudgetController {
 		String userName=request.getParameter("userName");
 		response.getWriter().write(getJSON(userName));
 	}
-	@RequestMapping(value = "/budget_list",method=RequestMethod.POST)
+	@RequestMapping(value = "/budget_list.bg",method=RequestMethod.POST)
 	public void budget_list(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
