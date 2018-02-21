@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.com.vs.model.BudgetBean"> 
+
+ 	<!-- 예산 목록  -->  
+	 <select id="budget_list" parameterType="String" resultType="budget">
+		select * from budget
+	</select>
+	
+	<!-- 통합 예산 목록 -->
+	<select id="budget_list_total" resultType="budget">
+	select sum(budget_amount) budget_amount, 
+sum(budget_amount_spent) budget_amount_spent from budget
+	</select>
+	
+	
+	<!-- 예산 등록 -->
+ <insert id="budget_insert" parameterType="budget">
+	 insert into budget 
+	 values(budget_code_seq.nextVal,1,#{budget_amount}, 
+	 0,sysdate,#{item_code})         
+	</insert>
+	<!-- 예산 복사 -->
+ <insert id="budget_copy" parameterType="budget">
+	 insert into budget 
+	 values(budget_code_seq.nextVal,#{root_idn},#{budget_amount}, 
+	 0,sysdate,#{item_code})         
+	</insert>
+	
+	
+	
+ 
+ 	<!-- 예산 삭제 -->
+ <delete id="budget_delete" parameterType="int">
+ 	delete from budget where budget_code =#{budget_code}
+ </delete>	
+ 
+ 
+ 	<!-- 예산 수정 -->
+  <update id="budget_modify" parameterType="budget">
+ 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code} 
+ 	where budget_code=#{budget_code}
+ </update>
+ 
+ 
+ 
+  
+ 
+ 
+</mapper>
+
+
+	

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.com.vs.model.User"> 
+ 	<!-- 유저 검색 -->  
+	 <select id="user_search" parameterType="String" resultType="user">
+		select * from ajax_user
+	</select>
+	<insert id="user_insert" parameterType="user">
+		insert into ajax_user values(#{userName},#{userAge},#{userGender},#{userEmail})
+	</insert>
+
+ 
+  
+ 
+ 
+</mapper>
+
+
+	
