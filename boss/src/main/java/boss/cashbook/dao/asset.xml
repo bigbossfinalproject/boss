@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.AssetBean">
+	
+	<!-- 사용자와 지출코드를 이용하여 자산 목록에서 1개의 정보만 불러오기 -->
+	<select id="assetOne" parameterType="expense" resultType="asset">
+		select * from asset where root_idn <![CDATA[=]]> #{root_idn} and asset_code <![CDATA[=]]> #{expense_code}
+	</select>
+	
+	<!-- 코드값을 입력받아 자산 목록중 1개의 정보만 가져오기 -->
+	<select id="codeAssetOne" resultType="asset">
+		select * from asset where asset_code <![CDATA[=]]> #{asset_code}
+	</select>
+	
+	<!-- 코드값을 입력받아 자산 목록중 1개의 정보만 가져오기 -->
+	<select id="assetCodeOne" resultType="asset">
+		select * from asset where asset_code <![CDATA[=]]> #{asset_code}
+	</select>
+	
+	<!-- 자산 목록을 모두 불러오기 -->
+	<select id="assetList" resultType="asset">
+		select * from asset
+	</select>
+	
+	<!-- 자산코드별 자산목록 가져오기 -->
+	<select id="codeConList" parameterType="String" resultType="asset">
+		select * from asset where asset_code like #{asset_code}
+	</select>
+	
+	<!-- 자산코드별 자산 목록 개수를 불러오기 -->
+	<select id="codeConOne" resultType="int">
+		select count(*) from asset where asset_code like #{asset_code}
+	</select>
+	
+	<!-- 사용자 개인별 자산 목록을 불러오기 -->
+	<select id="memAssetList" parameterType="int" resultType="asset">
+		select * from asset where root_idn <![CDATA[=]]> #{root_idn}
+	</select>
+	
+	<!-- 사용자 개인별 거래매체의 자산 개수를 불러오기 -->
+	<select id="userTradeCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from asset where root_id <![CDATA[=]]> #{root_id} and trade_code <![CDATA[=]]> #{trade_code}
+	</select>
+	
+	<!-- 사용자 개인별 자산 정보를 입력하기 -->
+	<insert id="userAssetInsert" parameterType="asset">
+		insert into asset values (#{asset_code}, #{trade_code}, #{root_idn}, #{asset_date}, #{asset_name}, #{asset_purpose}, #{bank_code}, #{basic_amount}, #{now_amount}, #{root_id})
+	</insert>
+	
+</mapper>

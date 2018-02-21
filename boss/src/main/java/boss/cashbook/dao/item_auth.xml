@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.ItemAuthBean">
+
+	<select id="userItem" parameterType="int" resultType="itemAuth">
+		select * from item_auth where root_idn <![CDATA[=]]> #{idn}
+	</select>
+
+</mapper>

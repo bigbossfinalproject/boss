@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.CapitalCorpBean">
+	
+	<!-- 대출 금융사 전체 정보 가져오기 -->
+	<select id="capitalList" resultType="capitalCorp">
+		select * from capital_corp
+	</select>
+	
+	<!-- 은행 코드에 맞는 정보 가져오기 -->
+	<select id="capitalOne" resultType="capitalCorp">
+		select * from capital_corp where capital_code = #{capital_code}
+	</select>
+	
+	<!-- 1,2,3,4, 금융권 정보에 맞는 정보 가져오기 -->
+	<select id="capitalLevelList" parameterType="int" resultType="capitalCorp">
+		select * from capital_corp where capital_level = #{capital_level}
+	</select>
+	
+</mapper>

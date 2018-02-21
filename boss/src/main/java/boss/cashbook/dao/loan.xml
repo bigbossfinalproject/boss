@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.LoanBean">
+	
+	<!-- 사용자별 대출 개수를 가져오기 -->
+	<select id="userLoanCount" resultType="int">
+		select count(*) from loan where loan_code like #{loanCode}
+	</select>
+	
+	<!-- 사용자별 대출 목록을 가져오기 -->
+	<select id="userLoanList" resultType="loan">
+		select * from loan where loan_code like #{loanCode}
+	</select>
+	
+	<!-- 사용자별 loan_code 값 가져오기 -->
+	<select id ="userLoanCodeList" resultType="loan">
+		select * from loan where loan_code like #{loanCode}
+	</select>
+	
+	<!-- 사용자별 대출 정보 입력하기 -->
+	<insert id="loanAdd" parameterType="loan">
+		insert into loan(loan_code, item_code, root_idn, root_id, loan_date, loan_name, loan_purpose, loan_begin_date, loan_expense_date,
+			loan_end_date, asset_code, capital_code, loan_term, loan_rate, loan_mean_code, loan_mean, loan_amount, loan_principal, loan_interest)
+			values(#{loan_code}, #{item_code}, #{root_idn}, #{root_id}, #{loan_date}, #{loan_name}, #{loan_purpose},
+			#{loan_begin_date}, #{loan_expense_date}, #{loan_end_date}, #{asset_code}, #{capital_code}, #{loan_term}, #{loan_rate},
+			#{loan_mean_code}, #{loan_mean}, #{loan_amount}, #{loan_principal}, #{loan_interest})
+	</insert>
+	
+</mapper>

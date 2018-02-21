@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.ItemBean">
+	
+	<!-- 분류 항목을 저장하기 -->
+	<insert id="addItem" parameterType="item">
+		insert into item values(#{item_code}, #{parent_code}, #{item_level}, #{item_name}, #{item_seq})
+	</insert>
+	
+	<!-- 기본 저장할 분류코드 목록을 가져오기 -->
+	<select id="basicItem" resultType="item">
+		select * from item where item_code not like #{item_code}
+	</select>
+	
+	<!-- 분류코드에 따른 목록을 가져오기 -->
+	<select id="itemList" resultType="item">
+		select * from item where item_code like #{item_code}
+	</select>
+	
+	<!-- 분류코드에 따른 목록을 가져오기 -->
+	<select id="detailItemList" resultType="item">
+		select * from item where item_code like #{item_code} and item_level = 3
+	</select>
+	
+	<!-- 분류코드에 따른 1개의 정보 가져오기 -->
+	<select id="itemOne" resultType="item">
+		select * from item where item_code <![CDATA[=]]> #{item_code}
+	</select>
+	
+	<!-- 분류코드의 세부항목 개수를 가져오기 -->
+	<select id="itemCount" resultType="int">
+		select count(*) from item where item_code like #{item_code} and item_level = 3
+	</select>
+	
+	<!-- 분류코드의 순번을 가져오기 -->
+	<select id="maxSeq" resultType="int">
+		select max(item_seq) from item where item_code like #{item_code}
+	</select>
+	
+</mapper>

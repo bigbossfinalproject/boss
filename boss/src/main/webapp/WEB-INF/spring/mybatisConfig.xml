@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias alias="objectRoot" type="boss.cashbook.model.ObjectRootBean"/>
+		<typeAlias alias="expense" type="boss.cashbook.model.ExpenseBean"/>
+		<typeAlias alias="asset" type="boss.cashbook.model.AssetBean"/>
+		<typeAlias alias="item" type="boss.cashbook.model.ItemBean"/>
+		<typeAlias alias="itemAuth" type="boss.cashbook.model.ItemAuthBean"/>
+		<typeAlias alias="trade" type="boss.cashbook.model.TradeBean"/>
+		<typeAlias alias="card" type="boss.cashbook.model.CardBean"/>
+		<typeAlias alias="cardCorp" type="boss.cashbook.model.CardCorpBean"/>
+		<typeAlias alias="loan" type="boss.cashbook.model.LoanBean"/>
+		<typeAlias alias="bankCorp" type="boss.cashbook.model.BankCorpBean"/>
+		<typeAlias alias="expenseMonthSum" type="boss.cashbook.model.ExpenseMonthSumBean"/>
+		<typeAlias alias="capitalCorp" type="boss.cashbook.model.CapitalCorpBean"/>
+		
+	</typeAliases>
+	<mappers>
+		<mapper resource="boss/cashbook/dao/object_root.xml"/>
+		<mapper resource="boss/cashbook/dao/expense.xml"/>
+		<mapper resource="boss/cashbook/dao/asset.xml"/>
+		<mapper resource="boss/cashbook/dao/item.xml"/>
+		<mapper resource="boss/cashbook/dao/item_auth.xml"/>
+		<mapper resource="boss/cashbook/dao/trade.xml"/>
+		<mapper resource="boss/cashbook/dao/card.xml"/>
+		<mapper resource="boss/cashbook/dao/card_corp.xml"/>
+		<mapper resource="boss/cashbook/dao/loan.xml"/>
+		<mapper resource="boss/cashbook/dao/bank_corp.xml"/>
+		<mapper resource="boss/cashbook/dao/card_corp.xml"/>
+		<mapper resource="boss/cashbook/dao/expense_month_sum.xml"/>
+		<mapper resource="boss/cashbook/dao/capital_corp.xml"/>
+	</mappers>
+</configuration>

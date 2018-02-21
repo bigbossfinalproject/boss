@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.ExpenseBean">
+	
+	<!-- 지출 내역 입력하기 -->
+	<insert id="expense_insert" parameterType="expense">
+		insert into expense values(#{expense_id}, #{root_idn}, #{root_id}, #{expense_date}, #{item_code}, #{trade_code}, #{expense_code}, #{expense_discription}, #{expense_amount})
+	</insert>
+	
+	<!-- 사용자 개인별 전체 지출 내역 보여주기 -->
+	<select id="expense_all_list" parameterType="int" resultType="expense">
+		select * from expense where root_idn <![CDATA[=]]>#{idn} order by expense_date desc
+	</select>
+	
+	<!-- 사용자 개인별 기간별 지출 내역 보여주기 -->
+	
+	<!-- 사용자 개인별 기간별 자산별 지출 내역 보여주기 -->
+	<select id="expenseTermList" parameterType="java.util.Map" resultType="expense">
+		select * from expense where root_id <![CDATA[=]]> #{id} and expense_date <![CDATA[>=]]> #{startDate} order by expense_date desc
+	</select>
+	
+	<!-- 사용자 개인별 지출 내역을 보여주기 -->
+	<select id="expenseCount" parameterType="int" resultType="int">
+		select count(*) from expense where root_idn <![CDATA[=]]> #{idn}
+	</select>
+	
+</mapper>

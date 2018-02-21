@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.model.CardCorpBean">
+	
+	<!-- 카드회사 전체 정보를 가져오기 -->
+	<select id="card_corp_all_list" resultType="cardCorp">
+		select * from card_corp
+	</select>
+	
+	<!-- 카드회사 1개의 정보를 가져오기 -->
+	<select id="card_corp_one" parameterType="String" resultType="cardCorp">
+		select * from card_corp where card_corp_code <![CDATA[=]]> #{card_corp_code}
+	</select>
+	
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.cashbook.dao.ObjectRootBean">
+
+	<!-- db에 저장된 id값을 찾아주는 select문 -->
+	<select id="id_search" parameterType="String" resultType="objectRoot">
+		select * from object_root where root_id = #{id}
+	</select>
+	
+</mapper>
