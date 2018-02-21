@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.income.bean.IncomeBean">
+
+	<select id="getIncome_Board" parameterType="int" resultType="incomeBoard">
+
+		<!-- select * from income where root_idn = #{root_idn} -->
+
+
+		select i.root_idn, i.income_id, i.income_date, ic.item_name
+		income_code, i.income_amount,i.trade_code, i.bank_code,
+		i.income_description
+		from income i, income_classification ic where
+		i.income_code = ic.income_code and i.root_idn = #{root_idn}
+	</select>
+
+
+
+
+
+
+</mapper>
+

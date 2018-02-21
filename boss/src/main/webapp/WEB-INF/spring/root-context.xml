@@ -26,6 +26,6 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 	
-	<context:component-scan base-package="boss.cashbook.dao" />
+	<context:component-scan base-package="boss" />
 	
 </beans>
