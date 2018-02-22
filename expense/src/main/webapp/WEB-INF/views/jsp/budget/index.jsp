@@ -13,7 +13,7 @@
 		var searchRequest= new XMLHttpRequest();
 		var registerRequest= new XMLHttpRequest();
 			function searchFunction(){
-				searchRequest.open("Post", "./UserSearch?userName="+encodeURIComponent(document.getElementById("userName").value), true);
+				searchRequest.open("Post", "./UserSearch.bg?userName="+encodeURIComponent(document.getElementById("userName").value), true);
 				searchRequest.onreadystatechange = searchProcess;
 				searchRequest.send(null);
 			}
@@ -35,7 +35,7 @@
 			}
 			
 			function registerFunction(){	
-				registerRequest.open("Post", "./UserInsert?userName=" + encodeURIComponent(document.getElementById("registerName").value) +
+				registerRequest.open("Post", "./UserInsert.bg?userName=" + encodeURIComponent(document.getElementById("registerName").value) +
 						"&userAge="+encodeURIComponent(document.getElementById("registerAge").value)+
 						"&userGender="+encodeURIComponent($('input[name=registerGender]:checked').val())+
 						"&userEmail="+encodeURIComponent(document.getElementById("registerEmail").value), true);
