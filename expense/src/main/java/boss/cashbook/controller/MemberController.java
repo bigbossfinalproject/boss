@@ -106,19 +106,17 @@ public class MemberController {
 		if(bean != null) {
 			if(bean.getRoot_password().equals(pwd)) {
 				session.setAttribute("user", bean);
-				response.sendRedirect("expense_write.do");
+				response.sendRedirect("expense_list.do");
 				//ModelAndView mv = new ModelAndView("expense/expense_write");  // expense_write.jsp 페이지로 이동
 				//return mv;
 				// response.sendRedirect("expense_main.do");
 			} else {  // 비밀번호가 틀린 경우
-				response.setContentType("text/html; charset=UTF-8");
 				out.println("<script>");
 				out.println("alert('비번이 틀립니다.')");
 				out.println("history.back()");
 				out.println("</script>");
 			}
 		} else { // 저장된 id가 없는 경우
-			response.setContentType("text/html; charset=UTF-8");
 			out.println("<script>");
 			out.println("alert('가입 회원이 아닙니다.')");
 			out.println("history.back()");

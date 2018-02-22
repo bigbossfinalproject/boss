@@ -47,32 +47,36 @@ public class AssetController {
 	private ExpenseDAOImpl expenceDao;
 	
 	@RequestMapping(value="asset_write.do")
-	public ModelAndView assetWrite(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ModelAndView assetWrite(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		
-		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
+		/*Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
 		Date d = new Date(cal.getTimeInMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String date = sdf.format(d);
+		*/
+		/*ModelAndView mv = new ModelAndView();
+		mv.setViewName("expense/asset_list");
 		
+		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
 		List<TradeBean> tList = tradeDao.tradeList();
 		for(int i = 0; i < tList.size(); i++) {
 			if(!tList.get(i).getTrade_code().equals("cash") && !tList.get(i).getTrade_code().equals("account")) {
 				tList.remove(i--);
 			}
 		}
+		mv.addObject("trade", tList);
 		
-		request.setAttribute("trade", tList);
-		
+		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
 		List<BankCorpBean> bList = bankCorpDao.bankList();
-		request.setAttribute("bank", bList);
+		mv.addObject("bank", bList);
 		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("expense/asset_write");
-		mv.addObject("date", date);
-		/*mv.addObject("trae", tList);
+		
+		//mv.addObject("date", date);
+		mv.addObject("trae", tList);
 		mv.addObject("bank", bList);*/
-		return mv;
+		response.sendRedirect("asset_list.do");
+		return null;
 	}
 	
 	@RequestMapping(value="asset_write_ok.do", method=RequestMethod.POST)
@@ -156,10 +160,27 @@ public class AssetController {
 		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
 		List<AssetBean> assetList = assetDao.memAssetList(user.getRoot_idn());
-		List<BankCorpBean> bankList = bankCorpDao.bankList();
-		List<TradeBean> tradeList = tradeDao.tradeList();
 		List<AssetViewBean> viewList = new ArrayList<AssetViewBean>();
 		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("expense/asset_list");
+		
+		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
+		List<TradeBean> tList = tradeDao.tradeList();
+		for(int i = 0; i < tList.size(); i++) {
+			if(!tList.get(i).getTrade_code().equals("cash") && !tList.get(i).getTrade_code().equals("account")) {
+				tList.remove(i--);
+			}
+		}
+		mv.addObject("trade", tList);
+		System.out.println("tradeList 개수 : "+tList.size());
+		
+		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
+		List<BankCorpBean> bList = bankCorpDao.bankList();
+		mv.addObject("bank", bList);
+		System.out.println("bankList 개수 : "+bList.size());
+		
+		// DB에 저장되어 있는 자산 목록을 브라우저로 보내주는 문법
 		int seq = 1;
 		for(AssetBean a : assetList) {
 			AssetViewBean view = new AssetViewBean();
@@ -173,12 +194,12 @@ public class AssetController {
 			view.setAsset_date(a.getAsset_date());
 			view.setBasic_amount(a.getBasic_amount());
 			view.setNow_amount(a.getNow_amount());
-			for(TradeBean t : tradeList){
+			for(TradeBean t : tList){
 				if(a.getTrade_code().equals(t.getTrade_code())) {
 					view.setTrade_name(t.getTrade_name());
 				}
 			}
-			for(BankCorpBean b : bankList) {
+			for(BankCorpBean b : bList) {
 				if(a.getBank_code().equals(b.getBank_code())) {
 					view.setBank_name(b.getBank_name());
 				}
@@ -195,12 +216,9 @@ public class AssetController {
 				}
 			}
 			view.setNow_amount((a.getNow_amount()-sum));
+			view.setAsset_code(a.getAsset_code());
 			viewList.add(view);
 		}
-		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.setViewName("expense/asset_list");
 		mv.addObject("assetList", viewList);
 		
 		return mv;

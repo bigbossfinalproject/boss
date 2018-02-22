@@ -174,12 +174,12 @@ public class ExpenseController {
 		
 		expenseDao.expenseInsert(expense);
 		
-		response.sendRedirect("expense_all_list.do");
+		response.sendRedirect("expense_list.do");
 		
 		return null;
 	}
 	
-	@RequestMapping(value="expense_all_list.do")
+	@RequestMapping(value="expense_list.do")
 	public ModelAndView expenseAllList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
