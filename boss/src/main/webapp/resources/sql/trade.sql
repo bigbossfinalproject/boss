@@ -17,6 +17,7 @@ insert into trade values('account', '통장');
 insert into trade values('card', '카드');
 insert into trade values('transfer', '계좌이체');
 
+
 delete from trade where trade_code='account'
 delete from trade where trade_code=
 

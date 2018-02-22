@@ -13,6 +13,7 @@ public class AssetViewBean {
 	private int now_amount;
 	private int root_idn;
 	private String root_id;
+	private String asset_code;
 	
 	public int getAsset_seq() {
 		return asset_seq;
@@ -73,6 +74,12 @@ public class AssetViewBean {
 	}
 	public void setRoot_id(String root_id) {
 		this.root_id = root_id;
+	}
+	public String getAsset_code() {
+		return asset_code;
+	}
+	public void setAsset_code(String asset_code) {
+		this.asset_code = asset_code;
 	}
 	
 }

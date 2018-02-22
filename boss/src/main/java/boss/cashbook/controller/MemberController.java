@@ -106,7 +106,7 @@ public class MemberController {
 		if(bean != null) {
 			if(bean.getRoot_password().equals(pwd)) {
 				session.setAttribute("user", bean);
-				response.sendRedirect("expense_write.do");
+				response.sendRedirect("expense_list.do");
 				//ModelAndView mv = new ModelAndView("expense/expense_write");  // expense_write.jsp 페이지로 이동
 				//return mv;
 				// response.sendRedirect("expense_main.do");
