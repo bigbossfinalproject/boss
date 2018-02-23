@@ -26,9 +26,19 @@ public class IncomeDaoImpl implements IncomeDao {
 	public void addIncomeList(IncomeBean bean) {
 		int i = this.sqlSession.insert("addIncomeList", bean);
 		if (i == 1) {
-			System.out.println("저장 성공");
+			System.out.println("저장 성공!");
 		} else {
 			System.out.println("저장 실패 ㅠ");
+		}
+	}
+
+	@Override
+	public void delIncomeList(int income_Id) {
+		int i = this.sqlSession.delete("delIncomeList", income_Id);
+		if (i == 1) {
+			System.out.println("삭제 성공!!");
+		} else {
+			System.out.println("삭제 실패 ㅠ");
 		}
 	}
 

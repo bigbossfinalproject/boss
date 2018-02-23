@@ -73,7 +73,7 @@ public class IncomeController {
 
 	@RequestMapping(value = "/addIncomeList.io", method = RequestMethod.POST)
 	public void addIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@RequestParam(value = "arrData[]") List<String> arrayData) throws IOException {
+			@RequestParam(value = "arrData[]") List<String> arrayData) {
 		IncomeBean bean = new IncomeBean();
 
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
@@ -84,5 +84,13 @@ public class IncomeController {
 		bean.setIncome_Description(arrayData.get(5));
 
 		incomeService.addIncomeList(bean);
+	}
+
+	@RequestMapping(value = "/delIncomeList.io", method = RequestMethod.POST)
+	public void delIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam(value = "income_Id") String data) {
+		int dataToInt = Integer.parseInt(data);
+		incomeService.delIncomeList(dataToInt);
+
 	}
 }

@@ -47,7 +47,7 @@
 
 
 	<hr />
-	<input type="button" value="행 생성" id="add_row" />
+	<input type="button" value="행 생성" id="add_row"   />
 
 	<footer><jsp:include page="/resources/include/footer.jsp" /></footer>
 </body>
