@@ -46,6 +46,36 @@ public class AssetController {
 	@Autowired
 	private ExpenseDAOImpl expenceDao;
 	
+	@RequestMapping(value="asset_add.do")
+	public ModelAndView assetAdd(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		response.setCharacterEncoding("UTF-8");
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("expense/asset_add");
+		
+		// 오늘 날짜를 yyyy-MM-dd 형식으로 브라우저로 보내는 문법
+		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
+		Date d = new Date(cal.getTimeInMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(d);
+		mv.addObject("date", date);
+		
+		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
+		List<TradeBean> tList = tradeDao.tradeList();
+		for(int i = 0; i < tList.size(); i++) {
+			if(!tList.get(i).getTrade_code().equals("cash") && !tList.get(i).getTrade_code().equals("account")) {
+				tList.remove(i--);
+			}
+		}
+		mv.addObject("trade", tList);
+		
+		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
+		List<BankCorpBean> bList = bankCorpDao.bankList();
+		mv.addObject("bank", bList);
+				
+		return mv;
+	}
+	
 	@RequestMapping(value="asset_write.do")
 	public ModelAndView assetWrite(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -164,6 +194,13 @@ public class AssetController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("expense/asset_list");
+
+		// 오늘 날짜를 yyyy-MM-dd 형식으로 브라우저로 보내는 문법
+		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
+		Date d = new Date(cal.getTimeInMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(d);
+		mv.addObject("date", date);
 		
 		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
 		List<TradeBean> tList = tradeDao.tradeList();
@@ -173,12 +210,12 @@ public class AssetController {
 			}
 		}
 		mv.addObject("trade", tList);
-		System.out.println("tradeList 개수 : "+tList.size());
+		//System.out.println("tradeList 개수 : "+tList.size());
 		
 		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
 		List<BankCorpBean> bList = bankCorpDao.bankList();
 		mv.addObject("bank", bList);
-		System.out.println("bankList 개수 : "+bList.size());
+		//System.out.println("bankList 개수 : "+bList.size());
 		
 		// DB에 저장되어 있는 자산 목록을 브라우저로 보내주는 문법
 		int seq = 1;
