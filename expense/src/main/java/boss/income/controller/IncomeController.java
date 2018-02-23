@@ -53,7 +53,8 @@ public class IncomeController {
 		int root_idn = 1;
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 		for (int i = 0; i < list.size(); i++) {
-			str.append("[{\"value\": \"" + list.get(i).getIncome_Date() + "\"},");
+			str.append("[{\"value\": \"" + list.get(i).getIncome_Id() + "\"},");
+			str.append("{\"value\": \"" + list.get(i).getIncome_Date() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getIncome_Code() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getTrade_Code() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getBank_Code() + "\"},");

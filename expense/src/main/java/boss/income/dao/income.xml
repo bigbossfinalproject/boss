@@ -16,8 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="addIncomeList" parameterType="incomeBoard">
 		insert into income
-		values(1,income_code_seq.nextVal, #{income_date}, #{income_code},
-		#{income_amount}, #{trade_code}, #{bank_code},{income_description} )
+		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
+		#{income_Amount}, #{trade_Code}, #{bank_Code},#{income_Description} )
 
 	</select>
 

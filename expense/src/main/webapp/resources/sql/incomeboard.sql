@@ -3,21 +3,22 @@ drop table income purge;
 CREATE TABLE income
 (
     root_idn              NUMBER          NOT NULL,  -- 회원 고유번호
-    income_id             VARCHAR2(20)    NOT NULL, -- 거래 번호
+    income_id             number NOT NULL, -- 거래 번호
     income_date           DATE            NOT NULL,  -- 거래 날짜
-    income_code           VARCHAR2(20)    NOT NULL default , -- 소득구분코드 
+    income_code           VARCHAR2(20)    NOT NULL, -- 소득구분코드 
     income_amount         NUMBER          NOT NULL,  -- 금액
     trade_code            VARCHAR2(20)    NOT NULL,  -- 거래 코드
     bank_code             VARCHAR2(20)    NULL,  -- 금융사 코드
     income_description    VARCHAR2(20)    NULL   -- 비고
 )
 
--- 테이블 구조 수정(제약식 수정은 따로해야한다. 
-alter table income modify(income_description varchar2(20));
+-- 테이블 구조 수정(제약식 수정은 따로해야한다.) 
+alter table income modify(income_id number);
 
 
 
 create sequence income_code_seq;
+drop sequence income_code_seq;
 
 income_code_seq.nextVal
 
@@ -33,7 +34,7 @@ from income
 
 
 ----------------테스트케이스
-insert into INCOME values (1, 1, sysdate, 1, 10000, 1, 1, 1)
+insert into INCOME values (1, 1, sysdate, 1, 10000, 1, 1, 1);
 insert into INCOME values (1, 2, sysdate, 'i1', 10000, 1, 1, 1);
 select * from INCOME
 
