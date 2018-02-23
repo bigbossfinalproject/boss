@@ -1,6 +1,7 @@
 package boss.income.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import boss.income.bean.IncomeBean;
@@ -68,9 +70,18 @@ public class IncomeController {
 		return str.toString();
 	}
 
-	/*@RequestMapping(value = "addIncomeList.io", method = RequestMethod.POST)
-	public void addIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam(value=""))
-			throws IOException {
+	@RequestMapping(value = "/addIncomeList.io", method = RequestMethod.POST)
+	public void addIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam(value = "arrData[]") List<String> arrayData) throws IOException {
+		IncomeBean bean = new IncomeBean();
 
-	}*/
+		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
+		bean.setIncome_Code(arrayData.get(1));
+		bean.setTrade_Code(arrayData.get(2));
+		bean.setBank_Code(arrayData.get(3));
+		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
+		bean.setIncome_Description(arrayData.get(5));
+
+		incomeService.addIncomeList(bean);
+	}
 }

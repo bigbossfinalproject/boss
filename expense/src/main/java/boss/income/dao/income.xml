@@ -6,10 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="boss.income.bean.IncomeBean">
 
 	<select id="getIncome_Board" parameterType="int" resultType="incomeBoard">
-
 		<!-- select * from income where root_idn = #{root_idn} -->
-
-
 		select i.root_idn, i.income_id, i.income_date, ic.item_name
 		income_code, i.income_amount,i.trade_code, i.bank_code,
 		i.income_description
@@ -17,10 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		i.income_code = ic.income_code and i.root_idn = #{root_idn}
 	</select>
 
+	<select id="addIncomeList" parameterType="incomeBoard">
+		insert into income
+		values(1,income_code_seq.nextVal, #{income_date}, #{income_code},
+		#{income_amount}, #{trade_code}, #{bank_code},{income_description} )
 
-
-
-
+	</select>
 
 </mapper>
 

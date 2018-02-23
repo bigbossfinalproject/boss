@@ -22,4 +22,14 @@ public class IncomeDaoImpl implements IncomeDao {
 		return list;
 	}
 
+	@Override
+	public void addIncomeList(IncomeBean bean) {
+		int i = this.sqlSession.insert("addIncomeList", bean);
+		if (i == 1) {
+			System.out.println("저장 성공");
+		} else {
+			System.out.println("저장 실패 ㅠ");
+		}
+	}
+
 }

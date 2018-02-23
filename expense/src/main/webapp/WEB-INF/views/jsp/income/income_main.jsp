@@ -87,7 +87,7 @@
 		});
 
 		$(document).on("click", "#row_add", function() {
-			alert("서버로 데이터 전송");
+
 			var objTable = document.getElementById("incomeTable");
 
 			var tdArr = new Array(); // 배열 선언
@@ -102,7 +102,9 @@
 				tdArr.push(td.children().eq(i).val());
 			});
 			var tdArr2 = tdArr.slice(0, 6);
-			var allArray = {"arrData" : tdArr2};
+			var allArray = {
+				"arrData" : tdArr2
+			};
 
 			$.ajax({
 				url : "./addIncomeList.io",
@@ -110,6 +112,9 @@
 				data : allArray,
 				success : function(data) {
 					alert("완료!");
+				},
+				error : function() {
+					alert('통신실패!!');
 				}
 			})
 
