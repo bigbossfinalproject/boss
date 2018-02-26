@@ -68,6 +68,7 @@ public class IncomeController {
 			}
 		}
 		str.append("]}");
+		
 		return str.toString();
 	}
 

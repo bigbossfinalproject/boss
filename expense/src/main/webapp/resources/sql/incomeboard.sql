@@ -27,7 +27,7 @@ insert into INCOME values (1, 1, sysdate, 1, 10000, 1, 1, 1)
 insert into INCOME values (1, 2, sysdate, 'i1', 10000, 1, 1, 1);
 select * from INCOME
 
-update income set income_code = 'i1' where income_id = 1
+update income set income_code = 'i1' where income_id = 3
 
 update income set
 		Income_Date = #{income_Date}, Income_code =

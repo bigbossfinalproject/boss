@@ -33,7 +33,7 @@ function getIncomeBoard() {
 						}
 						rowItem += "<td>" + result[i][j].value + "</td>";
 					}
-					rowItem += "<td><button type='button' class='glyphicon glyphicon-minus' id='row_remove' style='width:100%; !important;'></button></td></tr>";
+					rowItem += "<td style='padding:0px'><button type='button'  id='row_remove' ><span class='glyphicon glyphicon-minus'></span></button></td></tr>";
 				}
 				$('#incomeTable').append(rowItem);
 			},
@@ -66,7 +66,7 @@ $(function() {
 				rowItem += "<td> <input type='text' class='form-control' placeholder='금융사코드'> </td>"
 				rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
 				rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
-				rowItem += "<td><button type='button' class='glyphicon glyphicon-ok' id='row_add' style='width:100%'></button></td>"
+				rowItem += "<td><button type='button' id='row_add' ><span class='glyphicon glyphicon-ok' ></span></button></td>"
 				rowItem += "</tr>"
 				$('#incomeTable').append(rowItem);
 
@@ -143,7 +143,7 @@ $(function() {
 		var td = tr.children();
 		var result = td.eq(0).val();
 		console.log("income_id : " + result);
-console.log("---------------------");
+		console.log("---------------------");
 		console.log(td.eq(0).val());
 		console.log(td.eq(1).text());
 		console.log(td.eq(2).text());
@@ -167,26 +167,26 @@ console.log("---------------------");
 
 		var tdArr2 = tdArr.slice(1, 7);
 		console.log(tdArr2);
-		
-		
+
+
 		var allArray = {
 			"arrData" : tdArr2,
 			"income_Id" : result
 		};
 
-	$.ajax({
-		url : "./modifyIncomeList.io",
-		type : "POST",
-		data : allArray,
-		success : function(data) {
-			alert("수정완료!");
-			getIncomeBoard();
-		},
-		error : function(request, status, error) {
-			alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		$.ajax({
+			url : "./modifyIncomeList.io",
+			type : "POST",
+			data : allArray,
+			success : function(data) {
+				alert("수정완료!");
+				getIncomeBoard();
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 
-		}
-	})
+			}
+		})
 	});
 
 
@@ -210,7 +210,8 @@ console.log("---------------------");
 
 				var update_button = tr.find(".glyphicon-pencil").length;
 				if (update_button == 0) {
-					tr.find("td").eq(6).html("<button type='button' class='glyphicon glyphicon-pencil' id='row_modify'></button>");
+					tr.find("td").eq(6).css("padding : 0px");
+					tr.find("td").eq(6).html("<button type='button' class='glyphicon glyphicon-pencil' id='row_modify' style='height:31px'></button>");
 				}
 			}
 		}

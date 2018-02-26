@@ -13,10 +13,31 @@
 	src="./resources/bootstrap/js/bootstrap.js"></script>
 <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 <script src="./resources/js/incomeBoard.js"></script>
+
+<script type="text/javascript" src="./resources/dist/jquery.jqplot.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.json2.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="./resources/dist/jquery.jqplot.css" />
+
+<script src="./resources/js/incomeChart.js"></script>
+
+<style type="text/css">
+body {
+	width: 1280px;
+	margin: 0 auto;
+}
+</style>
+
+
 </head>
 <body>
 	<header><jsp:include page="/resources/include/header.jsp" /></header>
 	<h2 class="text-center">소득 내역</h2>
+
+	<div id="test" style='margin: 0 auto'></div>
+
+
 
 	<div class="container" id="table">
 		<table class="table table-bordered text-center" id=incomeTable>
@@ -37,17 +58,21 @@
 					<th class="text-center">거래은행</th>
 					<th class="text-center">금액</th>
 					<th class="text-center">비고</th>
+					<th><button type="button" id="add_row">
+							<span class='glyphicon glyphicon-plus'></span>
+						</button></th>
 				</tr>
 			</thead>
 			<tbody id=ajaxTable>
 			</tbody>
 		</table>
+		
 	</div>
 
 
 
 	<hr />
-	<input type="button" value="행 생성" id="add_row"   />
+
 
 	<footer><jsp:include page="/resources/include/footer.jsp" /></footer>
 </body>
