@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 분류코드에 따른 목록을 가져오기 -->
 	<select id="itemList" resultType="item">
-		select * from item where item_code like #{item_code}
+		select * from item where item_code like #{item_code} order by item_seq asc
 	</select>
 	
 	<!-- 분류코드에 따른 목록을 가져오기 -->

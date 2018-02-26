@@ -8,11 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 지출 내역 입력하기 -->
 	<insert id="expense_insert" parameterType="expense">
-		insert into expense values(#{expense_id}, #{root_idn}, #{root_id}, #{expense_date}, #{item_code}, #{trade_code}, #{expense_code}, #{expense_discription}, #{expense_amount})
+		insert into expense values(#{expense_id}, #{root_idn}, #{root_id}, #{expense_date}, #{item_code}, #{parent_code}, #{trade_code}, #{asset_code}, #{expense_discription}, #{expense_amount})
 	</insert>
 	
 	<!-- 사용자 개인별 전체 지출 내역 보여주기 -->
-	<select id="expense_all_list" parameterType="int" resultType="expense">
+	<select id="expense_list" parameterType="int" resultType="expense">
 		select * from expense where root_idn <![CDATA[=]]>#{idn} order by expense_date desc
 	</select>
 	
@@ -27,5 +27,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="expenseCount" parameterType="int" resultType="int">
 		select count(*) from expense where root_idn <![CDATA[=]]> #{idn}
 	</select>
+	
+	<!-- 사용자 개인별 지출 정보를 수정하기 -->
+	<update id="expense_update" parameterType="expense">
+		update expense set root_idn <![CDATA[=]]> #{root_idn}, root_id <![CDATA[=]]> #{root_id}, expense_date <![CDATA[=]]> #{expense_date}, item_code <![CDATA[=]]> #{item_code}, parent_code <![CDATA[=]]> #{parent_code}, trade_code <![CDATA[=]]> #{trade_code}, asset_code <![CDATA[=]]> #{asset_code}, expense_discription <![CDATA[=]]> #{expense_discription}, expense_amount <![CDATA[=]]> #{expense_amount} where expense_id <![CDATA[=]]> #{expense_id}
+	</update>
+	
+	<!-- 사용자 개인별 지출 정보를 삭제하기 -->
+	<delete id="expense_delete" parameterType="String">
+		delete from expense where expense_id <![CDATA[=]]> #{expense_id}
+	</delete>
 	
 </mapper>

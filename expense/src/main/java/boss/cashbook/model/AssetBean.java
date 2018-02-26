@@ -13,6 +13,7 @@ public class AssetBean {
 	private String bank_code;
 	private int basic_amount;
 	private int now_amount;
+	private String asset_use;
 	
 	public String getAsset_code() {
 		return asset_code;
@@ -73,6 +74,12 @@ public class AssetBean {
 	}
 	public void setNow_amount(int now_amount) {
 		this.now_amount = now_amount;
+	}
+	public String getAsset_use() {
+		return asset_use;
+	}
+	public void setAsset_use(String asset_use) {
+		this.asset_use = asset_use;
 	}
 	
 }

@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사용자와 지출코드를 이용하여 자산 목록에서 1개의 정보만 불러오기 -->
 	<select id="assetOne" parameterType="expense" resultType="asset">
-		select * from asset where root_idn <![CDATA[=]]> #{root_idn} and asset_code <![CDATA[=]]> #{expense_code}
+		select * from asset where root_idn <![CDATA[=]]> #{root_idn} and asset_code <![CDATA[=]]> #{asset_code}
 	</select>
 	
 	<!-- 코드값을 입력받아 자산 목록중 1개의 정보만 가져오기 -->
@@ -48,7 +48,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사용자 개인별 자산 정보를 입력하기 -->
 	<insert id="userAssetInsert" parameterType="asset">
-		insert into asset values (#{asset_code}, #{trade_code}, #{root_idn}, #{asset_date}, #{asset_name}, #{asset_purpose}, #{bank_code}, #{basic_amount}, #{now_amount}, #{root_id})
+		insert into asset values (#{asset_code}, #{trade_code}, #{root_idn}, #{asset_date}, #{asset_name}, #{asset_purpose}, #{bank_code}, #{basic_amount}, #{now_amount}, #{asset_use}, #{root_id})
 	</insert>
 	
+	<!-- 사용자 개인별 자산 정보를 수정하기 -->
+	<update id="userAssetUpdate" parameterType="asset">
+		update asset set trade_code <![CDATA[=]]> #{trade_code}, root_idn <![CDATA[=]]> #{root_idn}, asset_date <![CDATA[=]]> #{asset_date}, asset_name <![CDATA[=]]> #{asset_name}, asset_purpose <![CDATA[=]]> #{asset_purpose}, bank_code <![CDATA[=]]> #{bank_code}, basic_amount <![CDATA[=]]> #{basic_amount}, now_amount <![CDATA[=]]> #{now_amount}, asset_use <![CDATA[=]]> #{asset_use}, root_id <![CDATA[=]]> #{root_id} where asset_code <![CDATA[=]]> #{asset_code}
+	</update>
+	
+	<!-- 사용자 개인별 자산 정보를 삭제하기 -->
+	<delete id="userAssetDelete" parameterType="asset">
+		delete from asset where asset_code <![CDATA[=]]> #{asset_code}
+	</delete>
 </mapper>

@@ -9,7 +9,7 @@ truncate table bank_corp;
 
 select * from bank_corp;
 
-insert into bank_corp values('money', '지폐');
+insert into bank_corp values('money', '개인관리');
 insert into bank_corp values('fnc001', '한국은행');
 insert into bank_corp values('fnc002', '산업은행');
 insert into bank_corp values('fnc003', '기업은행');

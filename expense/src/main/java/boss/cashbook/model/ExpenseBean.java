@@ -8,8 +8,9 @@ public class ExpenseBean {
 	private String root_id;
 	private Date expense_date;
 	private String item_code;
+	private String parent_code;
 	private String trade_code;
-	private String expense_code;
+	private String asset_code;
 	private String expense_discription;
 	private int expense_amount;
 	
@@ -43,17 +44,23 @@ public class ExpenseBean {
 	public void setItem_code(String item_code) {
 		this.item_code = item_code;
 	}
+	public String getParent_code() {
+		return parent_code;
+	}
+	public void setParent_code(String parent_code) {
+		this.parent_code = parent_code;
+	}
 	public String getTrade_code() {
 		return trade_code;
 	}
 	public void setTrade_code(String trade_code) {
 		this.trade_code = trade_code;
 	}
-	public String getExpense_code() {
-		return expense_code;
+	public String getAsset_code() {
+		return asset_code;
 	}
-	public void setExpense_code(String expense_code) {
-		this.expense_code = expense_code;
+	public void setAsset_code(String asset_code) {
+		this.asset_code = asset_code;
 	}
 	public String getExpense_discription() {
 		return expense_discription;

@@ -65,8 +65,17 @@ public class AssetDAOImpl {
 	
 	// 사용자 개인의 추가 자산 정보를 입력하기
 	public void userAssetInsert(AssetBean asset) {
-		int result = sql.insert("userAssetInsert", asset);
-		System.out.println(result+"개의 자산 정보가 저장되었습니다.");
+		sql.insert("userAssetInsert", asset);
+	}
+	
+	// 사용자 개인의 자산 정보를 수정하기
+	public void userAssetUpdate(AssetBean asset){
+		sql.update("userAssetUpdate", asset);
+	}
+	
+	// 사용자 개인의 자산 정보를 삭제하기
+	public void userAssetDelete(AssetBean asset) {
+		sql.delete("userAssetDelete", asset);
 	}
 	
 }

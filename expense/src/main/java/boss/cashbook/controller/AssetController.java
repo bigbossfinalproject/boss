@@ -46,151 +46,115 @@ public class AssetController {
 	@Autowired
 	private ExpenseDAOImpl expenceDao;
 	
-	@RequestMapping(value="asset_add.do")
-	public ModelAndView assetAdd(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		response.setCharacterEncoding("UTF-8");
-		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("expense/asset_add");
-		
-		// 오늘 날짜를 yyyy-MM-dd 형식으로 브라우저로 보내는 문법
-		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
-		Date d = new Date(cal.getTimeInMillis());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(d);
-		mv.addObject("date", date);
-		
-		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
-		List<TradeBean> tList = tradeDao.tradeList();
-		for(int i = 0; i < tList.size(); i++) {
-			if(!tList.get(i).getTrade_code().equals("cash") && !tList.get(i).getTrade_code().equals("account")) {
-				tList.remove(i--);
-			}
-		}
-		mv.addObject("trade", tList);
-		
-		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
-		List<BankCorpBean> bList = bankCorpDao.bankList();
-		mv.addObject("bank", bList);
-				
-		return mv;
-	}
-	
-	@RequestMapping(value="asset_write.do")
-	public ModelAndView assetWrite(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-		response.setCharacterEncoding("UTF-8");
-		
-		/*Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
-		Date d = new Date(cal.getTimeInMillis());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(d);
-		*/
-		/*ModelAndView mv = new ModelAndView();
-		mv.setViewName("expense/asset_list");
-		
-		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
-		List<TradeBean> tList = tradeDao.tradeList();
-		for(int i = 0; i < tList.size(); i++) {
-			if(!tList.get(i).getTrade_code().equals("cash") && !tList.get(i).getTrade_code().equals("account")) {
-				tList.remove(i--);
-			}
-		}
-		mv.addObject("trade", tList);
-		
-		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
-		List<BankCorpBean> bList = bankCorpDao.bankList();
-		mv.addObject("bank", bList);
-		
-		
-		//mv.addObject("date", date);
-		mv.addObject("trae", tList);
-		mv.addObject("bank", bList);*/
-		response.sendRedirect("asset_list.do");
-		return null;
-	}
-	
+	// 자산 정보를 입력, 수정, 삭제를 한번에 실행해주는 구문
 	@RequestMapping(value="asset_write_ok.do", method=RequestMethod.POST)
 	public ModelAndView assetWriteOk(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		
-		int root_idn = Integer.parseInt(request.getParameter("root_idn"));
-		String root_id = request.getParameter("root_id");
-		Date asset_date = Date.valueOf(request.getParameter("asset_date"));
-		String trade_code = request.getParameter("trade_code");
-		String asset_name = request.getParameter("asset_name");
-		String asset_purpose = request.getParameter("asset_purpose");
-		String bank_code = request.getParameter("bank_code");
-		int basic_amount = Integer.parseInt(request.getParameter("basic_amount"));
-		int now_amount = basic_amount;
+		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
+		Date d = new Date(cal.getTimeInMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(d);
 		
-		Map<String, String> info = new HashMap<String, String>();
-		info.put("root_id", root_id);
-		info.put("trade_code", trade_code);
+		// 브라우저에서 받은 파라메터를 변수에 저장
+		String[] idn = request.getParameterValues("root_idn");
+		String[] id = request.getParameterValues("root_id");
+		String[] code = request.getParameterValues("asset_code");
+		String[] name = request.getParameterValues("asset_name");
+		String[] purpose = request.getParameterValues("asset_purpose");
+		String[] trade = request.getParameterValues("trade_code");
+		String[] date = request.getParameterValues("asset_date");
+		String[] bank = request.getParameterValues("bank_code");
+		String[] amount = request.getParameterValues("basic_amount");
+		String[] use = request.getParameterValues("asset_use");
+		String[] remove = request.getParameterValues("asset_remove");
 		
-		// asset_code를 입력하기 위한 코드
-		String uid = uniqId();
-		String asset_code = null;
-		String assetCode = root_idn+"%";
-		
-		int cnt = assetDao.codeConOne(assetCode);
-		
-		List<AssetBean> aList = null;
-		if(cnt > 0){
-			aList = assetDao.codeConList(assetCode);
-		}
-		if(trade_code.equals("cash")) {
-			asset_code = root_idn + "cs" + uid;
-		} else if(trade_code.equals("account")) {
-			asset_code = root_idn + "bk" + uid;
-		}
-		boolean condit = true;
-		while(condit) {
-			if(aList == null) break;
-			for(AssetBean s : aList) {
-				if(asset_code.equals(s.getAsset_code())) {
-					uid = uniqId();
-					if(trade_code.equals("cash")) {
-						asset_code = root_idn + "cs" + uid;
-					} else if(trade_code.equals("account")) {
-						asset_code = root_idn + "bk" + uid;
-					}
-					condit = true;
-					break;
-				} else {
-					condit = false;
-				}
+		// 삭제할 자산 정보를 가져와서 dao에서 delete SQL문 실행
+		if(remove != null) {
+			for(String str : remove) {
+				
+				AssetBean asset = new AssetBean();
+				asset.setAsset_code(str.substring(6).trim());
+				
+				// dao delete SQL문을 실행
+				assetDao.userAssetDelete(asset);
 			}
 		}
 		
+		// 자산 코드 파라메터 값이 null이 아니면 실행
+		List<AssetBean> abList = new ArrayList<AssetBean>();
+		if(code != null) {
+			// 추가, 수정 정보를 List 변수에 저장
+			for(int i = 0; i < code.length; i++) {
+				AssetBean ab = new AssetBean();
+				ab.setRoot_idn(Integer.parseInt(idn[i]));
+				ab.setRoot_id(id[i]);
+				ab.setAsset_code(code[i]);
+				if (name[i] != null) {
+					ab.setAsset_name(name[i]);
+				} else {
+					ab.setAsset_name("");
+				}
+				if (purpose[i] != null) {
+					ab.setAsset_purpose(purpose[i]);
+				} else {
+					ab.setAsset_purpose("");
+				}
+				if(trade[i] != null) {
+					ab.setTrade_code(trade[i]);
+				} else {
+					ab.setTrade_code("");
+				}
+				if(date[i] != null) {
+					ab.setAsset_date(Date.valueOf(date[i]));
+				} else {
+					ab.setAsset_date(Date.valueOf(today));
+				}
+				if(bank[i] != null) {
+					ab.setBank_code(bank[i]);
+				} else {
+					ab.setBank_code("");
+				}
+				if(amount[i] != null) {
+					ab.setBasic_amount(Integer.parseInt(amount[i].replace(",", "")));
+					ab.setNow_amount(Integer.parseInt(amount[i].replace(",", "")));
+				} else {
+					ab.setBasic_amount(0);
+					ab.setNow_amount(0);
+				}
+				if(use[i] != null) {
+					ab.setAsset_use(use[i]);
+				} else {
+					ab.setAsset_use("");
+				}
+				
+				abList.add(ab);
+			}
+			
+			// List에 저장된 정보를 필터링을 통해 자산 정보를 추가, 수정
+			for(AssetBean info : abList) { 
+				if(info.getAsset_code().equals("new_code")) {																// 자산 코드가 new_code로 저장되어 있으면 입력하고 아니면 수정
+					info.setAsset_code(assetCodeCreate(info.getRoot_idn(), info.getTrade_code()));			// 새로운 asset_code를 부여받는 구문
+					assetDao.userAssetInsert(info);																				// dao insert SQL문 실행
+				} else {																													// 기존 자산 정보 수정
+					assetDao.userAssetUpdate(info);																			// dao update SQL문 실행
+				}
+			}
+			
+		}
 		
-		AssetBean asset = new AssetBean();
-		asset.setAsset_code(asset_code);
-		asset.setRoot_idn(root_idn);
-		asset.setRoot_id(root_id);
-		asset.setAsset_date(asset_date);
-		asset.setTrade_code(trade_code);
-		asset.setAsset_name(asset_name);
-		asset.setAsset_purpose(asset_purpose);
-		asset.setBank_code(bank_code);
-		asset.setBasic_amount(basic_amount);
-		asset.setNow_amount(now_amount);
-		
-		assetDao.userAssetInsert(asset);
-		
-		//ModelAndView mv = new ModelAndView("expense/asset_list.do");
 		response.sendRedirect("asset_list.do");
 		return null;
 	}
 	
+	// 자산 목록 출력하는 메소드
 	@RequestMapping(value="asset_list.do", method=RequestMethod.GET)
-	public ModelAndView assetList(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+	public ModelAndView assetList(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
-		List<AssetBean> assetList = assetDao.memAssetList(user.getRoot_idn());
-		List<AssetViewBean> viewList = new ArrayList<AssetViewBean>();
+		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("expense/asset_list");
@@ -210,14 +174,14 @@ public class AssetController {
 			}
 		}
 		mv.addObject("trade", tList);
-		//System.out.println("tradeList 개수 : "+tList.size());
 		
 		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
 		List<BankCorpBean> bList = bankCorpDao.bankList();
 		mv.addObject("bank", bList);
-		//System.out.println("bankList 개수 : "+bList.size());
 		
 		// DB에 저장되어 있는 자산 목록을 브라우저로 보내주는 문법
+		List<AssetBean> assetList = assetDao.memAssetList(user.getRoot_idn());
+		List<AssetViewBean> viewList = new ArrayList<AssetViewBean>();
 		int seq = 1;
 		for(AssetBean a : assetList) {
 			AssetViewBean view = new AssetViewBean();
@@ -241,14 +205,15 @@ public class AssetController {
 					view.setBank_name(b.getBank_name());
 				}
 			}
+			
 			Map<String, String> assetInfo = new HashMap<String, String>();
 			assetInfo.put("id", view.getRoot_id());
 			assetInfo.put("startDate", view.getAsset_date().toString());
 			List<ExpenseBean> expenseList = expenceDao.expenseTermList(assetInfo);
-			//System.out.println("지출 내역 개수 : "+expenseList.size());
+			
 			int sum = 0;
 			for(ExpenseBean e : expenseList) {
-				if(a.getAsset_code().equals(e.getExpense_code())) {
+				if(a.getAsset_code().equals(e.getAsset_code())) {
 					sum += e.getExpense_amount();
 				}
 			}
@@ -259,6 +224,49 @@ public class AssetController {
 		mv.addObject("assetList", viewList);
 		
 		return mv;
+	}
+	
+	// 자산 코드를 신규 생성해주는 메소드
+	private String assetCodeCreate(int root_idn, String trade_code) {
+		
+		// asset_code를 입력하기 위한 코드
+		String uid = uniqId();
+		String asset_code = null;
+		String assetCode = root_idn+"";
+		
+		int cnt = assetDao.codeConOne((assetCode+"%"));
+		
+		List<AssetBean> aList = null;
+		if(cnt > 0){
+			aList = assetDao.codeConList((assetCode+"%"));
+		}
+		if(trade_code.equals("cash")) {
+			asset_code = root_idn + "cs" + uid;
+		} else if(trade_code.equals("account")) {
+			asset_code = root_idn + "bk" + uid;
+		}
+		
+		// asset_code가 혹시 중복될 경우를 대비한 조건 문법
+		boolean condit = true;
+		while(condit) {
+			if(aList == null) break;
+			for(AssetBean s : aList) {
+				if(asset_code.equals(s.getAsset_code())) {
+					uid = uniqId();
+					if(trade_code.equals("cash")) {
+						asset_code = root_idn + "cs" + uid;
+					} else if(trade_code.equals("account")) {
+						asset_code = root_idn + "bk" + uid;
+					}
+					condit = true;
+					break;
+				} else {
+					condit = false;
+				}
+			}
+		}
+		
+		return asset_code;
 	}
 	
 	// unique ID를 생성하기 위한 메서드

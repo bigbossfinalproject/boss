@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,12 +58,17 @@ public class ExpenseController {
 	@Autowired
 	private ItemAuthDAOImpl itemAuthDao;
 	
+	/*
 	@RequestMapping(value="expense_write.do")
 	public ModelAndView expenseWriteView(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		
 		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+
+		// ViewResolver로 해당 페이지를 보여주기 위해 사용하는 구문
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("expense/expense_write");
 		
 		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
 		Date d = new Date(cal.getTimeInMillis());
@@ -70,20 +76,19 @@ public class ExpenseController {
 		String date = sdf.format(d);
 		request.setAttribute("date", date);
 		
-		// 사용자의 개인별 지출 품목 목록 가져와서 scope 영역에 올리기
+		// 사용자의 개인별 지출 품목 목록을 가져와서 목록으로 만들어서 scope영역에 보내기
 		ItemAuthBean itemAuth = itemAuthDao.userItem(user.getRoot_idn());								
-		
-		// 사용자 개인별 지출 목록이 합쳐진 문자열을 개별 목록으로 입력 
 		List<String> myItemList = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(itemAuth.getItem_list(), "|");
 		while(st.hasMoreTokens()){
 			myItemList.add(st.nextToken());
 		}
 		
-		String item_code = user.getRoot_idn()+"e%";
+		// 사용자의 개인 지출코드를 사용하기 위해 변수 선언
+		String item_code = user.getRoot_idn()+"e";
 		
 		// 개인별 품목을 목록화해서 scope 영역에 올리기
-		List<ItemBean> itemList = itemDao.itemList(item_code);
+		List<ItemBean> itemList = itemDao.itemList((item_code+"%"));
 		
 		// 사용자가 사용 가능한 목록을 가져오기 위해 리스트 변수 선언
 		List<MemberItemViewBean> memItemList = new ArrayList<MemberItemViewBean>();
@@ -113,87 +118,118 @@ public class ExpenseController {
 		List<CardBean> cardList = cardDao.cardList(user.getRoot_idn());
 		request.setAttribute("cardList", cardList);
 		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("expense/expense_write");
+		
 		return mv;
 	}
+	*/
 	
-	// 지출 데이터 입력
+	// 지출 데이터를 입력, 수정, 삭제하는 메서드
 	@RequestMapping(value="expense_write_ok.do", method=RequestMethod.POST)
 	public ModelAndView expenseInsert(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		//ObjectRootBean user = (ObjectRootBean)session.getAttribute("user");
-		int root_idn = Integer.parseInt(request.getParameter("root_idn"));
-		String root_id = request.getParameter("root_id");
-		Date expense_date = Date.valueOf(request.getParameter("expense_date"));
-		String item_code = request.getParameter("item_code");
-		String trade_code = request.getParameter("trade_code");
-		String expense_code = request.getParameter("expense_code");
-		String expense_discription = request.getParameter("expense_discription");
-		int expense_amount = Integer.parseInt(request.getParameter("expense_amount"));
 		
-		// expense_id를 입력하기 위한 코드
-		String uid = uniqId();
-		String expense_id = null;
-		String expenseId = root_idn+"e";
+		String[] expense_remove = request.getParameterValues("expense_remove");					// 삭제할 지출 값
+		String[] expense_id = request.getParameterValues("expense_id");									// 추가, 수정할 지출 아이디
+		String[] root_idn = request.getParameterValues("root_idn");											// 추가, 수정할 사용자 고유번호
+		String[] root_id = request.getParameterValues("root_id");												// 추가, 수정할 사용자 아이디
+		String[] expense_date = request.getParameterValues("expense_date");							// 추가, 수정할 지출 일자
+		String[] parent_code = request.getParameterValues("parent_code");								// 추가, 수정할 지출 중분류 항목 코드
+		String[] item_code = request.getParameterValues("item_code");									// 추가, 수정할 지출 상세항목 코드
+		String[] trade_code = request.getParameterValues("trade_code");									// 추가, 수정할 지출 유형 코드
+		String[] asset_code = request.getParameterValues("asset_code");									// 추가, 수정할 지불 계좌, 지불 카드 코드
+		String[] expense_discription = request.getParameterValues("expense_discription");			// 추가, 수정할 지출 상세 정보
+		String[] expense_amount = request.getParameterValues("expense_amount");					// 추가, 수정할 지출 금액
 		
-		int cnt = expenseDao.expenseCount(root_idn);
-		
-		List<ExpenseBean> eList = null;
-		if(cnt > 0){
-			eList = expenseDao.expenseAllList(root_idn);
-		}
-		expense_id = expenseId + uid;
-		boolean condit = true;
-		while(condit) {
-			if(eList == null) break;
-			for(ExpenseBean s : eList) {
-				if(expense_id.equals(s.getExpense_id())) {
-					uid = uniqId();
-					expense_id = expenseId + uid;
-					condit = true;
-					break;
-				} else {
-					condit = false;
-				}
+		// 삭제할 지출 정보를 DB에 적용시키는 구문
+		if(expense_remove != null) {
+			System.out.println("삭제할 지출 코드 개수 : "+expense_remove.length);
+			for(String str : expense_remove) {
+				/*System.out.println("삭제할 파라미터값 : "+str);
+				System.out.println("삭제할 실제 코드값 : "+str.substring(6));*/
+				expenseDao.expenseDelete(str.substring(6));
 			}
 		}
 		
-		ExpenseBean expense = new ExpenseBean();
-		expense.setExpense_id(expense_id);
-		expense.setRoot_idn(root_idn);
-		expense.setRoot_id(root_id);
-		expense.setExpense_date(expense_date);
-		expense.setItem_code(item_code);
-		expense.setTrade_code(trade_code);
-		expense.setExpense_code(expense_code);
-		expense.setExpense_discription(expense_discription);
-		expense.setExpense_amount(expense_amount);
-		
-		
-		expenseDao.expenseInsert(expense);
+		List<ExpenseBean> eList = new ArrayList<ExpenseBean>();
+		if(expense_id != null) {
+			
+			for(int i = 0; i < expense_id.length; i++) {
+				ExpenseBean expense = new ExpenseBean();
+				expense.setExpense_id(expense_id[i]);
+				expense.setRoot_idn(Integer.parseInt(root_idn[i]));
+				expense.setRoot_id(root_id[i]);
+				expense.setExpense_date(Date.valueOf(expense_date[i]));
+				expense.setParent_code(parent_code[i]);
+				expense.setItem_code(item_code[i]);
+				expense.setTrade_code(trade_code[i]);
+				expense.setAsset_code(asset_code[i]);
+				if(expense_discription[i] != null){
+					expense.setExpense_discription(expense_discription[i]);
+				} else {
+					expense.setExpense_discription("");
+				}
+				expense.setExpense_amount(Integer.parseInt(expense_amount[i].replace(",", "")));
+				
+				eList.add(expense);
+			}
+			
+			for(ExpenseBean info : eList) {
+				if(info.getExpense_id().equals("new_code")) {								// 자산 코드가 new_code로 지정되어 있으면 실행되는 구문
+					info.setExpense_id(expenseIdCreate(info.getRoot_idn()));			// 새로운 expense_id를 생성하여 setter로 입력
+					expenseDao.expenseInsert(info);											// Dao Insert SQL문 실행
+				} else {
+					expenseDao.expenseUpdate(info);											// Dao Update SQL문 실행
+				}
+			}
+			
+		}
 		
 		response.sendRedirect("expense_list.do");
 		
 		return null;
 	}
 	
+	// 지출 목록을가져오기 위한 메소드
 	@RequestMapping(value="expense_list.do")
-	public ModelAndView expenseAllList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ModelAndView expenseList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		ObjectRootBean user = (ObjectRootBean)session.getAttribute("user");
+		String item_code = user.getRoot_idn()+"e";
 		
-		List<ExpenseBean> list = expenseDao.expenseAllList(user.getRoot_idn());					// 지출 항목
-		List<ExpenseViewBean> expenseList = new ArrayList<ExpenseViewBean>();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("expense/expense_list");
 		
-		//System.out.println(user.getRoot_name()+"님의 지출 개수는 "+list.size()+"개 입니다.");
+		// 오늘 날짜를 scope영역에 올리기
+		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
+		Date d = new Date(cal.getTimeInMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(d);
+		mv.addObject("today", date);
+		
+		// 지출 분류항목(item) 코드를 불러와서 scope영역에 올리기
+		List<ItemBean> iList = itemDao.itemList((item_code+"%"));
+		mv.addObject("itemList", iList);
+		
+		// 거래 유형(trade) 코드를 불러와서 scope영역에 올리기
+		List<TradeBean> tList = tradeDao.tradeList();
+		mv.addObject("tradeList", tList);
+		
+		// 자산계좌(asset) 코드를 불러와서 scope영역에 올리기
+		List<AssetBean> aList = assetDao.memAssetList(user.getRoot_idn());
+		mv.addObject("assetList", aList);
+		
+		// 카드(card) 코드를 불러와서 scope영역에 올리기
+		List<CardBean> cList = cardDao.cardList(user.getRoot_idn());
+		mv.addObject("cardList", cList);
+		
+		// 지출 목록을 보여주기 위해 자바빈에 등록하고 리스트로 만들어서 scope영역에 올리기
+		List<ExpenseBean> list = expenseDao.expenseList(user.getRoot_idn());
 		int seq = 1;
-		String item_code = user.getRoot_idn()+"%";
-		
+		List<ExpenseViewBean> expenseList = new ArrayList<ExpenseViewBean>();
 		for(ExpenseBean expense : list) {
-			List<ItemBean> itemList = itemDao.itemList(item_code);													// 지출 품목 항목 - 식료품비, 주거비, ... 등에 해당
+			List<ItemBean> itemList = itemDao.itemList((item_code+"%"));													// 지출 품목 항목 - 식료품비, 주거비, ... 등에 해당
 			TradeBean trade = tradeDao.tradeOne(expense.getTrade_code());							// 지출 수단 항목 - 현금, 통장, 신용카드, 체크카드 등에 해당
 			CardBean card = null;
 			AssetBean asset = null;
@@ -204,11 +240,10 @@ public class ExpenseController {
 				asset = assetDao.assetOne(expense);												// 지출 자산 항목 - 현금, 통장, 계좌이체, 체크카드 사용시에 해당
 			}
 			
-			System.out.println("itemList 개수 : "+itemList.size());
 			ItemBean item = null;
-			for(ItemBean iList : itemList) {
-				if(iList.getItem_code().equals(expense.getItem_code())) {
-					item = iList;
+			for(ItemBean myList : itemList) {
+				if(myList.getItem_code().equals(expense.getItem_code())) {
+					item = myList;
 				}
 			}
 			
@@ -218,25 +253,59 @@ public class ExpenseController {
 			evb.setRoot_id(expense.getRoot_id());
 			evb.setRoot_idn(expense.getRoot_idn());
 			evb.setExpense_date(expense.getExpense_date());
+			evb.setItem_code(item.getItem_code());
+			evb.setParent_code(item.getParent_code());
 			evb.setItem_name(item.getItem_name());
+			evb.setTrade_code(trade.getTrade_code());
 			evb.setTrade_name(trade.getTrade_name());
 			if(asset != null){
-				evb.setExpense_name(asset.getAsset_name());
+				evb.setAsset_code(asset.getAsset_code());
+				evb.setAsset_name(asset.getAsset_name());
 			} else if (card != null){
-				evb.setExpense_name(card.getCard_name());
+				evb.setAsset_code(card.getCard_code());
+				evb.setAsset_name(card.getCard_name());
 			}
 			evb.setExpense_discription(expense.getExpense_discription());
 			evb.setExpense_amount(expense.getExpense_amount());
 			expenseList.add(evb);
 			
 		}
-		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.setViewName("expense/expense_list");
 		mv.addObject("expenseList", expenseList);
 		
 		return mv;
+	}
+	
+	// expense_id의 중복 검사를 마친 최종 expense_id 생성 메서드
+	private String expenseIdCreate(int root_idn) {
+		// expense_id를 입력하기 위한 코드
+		String uid = uniqId();
+		String expense_id = null;
+		String expenseId = root_idn+"e";
+		
+		expense_id = expenseId + uid;
+		boolean condit = true;
+		
+		int cnt = expenseDao.expenseCount(root_idn);
+		
+		List<ExpenseBean> eList = null;
+		if(cnt > 0) {
+			eList = expenseDao.expenseList(root_idn);
+		}
+		
+		// expense_id가 중복되었을 경우 다시 uuid를 생성해주는 구문
+		if(eList == null) return null;
+		for(ExpenseBean e : eList) {
+			while(condit) {
+				if(e.getExpense_id().equals(expense_id)) {
+					uid = uniqId();
+					expense_id = expenseId + uid;
+					condit = true;
+				} else {
+					condit = false;
+				}
+			}
+		}
+		return expense_id;
 	}
 	
 	// unique ID를 생성하기 위한 메서드

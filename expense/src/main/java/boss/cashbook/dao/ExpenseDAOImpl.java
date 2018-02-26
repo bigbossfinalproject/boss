@@ -21,8 +21,8 @@ public class ExpenseDAOImpl {
 	}
 	
 	// 사용자의 지출 내역을 가져오기
-	public List<ExpenseBean> expenseAllList(int idn) {
-		List<ExpenseBean> list = this.sql.selectList("expense_all_list", idn);
+	public List<ExpenseBean> expenseList(int idn) {
+		List<ExpenseBean> list = this.sql.selectList("expense_list", idn);
 		return list;
 	}
 	
@@ -36,5 +36,15 @@ public class ExpenseDAOImpl {
 	public int expenseCount(int idn) {
 		int cnt = sql.selectOne("expenseCount", idn);
 		return cnt;
+	}
+	
+	// 사용자 개인의 지출 정보를 수정하기
+	public void expenseUpdate(ExpenseBean expense) {
+		this.sql.update("expense_update", expense);
+	}
+	
+	// 사용자 개인의 지출 정보를 삭제하기
+	public void expenseDelete(String expense_id) {
+		this.sql.delete("expense_delete", expense_id);
 	}
 }
