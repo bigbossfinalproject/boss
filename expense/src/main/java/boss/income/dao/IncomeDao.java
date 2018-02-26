@@ -11,4 +11,6 @@ public interface IncomeDao { // 소득 관련 dao 인터페이스
 	public void addIncomeList(IncomeBean bean);
 
 	public void delIncomeList(int income_Id);
+	
+	public void updateImcomeList(IncomeBean bean);
 }

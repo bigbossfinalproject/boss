@@ -91,6 +91,27 @@ public class IncomeController {
 			@RequestParam(value = "income_Id") String data) {
 		int dataToInt = Integer.parseInt(data);
 		incomeService.delIncomeList(dataToInt);
+	}
 
+	@RequestMapping(value = "/modifyIncomeList.io", method = RequestMethod.POST)
+	public void modifyIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@RequestParam(value = "arrData[]") List<String> arrayData, @RequestParam(value = "income_Id") String data) {
+
+		int dataToInt = Integer.parseInt(data);
+
+		System.out.println("root_idn = " + dataToInt);
+		IncomeBean bean = new IncomeBean();
+
+		String codeParse = arrayData.get(1).equals("주요소득") ? "i1" : "i2";
+		System.out.println("codeParse :" + codeParse);
+		bean.setIncome_Id(data);
+		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
+		bean.setIncome_Code(codeParse);
+		bean.setTrade_Code(arrayData.get(2));
+		bean.setBank_Code(arrayData.get(3));
+		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
+		bean.setIncome_Description(arrayData.get(5));
+
+		incomeService.updateImcomeList(bean);
 	}
 }

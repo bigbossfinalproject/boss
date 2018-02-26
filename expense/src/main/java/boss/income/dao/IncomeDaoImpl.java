@@ -42,4 +42,14 @@ public class IncomeDaoImpl implements IncomeDao {
 		}
 	}
 
+	@Override
+	public void updateImcomeList(IncomeBean bean) {
+		int i = this.sqlSession.update("modifyIncomeList", bean);
+		if (i == 1) {
+			System.out.println("수정 성공!!");
+		} else {
+			System.out.println("수정 실패 ㅠ");
+		}
+	}
+
 }
