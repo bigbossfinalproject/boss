@@ -33,7 +33,7 @@ function getIncomeBoard() {
 						}
 						rowItem += "<td>" + result[i][j].value + "</td>";
 					}
-					rowItem += "<td><button type='button' class='glyphicon glyphicon-minus' id='row_remove' ></button></td></tr>";
+					rowItem += "<td><button type='button' class='glyphicon glyphicon-minus' id='row_remove' style='width:100%; !important;'></button></td></tr>";
 				}
 				$('#incomeTable').append(rowItem);
 			},
@@ -62,33 +62,17 @@ $(function() {
 				var rowItem = "<tr>"
 				rowItem += "<td> <input type='date' class='form-control' value = '" + result + "'> </td>"
 				rowItem += "<td> <input type='text' class='form-control' placeholder='소득구분' > </td>"
-				rowItem += "<td> <input type='email' class='form-control' placeholder='거래코드'> </td>"
+				rowItem += "<td> <input type='text' class='form-control' placeholder='거래코드'> </td>"
 				rowItem += "<td> <input type='text' class='form-control' placeholder='금융사코드'> </td>"
 				rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
 				rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
-				rowItem += "<td><button type='button' class='glyphicon glyphicon-ok' id='row_add'></button></td>"
+				rowItem += "<td><button type='button' class='glyphicon glyphicon-ok' id='row_add' style='width:100%'></button></td>"
 				rowItem += "</tr>"
 				$('#incomeTable').append(rowItem);
 
 			});
 
-	$(document).on('click', 'td', function() {
 
-		if ($("input", this).length < 1) {
-			var tr = $(this).parent();
-			var curIndex = parseInt($("td").index($(this)) % 7);
-			console.log("지금 인덱스값 : " + curIndex);
-			var data = $(this).text();
-			if (curIndex === 0) {
-				$(this).html("<input type='date' class='form-control' value = " + data + "></input>");
-			} else if (curIndex < 6) {
-				$(this).html("<input type='text' class='form-control' value = " + data + "></input>");
-			}
-
-			tr.append("<td><button type='button' class='glyphicon glyphicon-pencil' id=''></button></td>");
-
-		}
-	});
 
 
 
@@ -151,5 +135,91 @@ $(function() {
 			}
 		})
 	});
+
+	$(document).on("click", "#row_modify", function() {
+		var tdArr = new Array(); // 배열 선언
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this).parent().parent();
+		var td = tr.children();
+		var result = td.eq(0).val();
+		console.log("income_id : " + result);
+console.log("---------------------");
+		console.log(td.eq(0).val());
+		console.log(td.eq(1).text());
+		console.log(td.eq(2).text());
+		console.log(td.eq(3).text());
+		console.log(td.eq(4).text());
+		console.log(td.eq(5).text());
+		console.log(td.eq(6).children().val());
+		console.log(td.eq(7).val());
+
+		// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+		td.each(function(i) {
+			if (td.eq(i).text() != "") {
+
+				tdArr.push(td.eq(i).text());
+			} else {
+
+				tdArr.push(td.eq(i).children().val());
+			}
+		});
+
+
+		var tdArr2 = tdArr.slice(1, 7);
+		console.log(tdArr2);
+		
+		
+		var allArray = {
+			"arrData" : tdArr2,
+			"income_Id" : result
+		};
+
+	$.ajax({
+		url : "./modifyIncomeList.io",
+		type : "POST",
+		data : allArray,
+		success : function(data) {
+			alert("수정완료!");
+			getIncomeBoard();
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+		}
+	})
+	});
+
+
+	$(document).on('click', 'td', function() {
+
+		if ($("input", this).length < 1) {
+			var tr = $(this).parent();
+			var td = tr.children();
+			var tdIdx = tr.find("td").index(this);
+			var trCell = td.length;
+			//var curIndex = parseInt($("td").index($(this)) % trCell);
+			console.log("지금 인덱스값 : " + tdIdx);
+			var data = $(this).text();
+
+			if (tdIdx < 6) {
+				if (tdIdx === 0) {
+					$(this).html("<input type='date' class='form-control' value = " + data + "></input>");
+				} else {
+					$(this).html("<input type='text' class='form-control' value = " + data + "></input>");
+				}
+
+				var update_button = tr.find(".glyphicon-pencil").length;
+				if (update_button == 0) {
+					tr.find("td").eq(6).html("<button type='button' class='glyphicon glyphicon-pencil' id='row_modify'></button>");
+				}
+			}
+		}
+	});
+
+
+
+
+
+
 
 })

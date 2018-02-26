@@ -11,21 +11,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		income_code, i.income_amount,i.trade_code, i.bank_code,
 		i.income_description
 		from income i, income_classification ic where
-		i.income_code = ic.income_code and i.root_idn = #{root_idn} order by i.income_date asc
+		i.income_code = ic.income_code and i.root_idn = #{root_idn} order by
+		i.income_date asc
 	</select>
 
 	<select id="addIncomeList" parameterType="incomeBoard">
 		insert into income
 		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
 		#{income_Amount}, #{trade_Code}, #{bank_Code},#{income_Description} )
-
 	</select>
 
 	<select id="delIncomeList" parameterType="int">
-		delete from income where income_id = #{income_Id}
-		
+		delete from income
+		where income_id = #{income_Id}
+
 	</select>
 
+	<select id="modifyIncomeList" parameterType="incomeBoard">
+		update income set
+		Income_Date = #{income_Date}, Income_code =
+		#{income_Code}, Trade_Code
+		= #{trade_Code}, Bank_Code=#{bank_Code}, Income_Amount =
+		#{income_Amount}, Income_Description = #{income_Description} where income_id = #{income_Id}
+
+	</select>
 
 
 </mapper>

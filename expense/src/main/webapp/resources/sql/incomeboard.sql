@@ -29,6 +29,13 @@ select * from INCOME
 
 update income set income_code = 'i1' where income_id = 1
 
+update income set
+		Income_Date = #{income_Date}, Income_code =
+		#{income_Code}, Trade_Code
+		= #{trade_Code}, Bank_Code=#{bank_Code}, Income_Amount =
+		#{income_Amount}, Income_Description = #{income_Description} where root_idn = ${root_Idn}
+
+
 select i.root_idn, i.income_id, i.income_date, ic.item_name income_code, i.income_amount,i.trade_code, i.bank_code, i.income_description
 		from income i, income_classification ic where i.income_code = ic.income_code and i.root_idn = 1;
 
