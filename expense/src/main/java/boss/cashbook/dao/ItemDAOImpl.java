@@ -17,8 +17,19 @@ public class ItemDAOImpl {
 	// 분류 항목을 저장하기
 	public void addItem(ItemBean item) {
 		int result = sql.insert("addItem", item);
-		System.out.println(result+"개의 분류항목이 저장되었습니다.");
+		//System.out.println(result+"개의 분류항목이 저장되었습니다.");
 	}
+	
+	// 분류 항목 수정하기
+	public void updateItem(ItemBean item) {
+		int result = sql.update("updateItem", item);
+	}
+	
+	// 분류 항목 삭제하기
+	public void deleteItem(String item_code) {
+		int result = sql.delete("deleteItem", item_code);
+	}
+	
 	
 	// 기본 저장할 분류코드 목록을 가져오기
 	public List<ItemBean> basicItem(String item_code) {
@@ -29,6 +40,12 @@ public class ItemDAOImpl {
 	// 해당 항목에 대한 분류 항목 목록을 가져오기
 	public List<ItemBean> itemList(String item_code) {
 		List<ItemBean> list = sql.selectList("itemList", item_code);
+		return list;
+	}
+	
+	// 해당 항목에 대한 분류 항목 목록을 가져오기
+	public List<ItemBean> itemDetailList(String item_code) {
+		List<ItemBean> list = sql.selectList("itemDetailList", item_code);
 		return list;
 	}
 	

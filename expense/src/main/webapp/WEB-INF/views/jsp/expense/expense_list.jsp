@@ -4,16 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-
-<%@ page import="java.util.List" %>
-<%@ page import="boss.cashbook.service.ExpenseViewBean" %>
-<%@ page import="boss.cashbook.model.ObjectRootBean" %>
 <% int btnCnt = 1; %>
-<%-- <%
-	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
-	List<ExpenseViewBean> expenseList = (List<ExpenseViewBean>) request.getAttribute("expenseList");
-%>
- --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,11 +97,11 @@ td {
 th {
 	text-align: center; /* 제목은 모두 중앙 정렬 */
 	line-height: 40px;
-	background-color: #BBBCBD;
+	background-color: #87cefa;
 }
 
 tr:NTH-OF-TYPE(2n+1) {
-	background-color: #E8E8E8;
+	background-color: #b0c4de;
 }
 /* .asset_list:HOVER {
 			background-color: #9FA0A1;

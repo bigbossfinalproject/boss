@@ -11,6 +11,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into item values(#{item_code}, #{parent_code}, #{item_level}, #{item_name}, #{item_seq})
 	</insert>
 	
+	<!-- 분류 항목을 수정하기(사용할 계획이 없음) -->
+	<update id="updateItem" parameterType="item">
+		update item set parent_code <![CDATA[=]]> #{parent_code}, item_level <![CDATA[=]]> #{item_level}, item_name <![CDATA[=]]> #{item_name}, item_seq <![CDATA[=]]> #{item_seq} where item_code <![CDATA[=]]> #{item_code}
+	</update>
+	
+	<!-- 분류 항목을 삭제하기 -->
+	<delete id="deleteItem">
+		delete from item where item_code <![CDATA[=]]> #{item_code}
+	</delete>
+	
 	<!-- 기본 저장할 분류코드 목록을 가져오기 -->
 	<select id="basicItem" resultType="item">
 		select * from item where item_code not like #{item_code}
@@ -19,6 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 분류코드에 따른 목록을 가져오기 -->
 	<select id="itemList" resultType="item">
 		select * from item where item_code like #{item_code} order by item_seq asc
+	</select>
+	
+	<!-- 3단계 분류코드에 따른 목록을 가져오기 -->
+	<select id="itemDetailList" resultType="item">
+		select * from item where item_code like #{item_code} and item_level = 3 order by item_seq asc
 	</select>
 	
 	<!-- 분류코드에 따른 목록을 가져오기 -->
@@ -33,12 +48,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 분류코드의 세부항목 개수를 가져오기 -->
 	<select id="itemCount" resultType="int">
-		select count(*) from item where item_code like #{item_code} and item_level = 3
+		select count(*) from item where parent_code like #{item_code} and item_level = 3
 	</select>
 	
 	<!-- 분류코드의 순번을 가져오기 -->
 	<select id="maxSeq" resultType="int">
-		select max(item_seq) from item where item_code like #{item_code}
+		select max(item_seq) from item where parent_code like #{item_code}
 	</select>
 	
 </mapper>

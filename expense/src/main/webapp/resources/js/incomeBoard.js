@@ -16,8 +16,11 @@ function getIncomeBoard() {
 			type : 'POST',
 			dataType : 'text',
 			success : function(data) {
+				//받아온 데이터를 json형태로 변환
 				var data_Json = JSON.parse(data);
+				//result라는 이름의 데이터들을 가져옴
 				var result = data_Json.result;
+				//테이블에 추가할 html인 rowItem 초기화
 				var rowItem = "";
 				for (var i = 0; i < result.length; i++) {
 					rowItem += "<tr>"
@@ -36,6 +39,11 @@ function getIncomeBoard() {
 					rowItem += "<td style='padding:0px'><button type='button'  id='row_remove' ><span class='glyphicon glyphicon-minus'></span></button></td></tr>";
 				}
 				$('#incomeTable').append(rowItem);
+				
+				
+				
+				
+				
 			},
 			error : function() {
 				alert('통신실패!!');
