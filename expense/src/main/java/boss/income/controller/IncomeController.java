@@ -25,16 +25,10 @@ public class IncomeController {
 	private IncomeDaoImpl incomeService;
 
 	@RequestMapping(value = "/list.io")
-	public ModelAndView income_Boardlist(HttpServletRequest request, HttpServletResponse response,
+	public String income_Boardlist(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
-		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
-		int root_idn = 1;
-		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
-		ModelAndView mav = new ModelAndView("income/income_main");
-		mav.addObject("incomeList", list);
-
-		return mav;
+		return "income/income_main";
 	}
 
 	@RequestMapping(value = "/list2.io", method = RequestMethod.POST)
@@ -52,12 +46,13 @@ public class IncomeController {
 		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
 		int root_idn = 1;
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
+				
 		for (int i = 0; i < list.size(); i++) {
 			str.append("[{\"value\": \"" + list.get(i).getIncome_Id() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getIncome_Date() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getIncome_Code() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getTrade_Code() + "\"},");
-			str.append("{\"value\": \"" + list.get(i).getBank_Code() + "\"},");
+			str.append("{\"value\": \"" + list.get(i).getAsset_Code() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getIncome_Amount() + "\"},");
 
 			if (i == list.size() - 1) {
@@ -69,6 +64,8 @@ public class IncomeController {
 		}
 		str.append("]}");
 		
+		
+
 		return str.toString();
 	}
 
@@ -80,7 +77,7 @@ public class IncomeController {
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
 		bean.setIncome_Code(arrayData.get(1));
 		bean.setTrade_Code(arrayData.get(2));
-		bean.setBank_Code(arrayData.get(3));
+		bean.setAsset_Code(arrayData.get(3));
 		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
 		bean.setIncome_Description(arrayData.get(5));
 
@@ -109,7 +106,7 @@ public class IncomeController {
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
 		bean.setIncome_Code(codeParse);
 		bean.setTrade_Code(arrayData.get(2));
-		bean.setBank_Code(arrayData.get(3));
+		bean.setAsset_Code(arrayData.get(3));
 		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
 		bean.setIncome_Description(arrayData.get(5));
 

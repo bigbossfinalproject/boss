@@ -7,18 +7,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getIncome_Board" parameterType="int" resultType="incomeBoard">
 		<!-- select * from income where root_idn = #{root_idn} -->
-		select i.root_idn, i.income_id, i.income_date, ic.item_name
-		income_code, i.income_amount,i.trade_code, i.bank_code,
+		select i.root_idn, i.income_id, i.income_date, (select item_name from
+		income_classification where income_code = i.income_code )
+		income_code, i.income_amount,(select trade_name from trade where
+		trade_code=i.trade_code) trade_code, (select asset_name from asset
+		where asset_code = i.asset_code) asset_code,
 		i.income_description
-		from income i, income_classification ic where
-		i.income_code = ic.income_code and i.root_idn = #{root_idn} order by
+		from
+		income i where i.root_idn = #{root_idn} order by
 		i.income_date asc
 	</select>
 
 	<select id="addIncomeList" parameterType="incomeBoard">
 		insert into income
 		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
-		#{income_Amount}, #{trade_Code}, #{bank_Code},#{income_Description} )
+		#{income_Amount}, #{trade_Code}, #{asset_Code},#{income_Description} )
 	</select>
 
 	<select id="delIncomeList" parameterType="int">
@@ -31,8 +34,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update income set
 		Income_Date = #{income_Date}, Income_code =
 		#{income_Code}, Trade_Code
-		= #{trade_Code}, Bank_Code=#{bank_Code}, Income_Amount =
-		#{income_Amount}, Income_Description = #{income_Description} where income_id = #{income_Id}
+		= #{trade_Code}, Asset_Code=#{asset_Code}, Income_Amount =
+		#{income_Amount}, Income_Description = #{income_Description} where
+		income_id = #{income_Id}
 
 	</select>
 

@@ -8,7 +8,7 @@ CREATE TABLE income
     income_code           VARCHAR2(20)    NOT NULL, -- 소득구분코드 
     income_amount         NUMBER          NOT NULL,  -- 금액
     trade_code            VARCHAR2(20)    NOT NULL,  -- 거래 코드
-    bank_code             VARCHAR2(20)    NULL,  -- 금융사 코드
+    asset_code             VARCHAR2(20)    NULL,  -- 금융사 코드
     income_description    VARCHAR2(20)    NULL   -- 비고
 )
 
@@ -23,11 +23,11 @@ from income
 
 
 ----------------테스트케이스
-insert into INCOME values (1, 1, sysdate, 1, 10000, 1, 1, 1)
+insert into INCOME values (1, 1, sysdate, 'i2', 30000, 1, 1, 1)
 insert into INCOME values (1, 2, sysdate, 'i1', 10000, 1, 1, 1);
 select * from INCOME
 
-update income set income_code = 'i1' where income_id = 3
+update income set asset_code = '1cs001' where root_idn = 1
 
 update income set
 		Income_Date = #{income_Date}, Income_code =
@@ -61,4 +61,13 @@ ALTER TABLE income
 
 
 ------------------------------------------------------------------
-alter table income rename column income_discription to income_description
+alter table income rename column bank_code to asset_code
+
+
+select i.root_idn, i.income_id, i.income_date, (select item_name from income_classification  where income_code = i.income_code ) 
+		income_code, i.income_amount,(select trade_name from trade where trade_code=i.trade_code) trade_code, (select asset_name from asset where asset_code = i.asset_code) asset_code,
+		i.income_description
+		from income i where i.root_idn = 1 order by
+		i.income_date asc
+
+

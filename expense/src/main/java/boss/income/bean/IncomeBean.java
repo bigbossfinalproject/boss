@@ -10,7 +10,7 @@ public class IncomeBean { // 소득테이블
 	private String income_Code;// 소득구분코드
 	private int income_Amount;// 금액
 	private String trade_Code;// 거래코드
-	private String bank_Code;// 금융사코드
+	private String asset_Code;// 금융사코드
 	private String income_Description; // 비고
 
 	public int getRoot_Idn() {
@@ -61,12 +61,12 @@ public class IncomeBean { // 소득테이블
 		this.trade_Code = trade_Code;
 	}
 
-	public String getBank_Code() {
-		return bank_Code;
+	public String getAsset_Code() {
+		return asset_Code;
 	}
 
-	public void setBank_Code(String bank_Code) {
-		this.bank_Code = bank_Code;
+	public void setAsset_Code(String bank_Code) {
+		this.asset_Code = bank_Code;
 	}
 
 	public String getIncome_Description() {
