@@ -52,4 +52,10 @@ public class IncomeDaoImpl implements IncomeDao {
 		}
 	}
 
+	@Override
+	public String getIncomeName(String income_Name) {
+		return this.sqlSession.selectOne("setIncomeId",income_Name);
+		
+	}
+
 }

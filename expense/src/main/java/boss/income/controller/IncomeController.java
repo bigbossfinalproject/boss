@@ -25,8 +25,7 @@ public class IncomeController {
 	private IncomeDaoImpl incomeService;
 
 	@RequestMapping(value = "/list.io")
-	public String income_Boardlist(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session) {
+	public String income_Boardlist(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		return "income/income_main";
 	}
@@ -46,7 +45,7 @@ public class IncomeController {
 		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
 		int root_idn = 1;
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
-				
+
 		for (int i = 0; i < list.size(); i++) {
 			str.append("[{\"value\": \"" + list.get(i).getIncome_Id() + "\"},");
 			str.append("{\"value\": \"" + list.get(i).getIncome_Date() + "\"},");
@@ -63,8 +62,6 @@ public class IncomeController {
 			}
 		}
 		str.append("]}");
-		
-		
 
 		return str.toString();
 	}
@@ -99,12 +96,10 @@ public class IncomeController {
 
 		System.out.println("root_idn = " + dataToInt);
 		IncomeBean bean = new IncomeBean();
-
-		String codeParse = arrayData.get(1).equals("주요소득") ? "i1" : "i2";
-		System.out.println("codeParse :" + codeParse);
+		String incomeName = incomeService.getIncomeName(arrayData.get(1));
 		bean.setIncome_Id(data);
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
-		bean.setIncome_Code(codeParse);
+		bean.setIncome_Code(incomeName);
 		bean.setTrade_Code(arrayData.get(2));
 		bean.setAsset_Code(arrayData.get(3));
 		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));

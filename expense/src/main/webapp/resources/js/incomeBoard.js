@@ -171,19 +171,19 @@ $(document).on("click", "#row_modify", function() {
 	var tr = $(this).parent().parent();
 	var td = tr.children();
 	var result = td.eq(0).val();
+	console.log(td.eq(2).children().val());
 	// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
 	td.each(function(i) {
-		if (td.eq(i).text() != "") {
-
-			tdArr.push(td.eq(i).text());
-		} else {
-
+		
+		if(td.eq(i).children().val() != null){
 			tdArr.push(td.eq(i).children().val());
-		}
+		}else if (td.eq(i).text() != "") {
+			tdArr.push(td.eq(i).text());
+		} 
+			
+		
 	});
-
-
-	var tdArr2 = tdArr.slice(1, 7);
+	var tdArr2 = tdArr.slice(0, 6);
 	console.log(tdArr2);
 
 
