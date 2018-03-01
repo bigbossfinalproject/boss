@@ -1,6 +1,7 @@
 package boss.income.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,10 @@ public class IncomeDaoImpl implements IncomeDao {
 	public String getIncomeName(String income_Name) {
 		return this.sqlSession.selectOne("setIncomeId",income_Name);
 		
+	}
+	
+	public int incomeCodeCount(Map<String, String> income_code) {
+		return this.sqlSession.selectOne("incomeCodeCount", income_code);
 	}
 
 }

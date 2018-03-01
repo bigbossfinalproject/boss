@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +11,7 @@
 
 <body>
 	<div>
-			<jsp:include page="/resources/include/header.jsp"></jsp:include>		
+			<jsp:include page="/resources/include/header.jsp" />		
 	</div>
 	<div style="margin-top: 5%;margin-bottom: 5%;">
 		
@@ -73,7 +72,7 @@
 		</form>
 		</div>
 		<div>
-			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
+			<jsp:include page="/resources/include/footer.jsp" />
 		
 		</div>
 	

@@ -53,16 +53,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
  
  	<!-- 예산 수정 -->
-  <update id="budget_modify" parameterType="budget">
- 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
- 	where budget_code=#{budget_code}
- </update>
- 
- 
- 
-  
- 
- 
+ 	<update id="budget_modify" parameterType="budget">
+		update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
+		where budget_code=#{budget_code}
+	</update>
+
+	<!-- 예산에서 세부항목 개수 가져오기 -->
+	<select id="budgetItemCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from budget where item_code <![CDATA[=]]> #{item_code}
+	</select>
+
+
+
 </mapper>
 
 

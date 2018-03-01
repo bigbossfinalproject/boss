@@ -39,7 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		income_id = #{income_Id}
 
 	</select>
-
-
+	
+	<select id="incomeCodeCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from income where income_code <![CDATA[=]]> #{item_code}
+	</select>
+	
 </mapper>
 

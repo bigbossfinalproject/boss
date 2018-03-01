@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
@@ -562,8 +561,8 @@ input, select, option {
 			value[5] = '1cs001';								// 자산/카드 코드
 			
 			var rowItem = "<tr>"
-			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ user.root_idn }">';
-			rowItem += '<input type="hidden" id="root_id_'+btnCnt+'" name="root_id" value="${ user.root_id }">';
+			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ root_Idn }">';
+			rowItem += '<input type="hidden" id="root_id_'+btnCnt+'" name="root_id" value="${ root_Id }">';
 			rowItem += '<input type="hidden" id="expense_id_'+btnCnt+'" name="expense_id" value="new_code">';
 			/* 지출 일자를 입력할 input date 태그 */
 			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:145px;"></td>';

@@ -38,4 +38,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from expense where expense_id <![CDATA[=]]> #{expense_id}
 	</delete>
 	
+	<!-- 사용중인 세부항목 개수를 확인하기 -->
+	<select id="itemUsedCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from expense where item_code <![CDATA[=]]> #{item_code}
+	</select>
+	
 </mapper>

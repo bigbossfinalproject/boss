@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,6 +12,10 @@
 	List<ItemBean> iList = (List<ItemBean>) request.getAttribute("itemList");
 	int btnCnt = 1;
 	String root_idn = rootIdn+"";
+	/* int countResult = 1;
+	if(request.getAttribute("countResult") != null) {
+		countResult = ((Integer)request.getAttribute("countResult")).intValue();
+	} */
 %>
 
 <!DOCTYPE html>
@@ -224,12 +227,13 @@
 			td_val[(i-1)] = $('td[id^="mid_item_'+i+'"]').children().val();
 			dt_id[(i-1)] = $('td[id^="detail_item_'+i+'"]').attr('id');
 		}
-		/* for(var i = 1; i < btnCnt; i++) {
+		
+		for(var i = 1; i < btnCnt; i++) {
 			dt_id[(i-1)] = $('td[id^="detail_item_'+i+'"]').attr('id');
-		} */
-		/* //console.log('td[id^="mid_item_"]로 호출 받은 개수 : '+td_val.length);
+		}
+		/* console.log('td[id^="mid_item_"]로 호출 받은 개수 : '+td_val.length);
 		for(var i= 0; i < td_val.length; i++) {
-			//console.log(i+'번째 td_id에 저장된 값 : '+td_val[i]);
+			console.log(i+'번째 td_id에 저장된 값 : '+td_val[i]);
 		} */
 		
 		/* // 중분류 항목의 td태그 id값을 호출하여 변수에 저장
@@ -345,6 +349,9 @@
 					//var ssg = msg+'';
 					//console.log("ajax 성공 메세지 : "+ssg);
 					$('td[id="'+id+'"]').html(msg);
+				} ,
+				error : function() {
+					//alert('사용중인 항목이므로 삭제할 수 없습니다.')
 				}
 			});
 			

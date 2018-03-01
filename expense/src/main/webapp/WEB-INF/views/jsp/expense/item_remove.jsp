@@ -4,7 +4,10 @@
 <%
 	int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 	List<ItemBean> iList = (List<ItemBean>) request.getAttribute("itemDetailList");
-	
+	int countResult = 0;
+	if(request.getAttribute("countResult") != null){
+		countResult = ((Integer) request.getAttribute("countResult")).intValue();
+	}
 	int btnCnt = 1;
 	
 	String item_class = null;
@@ -26,3 +29,12 @@
 		dtlCnt++;
 	}
 %>
+
+<html>
+<script type="text/javascript">
+	var countResult = <%= countResult %>;
+	if(countResult > 0) {
+		alert('사용중인 항목으로 삭제할 수 없습니다.');
+	}
+</script>
+</html>

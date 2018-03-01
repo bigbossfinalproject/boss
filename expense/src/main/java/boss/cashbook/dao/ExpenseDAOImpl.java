@@ -47,4 +47,11 @@ public class ExpenseDAOImpl {
 	public void expenseDelete(String expense_id) {
 		this.sql.delete("expense_delete", expense_id);
 	}
+	
+	// 사용중인 세부항목 개수를 확인하기
+	public int itemUsedCount(Map<String, String> item_code) {
+		int result = this.sql.selectOne("itemUsedCount", item_code);
+		return result;
+	}
+	
 }

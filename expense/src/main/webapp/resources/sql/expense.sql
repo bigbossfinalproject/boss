@@ -30,12 +30,18 @@ select * from expense where root_idn = 1 and trade_code='checkcard' order by exp
 
 select * from expense order by expense_date desc;
 
+select count(*) from expense where item_code='1e004001';
+select count(*) from expense where item_code='1e003002';
+select count(*) from expense where item_code='1e004002';
+
 select * from expense where root_idn = 1 and expense_date >= '2018-02-14' order by expense_date desc;
 
 update expense set expense_code = '1ch001' where root_idn=1 and trade_code = 'checkcard';
 update expense set root_id = 'sehoon.jin' where root_idn=2;
 
-delete from expense where root_idn = 2;
+delete from expense where root_idn = 1;
+
+delete from expense where expense_discription = '테스트';
 
 insert into expense values('1e000001', 1, 'admin', '2018-02-01', '1e003002', '1e003000', 'cash', '1cs001', '점심식사(짬뽕)', '5500');
 insert into expense values('1e000002', 1, 'admin', '2018-02-02', '1e003002', '1e003000', 'cash', '1cs001', '점심식사(비빔밥)', '6000');

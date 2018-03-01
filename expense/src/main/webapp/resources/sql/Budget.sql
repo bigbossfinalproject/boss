@@ -27,6 +27,8 @@ where budget_code=4
 
 select * from budget;
 
+select count(*) from budget where item_code = '1a00000';
+
 update budget set BUDGET_AMOUNT = 20, budget_amount_spent =10
 
 

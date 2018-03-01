@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page session="true"%>
@@ -390,8 +389,8 @@ input, select, option {
 					+ curr_month + "-"	+ curr_date;	// yyyy-MM-dd 형식으로 변환
 			
 			var rowItem = "<tr>"
-			rowItem += '<input type="hidden" name="root_idn" id="root_idn_'+btnCnt+'" value="${ user.root_idn }">';
-			rowItem += '<input type="hidden" name="root_id" id="root_id_'+btnCnt+'" value="${ user.root_id }">';
+			rowItem += '<input type="hidden" name="root_idn" id="root_idn_'+btnCnt+'" value="${ root_Idn }">';
+			rowItem += '<input type="hidden" name="root_id" id="root_id_'+btnCnt+'" value="${ root_Id }">';
 			rowItem += '<input type="hidden" id="asset_code" id="asset_code_'+btnCnt+'" name="asset_code" value="new_code">';
 			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_name_'+btnCnt+'" class="modify" name="asset_name" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 이름 기입"></td>';
 			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_purpose_'+btnCnt+'" class="modify" name="asset_purpose" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 용도 기입"></td>';

@@ -1,8 +1,10 @@
 package boss.cashbook.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import boss.cashbook.dao.ExpenseDAOImpl;
 import boss.cashbook.dao.ItemDAOImpl;
-import boss.cashbook.model.ExpenseBean;
 import boss.cashbook.model.ItemBean;
-import boss.cashbook.model.ObjectRootBean;
-import boss.cashbook.service.ItemViewBean;
+import boss.com.vs.dao.BudgetDaoImpl;
+import boss.income.dao.IncomeDao;
 
 @Controller
 public class ItemController {
@@ -27,13 +29,22 @@ public class ItemController {
 	@Autowired
 	private ItemDAOImpl itemDao;
 	
+	@Autowired
+	private ExpenseDAOImpl expenseDao;
+	
+	@Autowired
+	private IncomeDao incomeDao;
+	
+	@Autowired
+	private BudgetDaoImpl budgetDao;
+	
 	// ajax에서 사용하는 것으로 item을 추가하는 메소드
 	@RequestMapping(value="item_modify.do", method=RequestMethod.POST)
 	public ModelAndView itemModify(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		
-		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		//int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 		
 		// 파라메터 value 호출 및 변수에 저장
 		String item_code = request.getParameter("item_code");
@@ -84,41 +95,65 @@ public class ItemController {
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 		
 		// 파라메터 value 호출 및 변수에 저장
-		String item_code = request.getParameter("item_code");
+		String itemCode = request.getParameter("item_code");
 		
 		String idn = rootIdn+"";
 		
-		int seq = 0;
-		if(item_code != null) {
-			item_code = item_code.substring(6);
-			//System.out.println("before item_code : "+item_code+"\t / after item_code : "+item_code.substring(0, (idn.length()+4)));
-			List<ItemBean> list = itemDao.itemDetailList((item_code.substring(0, (idn.length()+4))+"%"));
-			
-			// 삭제하는 코드를 삭제해주는 구문
-			for(ItemBean i : list) {
-				if(i.getItem_code().equals(item_code)){
-					seq = i.getItem_seq();
-					itemDao.deleteItem(item_code);
-				}
-			}
-			if(list == null && list.size() == 0) {} else { list.remove(seq-1); }
-			
-			// 삭제후 item_seq를 재정의하는 구문
-			for(ItemBean i : list) {
-				if(i.getItem_seq() > seq){
-					i.setItem_seq(seq++);
-					itemDao.updateItem(i);
-				};
-			}
-			// 분류 항목을 신규로 생성하는 코드
-		}
-		//response.sendRedirect("item_list.do");
-		ModelAndView mv = new ModelAndView("expense/item_detail");
+		Map<String, String> itemMap = new HashMap<String, String>();
+		itemMap.put("item_code", itemCode.substring(6));
 		
-		List<ItemBean> iList = itemDao.itemDetailList((item_code.substring(0, (idn.length()+4))+"%"));
+		int expenseCnt = expenseDao.itemUsedCount(itemMap);
+		int incomeCnt = incomeDao.incomeCodeCount(itemMap);
+		int budgetCnt = budgetDao.budgetItemCount(itemMap);
+		
+		int countResult = expenseCnt + incomeCnt + budgetCnt;
+		//System.out.println("countResult : "+countResult);
+		
+		//response.sendRedirect("item_list.do");
+		ModelAndView mv = new ModelAndView("expense/item_remove");
+		itemCode = itemCode.substring(6);
+		
+		// 예산, 소득, 지출 항목에서 사용중인 계정이 있으면 삭제하지 못하게 하는 구문
+		if(countResult == 0) {
+			int seq = 0;
+			if(itemCode != null) {
+				//itemCode = itemCode.substring(6);
+				//System.out.println("before item_code : "+item_code+"\t / after item_code : "+item_code.substring(0, (idn.length()+4)));
+				
+				List<ItemBean> list = itemDao.itemDetailList((itemCode.substring(0, (idn.length()+4))+"%"));
+				
+				// 삭제하는 코드를 삭제해주는 구문
+				for(ItemBean i : list) {
+					if(i.getItem_code().equals(itemCode)){
+						seq = i.getItem_seq();
+						itemDao.deleteItem(itemCode);
+					}
+				}
+				if(list == null && list.size() == 0) {} else { list.remove(seq-1); }
+				
+				// 삭제후 item_seq를 재정의하는 구문
+				for(ItemBean i : list) {
+					if(i.getItem_seq() > seq){
+						i.setItem_seq(seq++);
+						itemDao.updateItem(i);
+					};
+				}
+				// 분류 항목을 신규로 생성하는 코드
+				
+			}
+		}
+		
+		
+		
+		List<ItemBean> iList = itemDao.itemDetailList((itemCode.substring(0, (idn.length()+4))+"%"));
+		
+		//System.out.println("itemBeanList 개수 : "+iList.size());
 		
 		mv.addObject("itemDetailList", iList);
+		mv.addObject("countResult", countResult);
+		
 		return mv;
+		
 	}
 	
 	// 전체 분류 항목 목록을 가져오기 위한 메소드

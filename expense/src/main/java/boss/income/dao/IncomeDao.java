@@ -1,6 +1,7 @@
 package boss.income.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import boss.income.bean.IncomeBean;
 
@@ -15,4 +16,7 @@ public interface IncomeDao { // 소득 관련 dao 인터페이스
 	public void updateImcomeList(IncomeBean bean);
 	
 	public String getIncomeName(String income_Name);
+	
+	public int incomeCodeCount(Map<String, String> income_code);
+	
 }

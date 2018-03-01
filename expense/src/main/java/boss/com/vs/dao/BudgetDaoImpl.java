@@ -1,6 +1,7 @@
 package boss.com.vs.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,11 @@ public class BudgetDaoImpl {
 	public List<BudgetBean> budget_total_list(){
 		List<BudgetBean> bean= this.sqlSession.selectList("budget_total_list");
 		return bean;
+	}
+	
+	public int budgetItemCount(Map<String, String> item_code) {
+		int result = this.sqlSession.selectOne("budgetItemCount", item_code);
+		return result;
 	}
 	
 }
