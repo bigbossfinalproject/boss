@@ -5,15 +5,15 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,13 +29,10 @@ import boss.cashbook.dao.TradeDAOImpl;
 import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.CardBean;
 import boss.cashbook.model.ExpenseBean;
-import boss.cashbook.model.ItemAuthBean;
 import boss.cashbook.model.ItemBean;
-import boss.cashbook.model.LoanBean;
 import boss.cashbook.model.ObjectRootBean;
 import boss.cashbook.model.TradeBean;
 import boss.cashbook.service.ExpenseViewBean;
-import boss.cashbook.service.MemberItemViewBean;
 
 @Controller
 public class ExpenseController {
@@ -57,71 +54,6 @@ public class ExpenseController {
 	
 	@Autowired
 	private ItemAuthDAOImpl itemAuthDao;
-	
-	/*
-	@RequestMapping(value="expense_write.do")
-	public ModelAndView expenseWriteView(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		response.setCharacterEncoding("UTF-8");
-		session = request.getSession();
-		
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
-
-		// ViewResolver로 해당 페이지를 보여주기 위해 사용하는 구문
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("expense/expense_write");
-		
-		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
-		Date d = new Date(cal.getTimeInMillis());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(d);
-		request.setAttribute("date", date);
-		
-		// 사용자의 개인별 지출 품목 목록을 가져와서 목록으로 만들어서 scope영역에 보내기
-		ItemAuthBean itemAuth = itemAuthDao.userItem(user.getRoot_idn());								
-		List<String> myItemList = new ArrayList<String>();
-		StringTokenizer st = new StringTokenizer(itemAuth.getItem_list(), "|");
-		while(st.hasMoreTokens()){
-			myItemList.add(st.nextToken());
-		}
-		
-		// 사용자의 개인 지출코드를 사용하기 위해 변수 선언
-		String item_code = user.getRoot_idn()+"e";
-		
-		// 개인별 품목을 목록화해서 scope 영역에 올리기
-		List<ItemBean> itemList = itemDao.itemList((item_code+"%"));
-		
-		// 사용자가 사용 가능한 목록을 가져오기 위해 리스트 변수 선언
-		List<MemberItemViewBean> memItemList = new ArrayList<MemberItemViewBean>();
-		
-		for(String itemCode : myItemList) {					// 사용자 개인별 분류 항목 목록 개수만큼 반복
-			for(ItemBean itemBean : itemList){				// 전체 분류항목개수에서 목록 작성
-				if(itemCode.equals(itemBean.getItem_code())) {
-					MemberItemViewBean memItem = new MemberItemViewBean();
-					memItem.setItemCode(itemCode);
-					memItem.setItemName(itemBean.getItem_name());
-					memItem.setItemLevel(itemBean.getItem_level());
-					memItemList.add(memItem);
-					break;
-				}
-			}
-		}
-		request.setAttribute("memItemList", memItemList);
-		
-		// 지출 분류 정보 가져와서 scope 영역에 정보 올리기
-		List<TradeBean> tradeList = tradeDao.tradeList();
-		request.setAttribute("tradeList", tradeList);
-		
-		// 지출 분류 항목에 대한 자산 세부 목록 가져와서 scope영역에 올리기
-		List<AssetBean> assetList = assetDao.assetList();
-		request.setAttribute("assetList", assetList);
-		
-		List<CardBean> cardList = cardDao.cardList(user.getRoot_idn());
-		request.setAttribute("cardList", cardList);
-		
-		
-		return mv;
-	}
-	*/
 	
 	// 지출 데이터를 입력, 수정, 삭제하는 메서드
 	@RequestMapping(value="expense_write_ok.do", method=RequestMethod.POST)
@@ -195,8 +127,10 @@ public class ExpenseController {
 	public ModelAndView expenseList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean)session.getAttribute("user");
-		String item_code = user.getRoot_idn()+"e";
+		
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		
+		String item_code = rootIdn+"e";
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("expense/expense_list");
@@ -217,20 +151,21 @@ public class ExpenseController {
 		mv.addObject("tradeList", tList);
 		
 		// 자산계좌(asset) 코드를 불러와서 scope영역에 올리기
-		List<AssetBean> aList = assetDao.memAssetList(user.getRoot_idn());
+		List<AssetBean> aList = assetDao.memAssetList(rootIdn);
 		mv.addObject("assetList", aList);
 		
 		// 카드(card) 코드를 불러와서 scope영역에 올리기
-		List<CardBean> cList = cardDao.cardList(user.getRoot_idn());
+		List<CardBean> cList = cardDao.cardList(rootIdn);
 		mv.addObject("cardList", cList);
 		
 		// 지출 목록을 보여주기 위해 자바빈에 등록하고 리스트로 만들어서 scope영역에 올리기
-		List<ExpenseBean> list = expenseDao.expenseList(user.getRoot_idn());
+		List<ExpenseBean> list = expenseDao.expenseList(rootIdn);
 		int seq = 1;
 		List<ExpenseViewBean> expenseList = new ArrayList<ExpenseViewBean>();
 		for(ExpenseBean expense : list) {
-			List<ItemBean> itemList = itemDao.itemList((item_code+"%"));													// 지출 품목 항목 - 식료품비, 주거비, ... 등에 해당
+			List<ItemBean> itemList = itemDao.itemList((item_code+"%"));							// 지출 품목 항목 - 식료품비, 주거비, ... 등에 해당
 			TradeBean trade = tradeDao.tradeOne(expense.getTrade_code());							// 지출 수단 항목 - 현금, 통장, 신용카드, 체크카드 등에 해당
+			//System.out.println("itemList 개수 : "+itemList.size());
 			CardBean card = null;
 			AssetBean asset = null;
 			//System.out.println("카드 문자열 포함 여부 check : "+expense.getTrade_code().contains("card"));
@@ -276,6 +211,67 @@ public class ExpenseController {
 		return mv;
 	}
 	
+	// 지출 중분류항목을 선택하면 세부항목을 보여주는 메소드
+	@RequestMapping(value="exp_detail_item.do", method=RequestMethod.POST)
+	public ModelAndView expenseDetailItem(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String parent_code = request.getParameter("parent_code");
+		String children_code = request.getParameter("children_code");
+		
+		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
+		ModelAndView mv = new ModelAndView("expense/expense_detail_item");
+		
+		List<ItemBean> list = itemDao.itemDetailList((parent_code.substring(0, (parent_code.length()-3))+"%"));
+		//System.out.println("itemDetailList 개수 : "+list.size());
+		mv.addObject("expenseItemDetailList", list);
+		mv.addObject("item_code", children_code);
+		
+		return mv;
+	}
+	
+	// 지출유형을 선택하면 계좌 상세정보를 보여주는 메소드
+	@RequestMapping(value="exp_detail_asset.do", method=RequestMethod.POST)
+	public ModelAndView expenseDetailAsset(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String trade_code = request.getParameter("trade_code");
+		String asset_code = request.getParameter("asset_code");
+		
+		//System.out.println("trade_code : "+trade_code+"\t / asset_code : "+asset_code);
+		ModelAndView mv = new ModelAndView("expense/expense_detail_asset");
+		
+		//List<ItemBean> list = itemDao.itemDetailList((as+"%"));
+		List<AssetBean> list = assetDao.tradeAssetList(trade_code);
+		//System.out.println("assetDetailList 개수 : "+list.size());
+		mv.addObject("expenseAssetDetailList", list);
+		mv.addObject("asset_code", asset_code);
+		
+		return mv;
+	}
+	
+	// 지출유형을 선택하면 카드 상세정보를 보여주는 메소드
+	@RequestMapping(value="exp_detail_card.do", method=RequestMethod.POST)
+	public ModelAndView expenseDetailCard(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		response.setCharacterEncoding("UTF-8");
+		session = request.getSession();
+		
+		String rootId = (String) session.getAttribute("root_Id");
+		
+		String trade_code = request.getParameter("trade_code");
+		String card_code = request.getParameter("asset_code");
+		
+		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
+		ModelAndView mv = new ModelAndView("expense/expense_detail_card");
+		Map<String, String> cardMap = new HashMap<String, String>();
+		cardMap.put("card_type_code", trade_code);
+		cardMap.put("root_id", rootId);
+		
+		
+		List<CardBean> list = cardDao.cardTypeList(cardMap);
+		//System.out.println("cardDetailList 개수 : "+list.size());
+		mv.addObject("expenseCardDetailList", list);
+		mv.addObject("card_code", card_code);
+		
+		return mv;
+	}
+		
 	// expense_id의 중복 검사를 마친 최종 expense_id 생성 메서드
 	private String expenseIdCreate(int root_idn) {
 		// expense_id를 입력하기 위한 코드

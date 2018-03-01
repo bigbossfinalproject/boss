@@ -34,6 +34,12 @@ public class CardDAOImpl {
 		return list;
 	}
 	
+	// 카드 타입(신용/체크)별 카드 목록 가져오기
+	public List<CardBean> cardTypeList(String card_type_code) {
+		List<CardBean> list = sql.selectList("cardTypeList", card_type_code);
+		return list;
+	}
+	
 	// 사용자 개인별 카드 등록 개수 카운트 값 가져오기
 	public List<CardBean> cardTypeList(Map<String, String> cardInfo) {
 		List<CardBean> list = sql.selectList("cardTypeList", cardInfo);

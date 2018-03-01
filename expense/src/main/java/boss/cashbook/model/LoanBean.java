@@ -20,6 +20,7 @@ public class LoanBean {
 	private String loan_mean_code;			// 상환방법코드
 	private String loan_mean;					// 상환방법
 	private int loan_amount;						// 총대출금
+	private int loan_cash;							// 대출잔액
 	private String loan_principal;				// 상환원금
 	private String loan_interest;					// 상환이자
 	
@@ -124,6 +125,12 @@ public class LoanBean {
 	}
 	public void setLoan_amount(int loan_amount) {
 		this.loan_amount = loan_amount;
+	}
+	public int getLoan_cash() {
+		return loan_cash;
+	}
+	public void setLoan_cash(int loan_cash) {
+		this.loan_cash = loan_cash;
 	}
 	public String getLoan_principal() {
 		return loan_principal;

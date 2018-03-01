@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<hr>
-<h3 class="text-center">얘는 푸터</h3>
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+		<table width="1280px" height="100px" align="center" style="text-align: center;" cellpadding="0" cellspacing="0" frame="above">
+				<tr>
+					<td>footer</td>
+									
+				</tr>				
+		</table>
+</body>
+</html>

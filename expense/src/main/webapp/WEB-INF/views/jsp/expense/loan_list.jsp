@@ -23,16 +23,13 @@
     
 	아이디 : <%= user.getRoot_id() %> / 이름 : <%= user.getRoot_name() %>회원님 반갑습니다.<br>
 	고유번호 : <%= user.getRoot_idn() %> / 이메일 : <%= user.getRoot_email() %> 입니다.<br>
-	<a href="item_list.do" style="text-decoration: none;">분류항목 목록 보기</a>&nbsp;&nbsp;&nbsp;
-	<a href="item_write.do" style="text-decoration: none;">분류항목 입력</a><br>
-	<a href="expense_all_list.do" style="text-decoration: none;">지출 목록 보기</a>&nbsp;&nbsp;&nbsp;
-	<a href="expense_write.do" style="text-decoration: none;">지출 입력</a><br>
-	<a href="asset_list.do" style="text-decoration: none;">자산 목록 보기</a>&nbsp;&nbsp;&nbsp;
-	<a href="asset_write.do" style="text-decoration: none;">자산 입력</a><br>
-	<a href="loan_list.do" style="text-decoration: none;">부채 목록 보기</a>&nbsp;&nbsp;&nbsp;
-	<a href="loan_write.do" style="text-decoration: none;">부채 입력</a><br>
-	<a href="card_list.do" style="text-decoration: none;">카드 목록 보기</a>&nbsp;&nbsp;&nbsp;
-	<a href="card_write.do" style="text-decoration: none;">카드 입력</a><br>
+	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
+	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="card_write.do">카드 입력</a>
 	
 	<table border="1" style="border-collapse: collapse;">
 		<tr>

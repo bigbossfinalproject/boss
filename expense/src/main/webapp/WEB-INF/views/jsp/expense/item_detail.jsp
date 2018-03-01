@@ -3,12 +3,12 @@
 <%@ page import="boss.cashbook.model.*" %>
 <%@ page import="java.util.List" %>
 <%
-	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+	int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 	List<ItemBean> iList = (List<ItemBean>) request.getAttribute("itemDetailList");
 	int btnCnt = 1;
 	
 	String item_class = null;
-	String root_idn = user.getRoot_idn()+"";
+	String root_idn = rootIdn+"";
 	int row = 0;
 	int dtlCnt = 0;
 	
@@ -24,16 +24,5 @@
 	</div>
 <%
 		dtlCnt++;
-	
 	}
 %>
-
-<!-- <html>
-<script type="text/javascript">
-//항목 삭제 버튼을 클릭하면 ajax 실행
-$(document).on('click', 'input[id^="item_remove_"]', function(){
-	itemRemove(this);
-});
-		
-</script>
-</html> -->

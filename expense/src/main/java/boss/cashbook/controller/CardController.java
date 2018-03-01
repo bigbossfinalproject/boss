@@ -48,7 +48,7 @@ public class CardController {
 	public ModelAndView memCardInsert(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 		
 		List<BankCorpBean> bList = bankCorpDao.bankList();
 		request.setAttribute("bankCorp", bList);
@@ -56,7 +56,7 @@ public class CardController {
 		List<CardCorpBean> ccList = cardCorpDao.cardCorpList();
 		request.setAttribute("cardCorp", ccList);
 		
-		List<AssetBean> aList = assetDao.memAssetList(user.getRoot_idn());
+		List<AssetBean> aList = assetDao.memAssetList(rootIdn);
 		request.setAttribute("asset", aList);
 		
 		ModelAndView mv = new ModelAndView();
@@ -69,10 +69,11 @@ public class CardController {
 	public ModelAndView cardWriteOk(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+		
 		CardBean bean = new CardBean();
 		
-		int root_idn = Integer.parseInt(request.getParameter("root_idn"));
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		
 		String card_name = request.getParameter("card_name");
 		String card_corp_code = request.getParameter("card_corp_code");
 		String card_type_code = request.getParameter("card_type_code");
@@ -97,7 +98,7 @@ public class CardController {
 		// card_code를 입력하기 위한 코드
 		String uid = uniqId();
 		String card_code = null;
-		String cardCode = root_idn+"";
+		String cardCode = rootIdn+"";
 		
 		int cnt = cardDao.cardCount(cardMap);
 		
@@ -107,9 +108,9 @@ public class CardController {
 		}
 		
 		if(card_type_code.equals("checkcard")) {
-			card_code = root_idn + "ch" + uid;
+			card_code = rootIdn + "ch" + uid;
 		} else if(card_type_code.equals("creditcard")) {
-			card_code = root_idn + "cd" + uid;
+			card_code = rootIdn + "cd" + uid;
 		}
 		
 		boolean condit = true;
@@ -119,9 +120,9 @@ public class CardController {
 				if(asset_code.equals(s.getAsset_code())) {
 					uid = uniqId();
 					if(card_type_code.equals("checkcard")) {
-						card_code = root_idn + "ch" + uid;
+						card_code = rootIdn + "ch" + uid;
 					} else if(card_type_code.equals("creditcard")) {
-						card_code = root_idn + "cd" + uid;
+						card_code = rootIdn + "cd" + uid;
 					}
 					condit = true;
 					break;
@@ -132,7 +133,7 @@ public class CardController {
 		}
 		
 		bean.setCard_code(card_code);
-		bean.setRoot_idn(root_idn);
+		bean.setRoot_idn(rootIdn);
 		bean.setCard_name(card_name);
 		bean.setCard_corp_code(card_corp_code);
 		bean.setCard_type_code(card_type_code);
@@ -157,9 +158,10 @@ public class CardController {
 	public ModelAndView memCardList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
-		List<CardBean> cList = cardDao.cardList(user.getRoot_idn());
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		
+		List<CardBean> cList = cardDao.cardList(rootIdn);
 		List<CardViewBean> card = new ArrayList<CardViewBean>();
 		for(CardBean c : cList) {
 			CardViewBean cvb = new CardViewBean();

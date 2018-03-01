@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.user.model.User_Bean"> 
+
+	<!--조회  --> 	
+	<!--  <select id="loginCheck" parameterType="java.util.Map" resultType="int">
+		select count(*) from object_root where root_id=#{root_Id} and root_pwd=#{root_Pwd}
+	</select> -->
+	 <select id="loginCheck" parameterType="java.util.Map" resultType="User_Bean">
+		select * from object_root where root_id=#{root_Id} and root_pwd=#{root_Pwd}
+	</select>
+	
+ 
+</mapper>
+
+
+	

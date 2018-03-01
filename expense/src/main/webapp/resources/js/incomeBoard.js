@@ -2,22 +2,12 @@
  * incomeBoard용 자바스크립트 파일
  */
 
-
-document.write("<script type='text/javascript' src='./resources/js/incomeChart.js'><" + "/script>");
-
-
+document.write("<script type='text/javascript' src='/resources/js/incomeChart.js'><" + "/script>");
 
 window.onload = function() {
-
 	getIncomeBoard();
 }
-
 var income_option = "<option value ='i1'>주요소득</option><option value ='i2'>기타소득</option>";
-
-
-
-
-
 
 // 페이지 로드시 실행되는 함수 (테이블 ajax로 그리기)
 function getIncomeBoard() {
@@ -26,7 +16,7 @@ function getIncomeBoard() {
 	table.innerHTML = "";
 	$.ajax(
 		{
-			url : './list2.io',
+			url : 'list2.io',
 			type : 'POST',
 			dataType : 'text',
 			success : function(data) {
@@ -43,9 +33,6 @@ function getIncomeBoard() {
 							rowItem += "<input type ='hidden' id='income_Id' value = " + result[i][j].value + " ></input>";
 							continue;
 						}
-
-
-
 						if (j == 5) {
 							rowItem += "<td class = 'text-right'>" + result[i][j].value + "</td>";
 							continue;
@@ -55,13 +42,7 @@ function getIncomeBoard() {
 					rowItem += "<td style='padding:0px'><button type='button'  id='row_remove' ><span class='glyphicon glyphicon-minus'></span></button></td></tr>";
 				}
 				$('#incomeTable').append(rowItem);
-
 				drawChart();
-
-
-
-
-
 			},
 			error : function() {
 				alert('통신실패!!');
@@ -97,8 +78,6 @@ $(document).on('click', '#add_row', function() {
 });
 
 
-
-
 // 삭제 버튼 눌렀을때 수행하는 함수(행 삭제)
 $(document).on("click", "#row_remove", function() {
 
@@ -121,8 +100,6 @@ $(document).on("click", "#row_remove", function() {
 			alert('삭제실패!!');
 		}
 	})
-
-
 });
 
 $(document).on("click", "#row_add", function() {
@@ -139,8 +116,6 @@ $(document).on("click", "#row_add", function() {
 			console.log(td.eq(i).text);
 			tdArr.push(td.eq(i).children().val());
 			console.log('text 존재' + i);
-		} else {
-
 		}
 	});
 	console.log("배열에 담긴 값 : " + tdArr);
@@ -157,7 +132,6 @@ $(document).on("click", "#row_add", function() {
 		success : function(data) {
 			alert("입력완료!");
 			getIncomeBoard();
-
 		},
 		error : function() {
 			alert('입력실패!!(AJAX 오류)');
@@ -179,13 +153,10 @@ $(document).on("click", "#row_modify", function() {
 			tdArr.push(td.eq(i).children().val());
 		}else if (td.eq(i).text() != "") {
 			tdArr.push(td.eq(i).text());
-		} 
-			
-		
+		}
 	});
 	var tdArr2 = tdArr.slice(0, 6);
 	console.log(tdArr2);
-
 
 	var allArray = {
 		"arrData" : tdArr2,

@@ -71,11 +71,12 @@ td {
 
 th {
 	text-align: center; /* 제목은 모두 중앙 정렬 */
-	background-color: #BBBCBD;
+	line-height: 40px;
+	background-color: #87cefa;
 }
 
-tr:NTH-OF-TYPE(2n+1) {
-	background-color: #E8E8E8;
+tr:NTH-OF-TYPE(2n) {
+	background-color: #b0c4de;
 }
 
 .no, .text, .date {
@@ -133,11 +134,8 @@ input, select, option {
 	아이디 : <c:out value="${ user.root_id }" /> / 이름 : <c:out value="${ user.root_name }" />회원님 반갑습니다.<br>
 	고유번호 : <c:out value="${ user.root_idn }" /> / 이메일 : <c:out value="${ user.root_email }" />입니다.<br>
 	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="item_write.do">분류항목 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="expense_write.do">지출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="asset_write.do">자산 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
@@ -163,8 +161,8 @@ input, select, option {
 				<colgroup>
 					<col width="200px" />
 					<col width="200px" />
-					<col width="80px" />
 					<col width="100px" />
+					<col width="80px" />
 					<col width="120px" />
 					<col width="100px" />
 					<col width="100px" />
@@ -175,8 +173,8 @@ input, select, option {
 					<tr>
 						<th style="line-height: 40px;">계좌명</th>
 						<th style="line-height: 40px;">용도</th>
-						<th style="line-height: 40px;">자산유형</th>
 						<th style="line-height: 40px;">시작일자</th>
+						<th style="line-height: 40px;">자산유형</th>
 						<th style="line-height: 40px;">거래은행</th>
 						<th style="line-height: 40px;">초기 금액</th>
 						<th style="line-height: 40px;">현재 잔액</th>
@@ -187,10 +185,10 @@ input, select, option {
 				<tbody id="asset_table">
 					<c:forEach items="${ assetList }" var="asset">
 						
-						<tr class="asset_list">
+						<tr id="asset_list_<%= btnCnt %>">
 							<input type="hidden" name="root_idn" id="root_idn_<%= btnCnt %>" value="${ user.root_idn }">
 							<input type="hidden" name="root_id" id="root_id_<%= btnCnt %>" value="${ user.root_id }">
-							<input type="hidden" id="asset_code" id="asset_code_<%= btnCnt %>" name="asset_code" value="${ asset.asset_code }">
+							<input type="hidden" name="asset_code" id="asset_code_<%= btnCnt %>" value="${ asset.asset_code }">
 							<td class="text" style="padding: 0;">
 								<input type="text" id="asset_name_<%= btnCnt %>" class="modify asset_name" name="asset_name" value="${ asset.asset_name }" style="line-height: 40px; width: 200px;">
 							</td>
@@ -199,7 +197,11 @@ input, select, option {
 								<input type="text" id="asset_purpose_<%= btnCnt %>" class="modify asset_purpose" name="asset_purpose" value="${ asset.asset_purpose }" style="line-height: 40px; width: 200px;">
 							</td>
 							
-							<td class="text" style="padding: 0;">
+							<td class="date" style="padding: 0;">
+								<input type="date" id="asset_date_<%= btnCnt %>" class="asset_date" name="asset_date" value="${ asset.asset_date }" size="20" style="line-height: 40px;">
+							</td>
+							
+							<td class="text" id="trade_frame_<%= btnCnt %>" style="padding: 0;">
 								<select id="trade_code_<%= btnCnt %>" class="trade_code" name="trade_code" style="width: 70px; height: 50px;">
 									<c:forEach items="${ trade }" var="trade">
 										<c:choose>
@@ -218,12 +220,10 @@ input, select, option {
 								</select>
 							</td>
 							
-							<td class="date" style="padding: 0;">
-								<input type="date" id="asset_date_<%= btnCnt %>" class="asset_date" name="asset_date" value="${ asset.asset_date }" size="20" style="line-height: 40px;">
-							</td>
-							
-							<td class="text" style="padding: 0;">
-								<select id="bank_code_<%= btnCnt %>" class="bank_code" name="bank_code" style="width: 120px; height: 50px;">
+							<%-- 거래 계좌 목록을 보여주는 영역으로 ajax로 사용 --%>
+							<td class="text" id="bank_frame_<%= btnCnt %>" style="padding: 0;">
+								<input type="hidden" id="bank_code_<%= btnCnt %>" name="bank_code" value="${ asset.bank_code }">
+								<%-- <select id="bank_code_<%= btnCnt %>" class="bank_code" name="bank_code" style="width: 120px; height: 50px;">
 									<c:forEach items="${ bank }" var="bank">
 										<c:choose>
 											<c:when test="${ bank.bank_name == asset.bank_name }">
@@ -238,10 +238,10 @@ input, select, option {
 											</c:when>
 										</c:choose>
 									</c:forEach>
-								</select>
+								</select> --%>
 							</td>
 							
-							<td class="amount" style="padding: 0;">
+							<td class="amount" id="basic_frame_<%= btnCnt %>"style="padding: 0;">
 								<b>
 									<input type="text" class="modify basic_amount" id="basic_amount_<%= btnCnt %>" name="basic_amount" numberOnly value="${ asset.basic_amount }" style="text-align: right; padding-right: 5px; line-height: 40px; width: 100px;">
 								</b>
@@ -253,9 +253,19 @@ input, select, option {
 								</label>
 							</td>
 							
-							<td class="text" style="line-height: 45px; padding: 0;">
-								<input id="asset_use_<%= btnCnt %>" type="checkbox" name="checked" class="asset_use" checked="checked">사용중
-								<input type="hidden" id="check_result_<%= btnCnt %>" class="check_result" name="asset_use">
+							<td class="text" id="use_frame_<%= btnCnt %>" style="line-height: 45px; padding: 0;">
+								<c:choose>
+									<c:when test="${ asset.asset_use == 'Y' }">
+										<input id="asset_use_<%= btnCnt %>" type="checkbox" name="checked" class="asset_use" checked="checked">사용중
+										<input type="hidden" id="check_result_<%= btnCnt %>" class="check_result" name="asset_use" value="Y">
+									</c:when>
+									<c:when test="${ asset.asset_use == 'N' }">
+										<input id="asset_use_<%= btnCnt %>" type="checkbox" name="checked" class="asset_use">사용중
+										<input type="hidden" id="check_result_<%= btnCnt %>" class="check_result" name="asset_use">
+									</c:when>
+								</c:choose>
+								
+								<%-- <input type="hidden" id="check_result_<%= btnCnt %>" class="check_result" name="asset_use"> --%>
 							</td>
 							
 							<td class="text" style="line-height: 45px; padding: 0;">
@@ -280,7 +290,163 @@ input, select, option {
 		// 버튼 번호 선언 변수
 		var btnCnt = <%= btnCnt %>;
 		
+		// ajax로 사용할 id값, value값, code값을 변수 선언
+		var assetTagId = new Array();
+		var assetCodeVal = new Array();
+		var bankTagId = new Array();
+		var bankCodeVal = new Array();
+		var useTagId = new Array();
+		var useCodeVal = new Array();
+		
+		for(var i = 1; i < btnCnt; i++) {
+			assetTagId[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(7)').attr('id');
+			assetCodeVal[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(7)').children().val();
+			bankTagId[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(8)').attr('id');
+			bankCodeVal[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(8)').children('input:first-child').val();
+			useTagId[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(11)').attr('id');
+			useCodeVal[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(11)').children().val();
+		}
+		
+		for(var i = 0; i < assetTagId.length; i++) {
+			//console.log('assetTagId : '+assetTagId[i]+' / assetCodeVal : '+assetCodeVal[i]+' / bankTagId : '+bankTagId[i]+' / bankCodeVal : '+bankCodeVal[i]);
+			//console.log('useTagId : '+useTagId[i]+' / useCodeVal : '+useCodeVal[i]);
+			defaultBankLoad(bankTagId[i], assetCodeVal[i], bankCodeVal[i]);
+		}
+		
+		 // 항목추가 버튼 클릭시 아래로 행 추가 이벤트
+		$(document).on('click', '#add_row', function(){
+			row_add();
+		});
+		
+		$(document).on('change', 'select[name="trade_code"]', function(){
+			changeAssetBank(this);
+		})
+		
+		// 사용함에서 
+		function defaultBankLoad(bankId, tradeCode, bankCode) {
+			// item_modify ajaxSetup 선언
+			$.ajaxSetup({
+				type:'post',
+				url:'asset_detail_bank.do',
+				dataType:'text',
+				success:function(msg){
+					var ssg = msg+'';
+					//console.log("ajax 성공 메세지 : "+ssg);
+					$('td[id="'+bankId+'"]').html(msg);
+				}
+			});
+			//console.log("bankId : "+bankId+"  tradeCode : "+tradeCode+"   bankCode : "+bankCode);
+			//var trade_code = trdCode;				// 거래 유형 코드 값
+			//var asset_code = asstCode;				// 자산 코드 값
+			//var parnet_code = parent_code.substr(0, (idn.length+4));
+			var sendData = 'trade_code='+tradeCode+'&bank_code='+bankCode;
+			//console.log('parent_code ; '+parent_code);
+			
+			$.ajax({
+				data:sendData
+			})
+		}
+		
+		
+		// 태그가 생성되고 거래은행 정보가 자산유형에 따라 정보가 변경되는 함수
+		function defaultBankLoad(bankId, tradeCode, bankCode) {
+			// item_modify ajaxSetup 선언
+			$.ajaxSetup({
+				type:'post',
+				url:'asset_detail_bank.do',
+				dataType:'text',
+				success:function(msg){
+					var ssg = msg+'';
+					//console.log("ajax 성공 메세지 : "+ssg);
+					$('td[id="'+bankId+'"]').html(msg);
+				}
+			});
+			//console.log("bankId : "+bankId+"  tradeCode : "+tradeCode+"   bankCode : "+bankCode);
+			//var trade_code = trdCode;				// 거래 유형 코드 값
+			//var asset_code = asstCode;				// 자산 코드 값
+			//var parnet_code = parent_code.substr(0, (idn.length+4));
+			var sendData = 'trade_code='+tradeCode+'&bank_code='+bankCode;
+			//console.log('parent_code ; '+parent_code);
+			
+			$.ajax({
+				data:sendData
+			})
+		}
+		
+		// 
+		
+		
 		// 자산 목록 행 추가하는 함수
+		function row_add(){
+			var now = new Date()							// 현재 날짜
+			var curr_date = now.getDate();				// 현재 날짜에서 일자를 추출
+			if (curr_date < 9)
+				curr_date = "0" + curr_date;				// 현재 날짜에서 일자가 1자리이면 앞에 0을 붙여줌
+			var curr_month = now.getMonth() + 1;	// 현재 날짜에서 월을 추출(월은 0부터 시작해서 +1을 해줌)
+			if (curr_month < 10)
+				curr_month = "0" + curr_month;		// 현재 날짜에서 월이 1자리이면 앞에 0을 붙여줌
+			var curr_year = now.getFullYear();			// 현재 날짜에서 년을 추출
+			var result = curr_year + "-"
+					+ curr_month + "-"	+ curr_date;	// yyyy-MM-dd 형식으로 변환
+			
+			var rowItem = "<tr>"
+			rowItem += '<input type="hidden" name="root_idn" id="root_idn_'+btnCnt+'" value="${ user.root_idn }">';
+			rowItem += '<input type="hidden" name="root_id" id="root_id_'+btnCnt+'" value="${ user.root_id }">';
+			rowItem += '<input type="hidden" id="asset_code" id="asset_code_'+btnCnt+'" name="asset_code" value="new_code">';
+			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_name_'+btnCnt+'" class="modify" name="asset_name" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 이름 기입"></td>';
+			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_purpose_'+btnCnt+'" class="modify" name="asset_purpose" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 용도 기입"></td>';
+			rowItem += '<td class="date" style="padding:0;"><input type="date" id="asset_date_'+btnCnt+'" class="modify" name="asset_date" size="20" value="'+result+'"style="line-height: 40px;"></td>';
+			rowItem += '<td class="text" id="trade_frame_'+btnCnt+'" style="padding: 0;"><select id="trade_code_'+btnCnt+'" name="trade_code" style="width:70px; height:50px;">';
+			for(var i = 0; i < tcodeList.length; i++) {
+				if(tcodeList[i] == 'cash') {
+					rowItem +='<option value="'+tcodeList[i]+'" selected="selected">'+tradeList[i]+'</option>';
+				} else {
+					rowItem +='<option value="'+tcodeList[i]+'">'+tradeList[i]+'</option>';
+				}
+			}
+			rowItem += '</select></td>';
+			rowItem += '<td class="text" id="bank_frame_'+btnCnt+'" style="padding: 0;"></td>';
+			rowItem += '<td class="amount" id="basic_frame_'+btnCnt+'"style="padding: 0;"><b><input type="text" id="basic_amount_'+btnCnt+'" class="modify" value="0" name="basic_amount" numberOnly id="basic_amount" style="text-align: right; padding-right: 5px; line-height: 40px; width: 100px;"></b></td>';
+			rowItem += '<td class="text" style="padding:0;"></td>';
+			rowItem += '<td class="text" id="use_frame_'+btnCnt+'" style="line-height: 45px; padding: 0;"><input type="checkbox" id="asset_use_'+btnCnt+'" class="modify" name="checked" checked="checked">사용중<input type="hidden" id="check_result_'+btnCnt+'" class="check_result" name="asset_use"></td>';
+			rowItem += '<td class="text" style="line-height: 45px; padding:0;"><input type="button" class="white_btn modify row_remove" id="row_remove" value="삭제" size="50"></td>';
+			rowItem += "</tr>"
+			
+			$('#asset_table').append(rowItem);
+			
+			defaultBankLoad(('bank_frame_'+btnCnt), 'cash', 'money');
+			
+			btnCnt++;
+		 }
+		
+		// 세분류 항목이 ajax에 적용될 수 있도록 함수 선언
+		function changeAssetBank(data) {
+			
+			var sel_val = $(data).val();																				// select에 적용되어 있는 value값 변수에 저장
+			var det_id = $(data).parent().parent().children('td:nth-child(8)').attr('id');				// ajax파일을 삽입할 td 태그 이름 
+			
+			//console.log("분류 select id : "+sel_id+"   분류 select value : "+sel_val+"   상위 td태그 id : "+hi_sel_id+"  세분류 select id : "+det_id);
+			// ajaxSetup 선언
+			$.ajaxSetup({
+				type:'post',
+				url:'asset_detail_bank.do',
+				dataType:'text',
+				success:function(msg){
+					$('td[id="'+det_id+'"]').html(msg);
+				}
+			});
+			
+			var sendData = 'trade_code='+sel_val;
+			
+			$.ajax({
+				data:sendData
+			})
+			
+		}
+				
+		
+		 /* 
+		 // 자산 목록 행 추가하는 함수
 		$('#add_row').click(function() {
 			var now = new Date()							// 현재 날짜
 			var curr_date = now.getDate();				// 현재 날짜에서 일자를 추출
@@ -297,8 +463,8 @@ input, select, option {
 			rowItem += '<input type="hidden" name="root_idn" id="root_idn_'+btnCnt+'" value="${ user.root_idn }">';
 			rowItem += '<input type="hidden" name="root_id" id="root_id_'+btnCnt+'" value="${ user.root_id }">';
 			rowItem += '<input type="hidden" id="asset_code" id="asset_code_'+btnCnt+'" name="asset_code" value="new_code">';
-			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_name_'+btnCnt+'" class="modify" name="asset_name" size="20" style="line-height: 40px; width:200px;"></td>';
-			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_purpose_'+btnCnt+'" class="modify" name="asset_purpose" size="20" style="line-height: 40px; width:200px;"></td>';
+			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_name_'+btnCnt+'" class="modify" name="asset_name" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 이름 기입"></td>';
+			rowItem += '<td class="text" style="padding:0;"><input type="text" id="asset_purpose_'+btnCnt+'" class="modify" name="asset_purpose" size="20" style="line-height: 40px; width:200px;" placeholder="계좌 용도 기입"></td>';
 			rowItem += '<td class="text" style="padding:0;"><select id="trade_code_'+btnCnt+'" name="trade_code" style="width:70px; height:50px;">';
 			for(var i = 0; i < tcodeList.length; i++) {
 				if(tcodeList[i] == 'cash') {
@@ -328,7 +494,8 @@ input, select, option {
 			$('#asset_table').append(rowItem).trigger('create');
 			
 		});
-		
+		 */
+		 
 		// 체크박스 체크여부에 따른 값 설정 함수
 		$(document).on("change", 'input', function(){
 			var cname =$(this).attr('id');
@@ -343,6 +510,21 @@ input, select, option {
 			}
 			console.log("체크박스 값 : "+$('#check_result_'+cnum).val());
 		})
+		
+		// 체크박스 체크여부에 따른 값 설정 함수
+		function checkResult(){
+			 var cname =$(this).attr('id');
+				var cnum = cname.substr(10);
+				console.log("클래스번호 : "+cnum);
+				if($("#asset_use_"+cnum).is(":checked")) {
+					$('#check_result_'+cnum).val('Y');
+					console.log("체크했음");
+				} else {
+					$('#check_result_'+cnum).val('N');
+					console.log("체크해제");
+				}
+				console.log("체크박스 값 : "+$('#check_result_'+cnum).val());
+		 }
 		
 		// td영역을 클릭하면 해당 정보를 보여주는 함수
 		$(document).on('click', 'td', function() {

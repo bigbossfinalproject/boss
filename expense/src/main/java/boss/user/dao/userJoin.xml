@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.user.model.User_Bean"> 
+
+	<!--입력  --> 	
+	 <insert id="userJoin" parameterType="java.util.Map">
+		insert into object_root 
+		(root_idn, root_name, root_id, root_pwd, root_email, root_birth, root_gender, root_job, root_address, root_grade) values
+		(object_root_seq.nextVal, #{root_Name},#{root_Id},#{root_Pwd},#{root_Email},#{root_Birth},#{root_Gender},#{root_Job},#{root_Address}, 0)
+		
+	</insert>
+	
+	
+ 
+</mapper>
+

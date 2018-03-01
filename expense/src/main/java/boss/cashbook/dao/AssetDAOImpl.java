@@ -40,6 +40,12 @@ public class AssetDAOImpl {
 		return bean;
 	}
 	
+	// 지출 유형별 자산 목록 가져오기
+	public List<AssetBean> tradeAssetList(String trade_code) {
+		List<AssetBean> list = sql.selectList("tradeAssetList", trade_code);
+		return list;
+	}
+	
 	// 전체 자산 목록을 가져오기
 	public List<AssetBean> assetList() {
 		List<AssetBean> list = sql.selectList("assetList");

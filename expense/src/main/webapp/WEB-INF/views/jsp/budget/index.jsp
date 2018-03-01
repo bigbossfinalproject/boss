@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +9,15 @@
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="./resources/bootstrap/js/bootstrap.js"></script>
 		<script type="text/javascript">
+		$("p").on("click", function(){
+		    $(this).hide();
+		});
+		
+		
 		var searchRequest= new XMLHttpRequest();
 		var registerRequest= new XMLHttpRequest();
 			function searchFunction(){
-				searchRequest.open("Post", "./UserSearch.bg?userName="+encodeURIComponent(document.getElementById("userName").value), true);
+				searchRequest.open("Post", "./UserSearch?userName="+encodeURIComponent(document.getElementById("userName").value), true);
 				searchRequest.onreadystatechange = searchProcess;
 				searchRequest.send(null);
 			}
@@ -24,6 +28,7 @@
 				if(searchRequest.readyState==4 && searchRequest.status==200){
 					var object = eval('(' +searchRequest.responseText+ ')');
 					var result= object.result;
+					console.log(typeof result)
 					for(var i=0; i<result.length;i++){
 						var row=table.insertRow(0);
 						for(var j=0; j < result[i].length;j++){
@@ -34,8 +39,14 @@
 				}
 			}
 			
+			
+			
+			
+			
+			
+			
 			function registerFunction(){	
-				registerRequest.open("Post", "./UserInsert.bg?userName=" + encodeURIComponent(document.getElementById("registerName").value) +
+				registerRequest.open("Post", "./UserInsert?userName=" + encodeURIComponent(document.getElementById("registerName").value) +
 						"&userAge="+encodeURIComponent(document.getElementById("registerAge").value)+
 						"&userGender="+encodeURIComponent($('input[name=registerGender]:checked').val())+
 						"&userEmail="+encodeURIComponent(document.getElementById("registerEmail").value), true);
@@ -71,9 +82,8 @@
 </head>
 
 
-<body style="width: 1280px; margin: 0 auto;">
-	<header><jsp:include page="/resources/include/header.jsp"/></header>
-    
+<body>
+
 		<br>
 	 	<div class="container">
 				<div class="form-group row pull-right">
@@ -101,7 +111,6 @@
 								<td>abc@naver.com</td>
 						</tr>
 					</tbody>
-				
 				</table>
 		</div> 
 		<div class="container">
@@ -139,13 +148,12 @@
 					</tr>
 					<tr>
 						<td colspan="2"><button class="btn btn-primary pull-right" onclick="registerFunction();" type="button" >등록</button>
-					
 					</tr>
 				</tbody>			
 			</table>
 		</div>
 		
-		<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
+		
 </body>
 
 </html>

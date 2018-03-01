@@ -6,9 +6,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="boss.cashbook.model.BankCorpBean">
 	
-	<!-- 은행 전체 코드를 불러오기 -->
-	<select id="bank_list" resultType="bankCorp">
+	<!-- 전체 코드를 불러오기 -->
+	<select id="allBankList" resultType="bankCorp">
 		select * from bank_corp
+	</select>
+	
+	<!-- 은행 코드를 불러오기 -->
+	<select id="bankList" resultType="bankCorp">
+		select * from bank_corp where bank_code != 'money'
+	</select>
+	
+	<!-- 비은행 코드를 불러오기 -->
+	<select id="unBankList" resultType="bankCorp">
+		select * from bank_corp where bank_code = 'money' 
 	</select>
 	
 	<!-- 은행 1개의 코드를 불러오기 -->

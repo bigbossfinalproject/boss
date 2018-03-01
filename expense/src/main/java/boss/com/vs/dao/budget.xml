@@ -8,15 +8,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
  	<!-- 예산 목록  -->  
 	 <select id="budget_list" parameterType="String" resultType="budget">
-		select * from budget
+		select * from budget where to_char(budget_date,'YYYY-MM')=#{budget_date}
+	</select>
+	<!-- 예산 엑셀 목록  -->  
+	 <select id="budget_excel_list" parameterType="String" resultType="budget">
+		select * from budget 
 	</select>
 	
+	
+	<!-- 예산 중복 확인  -->  
+	 <select id="insert_check" parameterType="String" resultType="int">
+			select count(*) from budget where to_char(budget_date,'YYYY-MM')=to_char(sysdate,'YYYY-MM') and ITEM_code=#{item_code}
+	</select>
+
 	<!-- 통합 예산 목록 -->
-	<select id="budget_list_total" resultType="budget">
-	select sum(budget_amount) budget_amount, 
-sum(budget_amount_spent) budget_amount_spent from budget
+	<select id="budget_total_list" resultType="budget">
+	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYYMM') budget_date from budget group by to_char(budget_date,'YYYYMM')
 	</select>
-	
+	<!-- 아이템 리스트 -->
+	<select id="item_list" resultType="String">
+	select item_name from item
+	</select>
 	
 	<!-- 예산 등록 -->
  <insert id="budget_insert" parameterType="budget">
@@ -42,7 +54,7 @@ sum(budget_amount_spent) budget_amount_spent from budget
  
  	<!-- 예산 수정 -->
   <update id="budget_modify" parameterType="budget">
- 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code} 
+ 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
  	where budget_code=#{budget_code}
  </update>
  

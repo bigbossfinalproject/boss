@@ -103,10 +103,7 @@ th {
 tr:NTH-OF-TYPE(2n+1) {
 	background-color: #b0c4de;
 }
-/* .asset_list:HOVER {
-			background-color: #9FA0A1;
-			color: white;
-		} */
+
 .no, .text, .date {
 	text-align: center; /* 번호, 문자, 날짜는 중앙 정렬 */
 }
@@ -159,14 +156,10 @@ input, select, option {
 </head>
 <body style="width: 1280px; margin: 0 auto;">
 	<header><jsp:include page="/resources/include/header.jsp"/></header>
-	아이디 : ${ user.root_id } / 이름 : ${ user.root_name }회원님 반갑습니다.<br>
-	고유번호 : ${ user.root_idn } / 이메일 : ${ user.root_email } 입니다.<br>
+	아이디 : ${ root_Id } / 고유번호 : ${ root_Idn } 입니다.<br>
 	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="item_write.do">분류항목 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="expense_write.do">지출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="asset_write.do">자산 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
@@ -220,14 +213,15 @@ input, select, option {
 								<%-- <c:out value="${ eList.root_idn }" /><c:out value="${ eList.root_id }" /><c:out value="${ eList.expense_id }" /> --%>
 								<input type="date" class="modify" id="expense_date_<%= btnCnt %>" name="expense_date" value="${ eList.expense_date }" style="width:145px;">
 							</td>
-							<!-- 지출 중분류 항목 select 태그 -->
+							<%-- 지출 중분류 항목 select 태그 --%>
 							<td class="text" id="parent_item_<%= btnCnt %>" style="padding: 0;">
+								<input type="hidden" id="children_code_<%= btnCnt %>" value="${ eList.item_code }">
 								<select style="width: 110px; height: 50px;" id="parent_code_<%= btnCnt %>" name="parent_code">
 									<c:forEach items="${ itemList }" var="item">
 										<c:if test="${ item.item_level == 2 }">
 											<c:choose>
 												<c:when test="${ item.item_code == eList.parent_code }">
-													<option value="${ item.item_code }" selected="selected">
+													<option id="item_value_<%=btnCnt %>" value="${ item.item_code }" selected="selected">
 														<c:out value="${ item.item_name }" />
 													</option>
 												</c:when>
@@ -241,9 +235,9 @@ input, select, option {
 									</c:forEach>
 								</select>
 							</td>
-							<!-- 지출 세부항목 select 태그 -->
+							<%-- 지출 세부항목 select 태그 --%>
 							<td class="text" id="expense_item_<%= btnCnt %>" style="padding: 0;">
-								<select style="width: 130px; height: 50px;" id="item_code_<%= btnCnt %>" name="item_code">
+								<%-- <select style="width: 130px; height: 50px;" id="item_code_<%= btnCnt %>" name="item_code">
 									<c:forEach items="${ itemList }" var="item">
 										<c:if test="${ item.item_level == 3 }">
 											<c:choose>
@@ -260,10 +254,11 @@ input, select, option {
 											</c:choose>
 										</c:if>
 									</c:forEach>
-								</select>
+								</select> --%>
 							</td>
-							<!-- 지출 거래유형 select 태그 -->
+							<%-- 지출 거래유형 select 태그 --%>
 							<td class="text" id="expense_trade_<%= btnCnt %>" style="padding: 0;">
+								<input type="hidden" id="asset_code_<%= btnCnt %>" name="asset_code" value="${ eList.asset_code }">
 								<select style="width: 95px; height: 50px;" id="trade_code_<%= btnCnt %>" name="trade_code">
 									<c:forEach items="${ tradeList }" var="trade">
 										<c:choose>
@@ -281,9 +276,9 @@ input, select, option {
 									</c:forEach>
 								</select>
 							</td>
-							<!-- 지출 자산 또는 카드 목록 select 태그 -->
+							<%-- 지출 자산 또는 카드 목록 select 태그 --%>
 							<td class="text" id="expense_asset_<%= btnCnt %>" style="padding: 0;">
-								<select style="width: 155px; height: 50px;" id="asset_code_<%= btnCnt %>" name="asset_code">
+								<%-- <select style="width: 155px; height: 50px;" id="asset_code_<%= btnCnt %>" name="asset_code">
 									<c:forEach items="${ assetList }" var="asset">
 										<c:choose>
 											<c:when test="${ eList.asset_code == asset.asset_code }">
@@ -312,9 +307,9 @@ input, select, option {
 											</c:when>
 										</c:choose>
 									</c:forEach>
-								</select>
+								</select> --%>
 							</td>
-							<!-- 지출한 상세 내용을 기록한 input 태그 -->
+							<%-- 지출한 상세 내용을 기록한 input 태그 --%>
 							<td class="text" id="expense_discription_<%= btnCnt %>" style="padding: 0; height: 50px;">
 								<input type="text" id="expense_discription_<%= btnCnt %>" name="expense_discription" class="modify" value="${ eList.expense_discription }" style="width:235px; line-height:40px;">
 							</td>
@@ -353,8 +348,218 @@ input, select, option {
 		// 버튼 번호 선언 변수
 		var btnCnt = <%= btnCnt %>;
 		
+		// 지출 분류 항목을 사용하기 위해 선언한 변수
+		var parent_sel_val = new Array();
+		var children_det_id = new Array();
+		var parent_td_id = new Array();
+		var children_hdn_val = new Array();
+		
+		// 지출 유형에 따른 계좌명을 사용하기 위해 선언한 변수
+		var trade_val = new Array();
+		var asset_input_id = new Array();
+		var trade_id = new Array();
+		var asset_hdn_val = new Array();
+		
+		for(var i = 1; i < btnCnt; i++) {
+			parent_sel_val[(i-1)] = $('td[id="parent_item_'+i+'"]').children('select:last-child').val();			// 지출 중분류 항목 코드값
+			children_det_id[(i-1)] = $('td[id="expense_item_'+i+'"]').attr('id');											// 지출 세부항목 콤보박스를 삽입하기 위한 id값
+			parent_td_id[(i-1)] = $('td[id="parent_item_'+i+'"]').children('input:first-child').attr('id');
+			children_hdn_val[(i-1)] = $('td[id="parent_item_'+i+'"]').children('input:first-child').val();			// 지출 세부항목 값
+			
+			trade_val[(i-1)] = $('td[id="expense_trade_'+i+'"]').children('select:last-child').val();				// 지출 중분류 항목 코드값
+			asset_input_id[(i-1)] = $('td[id="expense_asset_'+i+'"]').attr('id');												// 지출 세부항목 콤보박스를 삽입하기 위한 id값
+			trade_id[(i-1)] = $('td[id="expense_trade_'+i+'"]').children('input:first-child').attr('id');
+			asset_hdn_val[(i-1)] = $('td[id="expense_trade_'+i+'"]').children('input:first-child').val();		// 지출 세부항목 값
+		}
+		
+		for(var i = 0; i < parent_sel_val.length; i++) {
+			//console.log("중분류 항목 value : "+parent_sel_val[i]+"  세부항목 id : "+children_det_id[i]+"  자식 아이템 id : "+parent_td_id[i]+"   자식 아이템 value : "+children_hdn_val[i]);
+			expenseDetailItemLoad(children_det_id[i], parent_sel_val[i], children_hdn_val[i]);
+			//console.log("trade_val : "+trade_val[i]+"  asset_input_id : "+asset_input_id[i]+"  trade_id : "+trade_id[i]+"   asset_hdn_val : "+asset_hdn_val[i]);
+			expenseAssetLoad(asset_input_id[i], trade_val[i], asset_hdn_val[i]);
+		}
+		
+		//console.log('trade_val : '+trade_val.length+'   asset_input_id : '+asset_input_id.length+'   trade_id : '+trade_id.length+'   asset_hdn_val : '+asset_hdn_val.length)
+		/* for(var i = 0; i < trade_val.length; i++) {
+			console.log("trade_val : "+trade_val[i]+"  asset_input_id : "+asset_input_id[i]+"  trade_id : "+trade_id[i]+"   asset_hdn_val : "+asset_hdn_val[i]);
+			expenseAssetLoad(asset_input_id[i], trade_val[i], asset_hdn_val[i]);
+		} */
+		
+		// 페이지로드시 실행하기 지출 세부항목을 호출하기 위한 함수
+		function expenseDetailItemLoad(id, val, chdVal){	// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
+			
+			// item_modify ajaxSetup 선언
+			$.ajaxSetup({
+				type:'post',
+				url:'exp_detail_item.do',
+				dataType:'text',
+				success:function(msg){
+					var ssg = msg+'';
+					//console.log("ajax 성공 메세지 : "+ssg);
+					$('td[id="'+id+'"]').html(msg);
+				}
+			});
+			//console.log("중분류 항목 value : "+val+"  세부항목 id : "+id+"   자식 아이템 value : "+chdVal);
+			var parent_code = val;				// 부모 아이템 코드
+			var children_code = chdVal;		// 자식 아이템 코드
+			//var parnet_code = parent_code.substr(0, (idn.length+4));
+			var sendData = 'parent_code='+parent_code+'&children_code='+children_code;
+			//console.log('parent_code ; '+parent_code);
+			
+			$.ajax({
+				data:sendData
+			})
+			
+		}
+		
+		// 페이지로드시 실행하기 지출 세부항목을 호출하기 위한 함수
+		function expenseAssetLoad(id, val, chdVal){			// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
+			
+			if(val == 'cash' || val =='account') {
+				// item_modify ajaxSetup 선언
+				$.ajaxSetup({
+					type:'post',
+					url:'exp_detail_asset.do',
+					dataType:'text',
+					success:function(msg){
+						var ssg = msg+'';
+						//console.log("ajax 성공 메세지 : "+ssg);
+						$('td[id="'+id+'"]').html(msg);
+					}
+				});
+				//console.log("지출유형 코드 value : "+val+"  콤보박스가 들어갈 태그 id : "+id+"   계좌명 value : "+chdVal);
+				var trade_code = val;				// 지출/거래 유형 코드
+				var asset_code = chdVal;			// 지출 자산 코드
+				//var parnet_code = parent_code.substr(0, (idn.length+4));
+				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code;
+				//console.log('parent_code ; '+parent_code);
+				
+				$.ajax({
+					data:sendData
+				})
+			} else {
+				// item_modify ajaxSetup 선언
+				$.ajaxSetup({
+					type:'post',
+					url:'exp_detail_card.do',
+					dataType:'text',
+					success:function(msg){
+						var ssg = msg+'';
+						//console.log("ajax 성공 메세지 : "+ssg);
+						$('td[id="'+id+'"]').html(msg);
+					}
+				});
+				//console.log("중분류 항목 value : "+val+"  세부항목 id : "+id+"   자식 아이템 value : "+chdVal);
+				var trade_code = val;				// 지출/거래 유형 코드
+				var asset_code = chdVal;		// 지출 카드 코드
+				//var parnet_code = parent_code.substr(0, (idn.length+4));
+				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code;
+				//console.log('parent_code ; '+parent_code);
+				
+				$.ajax({
+					data:sendData
+				})
+			}
+		}
+		
+		// 중분류 콤보박스의 정보가 변경될 경우 작동되는 이벤트 함수
+		$(document).on('change', 'select[name="parent_code"]', function(){
+			expenseDetailItem(this);
+		});
+		
+		// 지출유형 콤보박스의 정보가 변경될 경우 작동되는 이벤트 함수
+		$(document).on('change', 'select[name="trade_code"]', function(){
+			//console.log("trade_code이름의 select태그 값 변경");
+			expenseDetailAsset(this);
+		});
+		
+		// 세분류 항목이 ajax에 적용될 수 있도록 함수 선언
+		function expenseDetailItem(data) {
+			
+			//var sel_id = $(data).attr('id');
+			//var hi_sel_id = $(data).parent().attr('id');
+			var sel_val = $(data).val();																				// select에 적용되어 있는 value값 변수에 저장
+			var det_id = $(data).parent().parent().children('td:nth-child(6)').attr('id');				// ajax파일을 삽입할 td 태그 이름 
+			
+			//console.log("분류 select id : "+sel_id+"   분류 select value : "+sel_val+"   상위 td태그 id : "+hi_sel_id+"  세분류 select id : "+det_id);
+			// ajaxSetup 선언
+			$.ajaxSetup({
+				type:'post',
+				url:'exp_detail_item.do',
+				dataType:'text',
+				success:function(msg){
+					$('td[id="'+det_id+'"]').html(msg);
+				}
+			});
+			
+			var sendData = 'parent_code='+sel_val;
+			
+			$.ajax({
+				data:sendData
+			})
+			
+		}
+		
+		// 세분류 항목이 ajax에 적용될 수 있도록 함수 선언
+		function expenseDetailAsset(data) {
+			
+			var sel_id = $(data).attr('id');
+			var hi_sel_id = $(data).parent().attr('id');
+			var sel_val = $(data).val();																				// select에 적용되어 있는 value값 변수에 저장
+			var det_id = $(data).parent().parent().children('td:nth-child(8)').attr('id');				// ajax파일을 삽입할 td 태그 이름 
+			
+			//console.log("분류 select id : "+sel_id+"   분류 select value : "+sel_val+"   상위 td태그 id : "+hi_sel_id+"  세분류 select id : "+det_id);
+			if(sel_val == 'cash' || sel_val == 'account') {
+				// ajaxSetup 선언
+				$.ajaxSetup({
+					type:'post',
+					url:'exp_detail_asset.do',
+					dataType:'text',
+					success:function(msg){
+						$('td[id="'+det_id+'"]').html(msg);
+					}
+				});
+				
+				var sendData = 'trade_code='+sel_val;
+				
+				$.ajax({
+					data:sendData
+				})
+			} else {
+				// ajaxSetup 선언
+				$.ajaxSetup({
+					type:'post',
+					url:'exp_detail_card.do',
+					dataType:'text',
+					success:function(msg){
+						$('td[id="'+det_id+'"]').html(msg);
+					}
+				});
+				
+				var sendData = 'trade_code='+sel_val;
+				
+				$.ajax({
+					data:sendData
+				})
+			}
+			
+		}
+
+		$(document).on('click', '#add_row', function(){
+			var value = row_add();
+			expenseDetailItemLoad(value[0], value[1], value[2])		// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
+			expenseAssetLoad(value[3], value[4], value[5])				// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
+		});
+		
 		// 자산 목록 행 추가하는 함수
-		$('#add_row').click(function() {
+		function row_add(){
+			var value = new Array();   // (아이템 삽입할 태그 id, 중분류 코드, 세부항목 코드, 자산 삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
+			value[0] = 'expense_item_'+btnCnt;		// 아이템 삽입할 태그 id
+			value[1] = '1e003000';							// 초기 중분류 코드
+			value[2] = '1e003002';							// 세부 항목 코드
+			value[3] = 'expense_asset_'+btnCnt;		// 자산 삽입할 태그 id
+			value[4] = 'cash';								// 지출 유형 코드
+			value[5] = '1cs001';								// 자산/카드 코드
 			
 			var rowItem = "<tr>"
 			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ user.root_idn }">';
@@ -362,7 +567,58 @@ input, select, option {
 			rowItem += '<input type="hidden" id="expense_id_'+btnCnt+'" name="expense_id" value="new_code">';
 			/* 지출 일자를 입력할 input date 태그 */
 			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:145px;"></td>';
+			
 			/* 지출 중분류 항목을 지정할 select 태그 */
+			rowItem += '<td class="text" id="parent_item_'+btnCnt+'" style="padding: 0;"><select style="width: 110px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
+			for(var i = 0; i < itemCode.length; i++) {
+				if(itemLevel[i] == 2) {	
+					if(itemCode[i] == '1e003000') {
+						rowItem += '<option value="'+itemCode[i]+'" selected="selected">'+itemName[i]+'</option>';
+					} else {
+						rowItem += '<option value="'+itemCode[i]+'">'+itemName[i]+'</option>';
+					}
+				}
+			}
+			rowItem += '</select></td>';
+			
+			/* 지출 세부항목을 지정할 select 태그 */
+			rowItem += '<td class="text" id="expense_item_'+btnCnt+'" style="padding: 0;"></td>';
+			
+			/* 지출 거래유형을 지정할 select 태그 */
+			rowItem += '<td class="text" id="expense_trade_'+btnCnt+'" style="padding: 0;"><select style="width: 95px; height: 50px;" id="trade_code_'+btnCnt+'" name="trade_code">';
+			for(var i = 0; i < tradeCode.length; i++) {
+				if(tradeCode[i] == 'cash') {
+					rowItem += '<option value="'+tradeCode[i]+'" selected="selected">'+tradeName[i]+'</option>';
+				} else {
+					rowItem += '<option value="'+tradeCode[i]+'">'+tradeName[i]+'</option>';
+				}
+			}
+			rowItem += '</select></td>';
+			
+			/* 지출할 자산계좌/카드 목록을 보여줄 select 태그 */
+			rowItem += '<td class="text" id="expense_asset_'+btnCnt+'"style="padding: 0;"></td>';
+			
+			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:235px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
+			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 95px;"></b></td>'
+			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:75px; line-height:45px;"></td>';
+			
+			btnCnt++;
+			$('#expense_table').append(rowItem)/* .trigger('create'); */
+			
+			return value;
+		}
+		
+		/* 
+		// 자산 목록 행 추가하는 함수
+		$('#add_row').click(function() {
+			
+			var rowItem = "<tr>"
+			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ user.root_idn }">';
+			rowItem += '<input type="hidden" id="root_id_'+btnCnt+'" name="root_id" value="${ user.root_id }">';
+			rowItem += '<input type="hidden" id="expense_id_'+btnCnt+'" name="expense_id" value="new_code">';
+			// 지출 일자를 입력할 input date 태그
+			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:145px;"></td>';
+			// 지출 중분류 항목을 지정할 select 태그
 			rowItem += '<td class="text" style="padding: 0;"><select style="width: 110px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
 			for(var i = 0; i < itemCode.length; i++) {
 				if(itemLevel[i] == 2) {	
@@ -374,19 +630,23 @@ input, select, option {
 				}
 			}
 			rowItem += '</select></td>';
-			/* 지출 세부항목을 지정할 select 태그 */
-			rowItem += '<td class="text" style="padding: 0;"><select style="width: 130px; height: 50px;" id="item_code_'+btnCnt+'" name="item_code">';
-			for(var i = 0; i < itemCode.length; i++) {
-				if(itemLevel[i] == 3) {
-					if(itemCode[i] == '1e003002') {
-						rowItem += '<option value="'+itemCode[i]+'" selected="selected">'+itemName[i]+'</option>';
-					} else {
-						rowItem += '<option value="'+itemCode[i]+'">'+itemName[i]+'</option>';
-					}
-				}
-			}
-			rowItem += '</select></td>';
-			/* 지출 거래유형을 지정할 select 태그 */
+			
+			// 지출 세부항목을 지정할 select 태그
+			rowItem += '<td class="text" style="padding: 0;">';
+			rowItem += '</td>';
+			// rowItem += '<td class="text" style="padding: 0;"><select style="width: 130px; height: 50px;" id="item_code_'+btnCnt+'" name="item_code">';
+			//for(var i = 0; i < itemCode.length; i++) {
+			//	if(itemLevel[i] == 3) {
+			//		if(itemCode[i] == '1e003002') {
+			//			rowItem += '<option value="'+itemCode[i]+'" selected="selected">'+itemName[i]+'</option>';
+			//		} else {
+			//			rowItem += '<option value="'+itemCode[i]+'">'+itemName[i]+'</option>';
+			//		}
+			//	}
+			//}
+			//owItem += '</select></td>';
+			
+			// 지출 거래유형을 지정할 select 태그
 			rowItem += '<td class="text" style="padding: 0;"><select style="width: 95px; height: 50px;" id="trade_code_'+btnCnt+'" name="trade_code">';
 			for(var i = 0; i < tradeCode.length; i++) {
 				if(tradeCode[i] == 'cash') {
@@ -396,23 +656,26 @@ input, select, option {
 				}
 			}
 			rowItem += '</select></td>';
-			/* 지출할 자산계좌/카드 목록을 보여줄 select 태그 */
-			rowItem += '<td class="text" style="padding: 0;"><select style="width: 155px; height: 50px;" id="asset_code_'+btnCnt+'" name="asset_code">';
-			for(var i = 0; i < assetCode.length; i++) {
-				if(assetCode[i] == '1cs001') {
-					rowItem += '<option value="'+assetCode[i]+'" selected="selected">'+assetName[i]+'</option>';
-				} else {
-					rowItem += '<option value="'+assetCode[i]+'">'+assetName[i]+'</option>';
-				}
-			}
-			for(var i = 0; i < cardCode.length; i++) {
-				if(assetCode[i] == '1cs001') {
-					rowItem += '<option value="'+cardCode[i]+'" selected="selected">'+cardName[i]+'</option>';
-				} else {
-					rowItem += '<option value="'+cardCode[i]+'">'+assetName[i]+'</option>';
-				}
-			}
-			rowItem += '</select></td>';
+			
+			// 지출할 자산계좌/카드 목록을 보여줄 select 태그
+			rowItem += '<td class="text" style="padding: 0;">';
+			rowItem += '</td>';
+			// rowItem += '<td class="text" style="padding: 0;"><select style="width: 155px; height: 50px;" id="asset_code_'+btnCnt+'" name="asset_code">';
+			//for(var i = 0; i < assetCode.length; i++) {
+			//	if(assetCode[i] == '1cs001') {
+			//		rowItem += '<option value="'+assetCode[i]+'" selected="selected">'+assetName[i]+'</option>';
+			//	} else {
+			//		rowItem += '<option value="'+assetCode[i]+'">'+assetName[i]+'</option>';
+			//	}
+			//}
+			//for(var i = 0; i < cardCode.length; i++) {
+			//	if(assetCode[i] == '1cs001') {
+			//		rowItem += '<option value="'+cardCode[i]+'" selected="selected">'+cardName[i]+'</option>';
+			//	} else {
+			//		rowItem += '<option value="'+cardCode[i]+'">'+assetName[i]+'</option>';
+			//	}
+			//}
+			//rowItem += '</select></td>';
 			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:235px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
 			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 95px;"></b></td>'
 			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:75px; line-height:45px;"></td>';
@@ -420,13 +683,16 @@ input, select, option {
 			btnCnt++;
 			$('#expense_table').append(rowItem).trigger('create');
 			
-		});
+			expenseDetailItem(this);
+			expenseDetailAsset(this);
+			
+		}); */
 		
 		// 체크박스 체크여부에 따른 값 설정 함수
 		$(document).on("change", 'input', function(){
 			var cname =$(this).attr('id');
 			var cnum = cname.substr(10);
-			console.log("클래스번호 : "+cnum);
+			//console.log("클래스번호 : "+cnum);
 			if($("#asset_use_"+cnum).is(":checked")) {
 				$('#check_result_'+cnum).val('Y');
 				console.log("체크했음");
@@ -434,7 +700,7 @@ input, select, option {
 				$('#check_result_'+cnum).val('N');
 				console.log("체크해제");
 			}
-			console.log("체크박스 값 : "+$('#check_result_'+cnum).val());
+			//console.log("체크박스 값 : "+$('#check_result_'+cnum).val());
 		})
 		
 		// label에 숫자가 입력된 값을 클릭하면 input태그로 전환하는 함수
@@ -444,10 +710,10 @@ input, select, option {
 			val = val.replace(',', '');
 			var num = Number(val);
 			var btnNum = td_id.substr(15);
-			console.log('val자료형 : '+typeof(val)+' / label_value : '+val+' / parent_id : '+td_id);
+			//console.log('val자료형 : '+typeof(val)+' / label_value : '+val+' / parent_id : '+td_id);
 			//var parent_id = $('td[id="'+val+'"]').attr('id');
 			var parent_id = $('td[id="'+td_id+'"]').attr('id');
-			console.log('parent_id : '+parent_id);
+			//console.log('parent_id : '+parent_id);
 			var input = '<b><input type="text" id="expense_amount'+btnNum+'" name="expense_amount" class="modify" value="'+num+'" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:35px; margin:0; border:0; width: 95px;"></b>';
 			$(this).remove();
 			$('td[id="'+td_id+'"]').append(input).trigger('create');
@@ -461,10 +727,10 @@ input, select, option {
 			var id = $(this).children().attr('id');
 			var val = $(this).children().val();
 			var txt = $(this).children().text();
-			console.log('id : '+id+' / text : '+ txt+ ' / value : '+val);
+			//console.log('id : '+id+' / text : '+ txt+ ' / value : '+val);
 		});
 		
-		// 
+		// 클릭시 td영역을 삭제하는 구문
 		$(document).on("click", "#row_remove", function() {
 			var cmd = 'remove';
 			cmd += $(this).parent().parent().children('input:nth-child(3)').val();
@@ -476,12 +742,14 @@ input, select, option {
 			
 		});
 		
+		// input태그가 활성화되어 있을 경우 클래스를 추가해주는 구문
 		$(document).on('focus', 'input', function() {
 			$(this).addClass('input-control');
 			var txt = $(this).text();
 			console.log(txt);
 		})
 		
+		// input태그가 비활성화되어 있을 경우 클래스를 삭제해주는 구문
 		$(document).on('blur', 'input', function() {
 			$(this).removeClass('input-control');
 			var txt = $(this).text();

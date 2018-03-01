@@ -11,12 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<insert id="user_insert" parameterType="user">
 		insert into ajax_user values(#{userName},#{userAge},#{userGender},#{userEmail})
-	</insert>
-
- 
-  
- 
- 
+	</insert> 
 </mapper>
 
 

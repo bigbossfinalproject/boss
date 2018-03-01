@@ -1,5 +1,6 @@
 package boss.com.vs.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BudgetBean {
@@ -7,7 +8,7 @@ public class BudgetBean {
 	int root_idn;                   
 	int budget_amount;                    
 	int budget_amount_spent;              
-	Timestamp budget_date;  
+	String budget_date;  
 	String item_code;
 	
 	
@@ -36,10 +37,13 @@ public class BudgetBean {
 	public void setBudget_amount_spent(int budget_amount_spent) {
 		this.budget_amount_spent = budget_amount_spent;
 	}
-	public Timestamp getBudget_date() {
+	
+	
+	
+	public String getBudget_date() {
 		return budget_date;
 	}
-	public void setBudget_date(Timestamp budget_date) {
+	public void setBudget_date(String budget_date) {
 		this.budget_date = budget_date;
 	}
 	public String getItem_code() {

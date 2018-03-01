@@ -8,10 +8,11 @@
 <%@ page import="java.util.List" %>
 
 <%
-	ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+	int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+	String rootId = (String) session.getAttribute("root_Id");
 	List<ItemBean> iList = (List<ItemBean>) request.getAttribute("itemList");
 	int btnCnt = 1;
-	String root_idn = user.getRoot_idn()+"";
+	String root_idn = rootIdn+"";
 %>
 
 <!DOCTYPE html>
@@ -126,14 +127,10 @@
 <body style="width: 1280px; margin: 0 auto;">
 	<header><jsp:include page="/resources/include/header.jsp"/></header>
     
-	아이디 : ${ user.root_id } / 이름 : ${ user.root_name }회원님 반갑습니다.<br>
-	고유번호 : ${ user.root_idn } / 이메일 : ${ user.root_email } 입니다.<br>
+	아이디 : ${ root_Id } / 고유번호 : ${ root_Idn } 입니다.<br>
 	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="item_write.do">분류항목 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="expense_write.do">지출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="asset_write.do">자산 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
 	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
 	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
@@ -216,39 +213,40 @@
 	$(function() {
 		
 		// jsp에서 사용하던 변수 값을  js변수에 저장
-		var idn = <%= user.getRoot_idn() %>+'';
+		var idn = <%= rootIdn %>+'';
 		var btnCnt = <%= btnCnt %>;
 		//console.log('btnCnt에 저장된 값 : '+btnCnt);
 		
-		// 중분류 항목의 코드 값을 호출하여 변수에 저장
-		var td_val = new Array();
+		
+		var td_val = new Array();			// 중분류 항목의 코드 값을 호출하여 변수에 저장
+		var dt_id = new Array();				// 세부 항목의 td태그 id값을 호출하여 변수에 저장
 		for(var i = 1; i < btnCnt; i++) {
 			td_val[(i-1)] = $('td[id^="mid_item_'+i+'"]').children().val();
+			dt_id[(i-1)] = $('td[id^="detail_item_'+i+'"]').attr('id');
 		}
-		//console.log('td[id^="mid_item_"]로 호출 받은 개수 : '+td_val.length);
+		/* for(var i = 1; i < btnCnt; i++) {
+			dt_id[(i-1)] = $('td[id^="detail_item_'+i+'"]').attr('id');
+		} */
+		/* //console.log('td[id^="mid_item_"]로 호출 받은 개수 : '+td_val.length);
 		for(var i= 0; i < td_val.length; i++) {
 			//console.log(i+'번째 td_id에 저장된 값 : '+td_val[i]);
-		}
+		} */
 		
-		// 중분류 항목의 td태그 id값을 호출하여 변수에 저장
+		/* // 중분류 항목의 td태그 id값을 호출하여 변수에 저장
 		var td_id = new Array();
 		for(var i = 1; i < btnCnt; i++) {
 			td_id[(i-1)] = $('td[id^="mid_item_'+i+'"]').attr('id');
-		}
+		} */
 		//console.log('td[id^="mid_item_"]로 호출 받은 개수 : '+td_id.length);
-		for(var i= 0; i < td_id.length; i++) {
+		/* for(var i= 0; i < td_id.length; i++) {
 			//console.log(i+'번째 td_id에 저장된 값 : '+td_id[i]);
-		}
+		} */
 		
-		// 세부 항목의 td태그 id값을 호출하여 변수에 저장
-		var dt_id = new Array();
-		for(var i = 1; i < btnCnt; i++) {
-			dt_id[(i-1)] = $('td[id^="detail_item_'+i+'"]').attr('id');
-		}
+		
 		//console.log('td[id^="detail_item_"]로 호출 받은 개수 : '+dt_id.length);
-		for(var i= 0; i < dt_id.length; i++) {
+		/* for(var i= 0; i < dt_id.length; i++) {
 			//console.log(i+'번째 dt_id에 저장된 값 : '+dt_id[i]);
-		}
+		} */
 		
 		for(var i = 0; i < (btnCnt-1); i++) {
 			itemLoad(dt_id[i], td_val[i]);			// detail_item_id, mid_item_value
@@ -335,6 +333,7 @@
 		// 데이터를 삭제하는 함수 지정
 		function itemRemove(data) {
 			
+			// 삭제할 데이터의 div id값을 추출하여 변수에 저장
 			var id = $(data).parent().parent().children('td:nth-child(3)').attr('id');
 			//console.log('itemAdd버튼 클릭시 가져오는 id값 : '+id);
 			// item_modify ajaxSetup 선언
@@ -343,7 +342,7 @@
 				url:'item_remove.do',
 				dataType:'text',
 				success:function(msg){
-					var ssg = msg+'';
+					//var ssg = msg+'';
 					//console.log("ajax 성공 메세지 : "+ssg);
 					$('td[id="'+id+'"]').html(msg);
 				}

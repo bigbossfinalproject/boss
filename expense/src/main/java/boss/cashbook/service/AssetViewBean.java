@@ -9,11 +9,13 @@ public class AssetViewBean {
 	private String asset_name;
 	private String asset_purpose;
 	private String bank_name;
+	private String bank_code;
 	private int basic_amount;
 	private int now_amount;
 	private int root_idn;
 	private String root_id;
 	private String asset_code;
+	private String asset_use;
 	
 	public int getAsset_seq() {
 		return asset_seq;
@@ -51,6 +53,12 @@ public class AssetViewBean {
 	public void setBank_name(String bank_name) {
 		this.bank_name = bank_name;
 	}
+	public String getBank_code() {
+		return bank_code;
+	}
+	public void setBank_code(String bank_code) {
+		this.bank_code = bank_code;
+	}
 	public int getBasic_amount() {
 		return basic_amount;
 	}
@@ -81,5 +89,11 @@ public class AssetViewBean {
 	public void setAsset_code(String asset_code) {
 		this.asset_code = asset_code;
 	}
-	
+	public String getAsset_use() {
+		return asset_use;
+	}
+	public void setAsset_use(String asset_use) {
+		this.asset_use = asset_use;
+	}
+		
 }

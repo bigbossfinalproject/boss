@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.user.model.User_Bean"> 
+	
+	 <update id="userModify" parameterType="java.util.Map">
+		update object_root set root_Pwd = #{root_Pwd}, root_Email=#{root_Email}, root_Job=#{root_Job}, root_Address=#{root_Address} where root_Id = #{root_Id}			
+	</update>
+</mapper>
+

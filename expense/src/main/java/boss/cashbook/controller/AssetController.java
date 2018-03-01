@@ -154,7 +154,8 @@ public class AssetController {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		String rootId = (String) session.getAttribute("root_Id");
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("expense/asset_list");
@@ -163,8 +164,8 @@ public class AssetController {
 		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
 		Date d = new Date(cal.getTimeInMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(d);
-		mv.addObject("date", date);
+		String today = sdf.format(d);
+		mv.addObject("date", today);
 		
 		// 거래 유형 정보 목록을 가져와서 브라우저로 보내주는 문법 
 		List<TradeBean> tList = tradeDao.tradeList();
@@ -176,18 +177,19 @@ public class AssetController {
 		mv.addObject("trade", tList);
 		
 		// 은행 정보 목록을 가져와서 브라우저로 보내주는 문법
-		List<BankCorpBean> bList = bankCorpDao.bankList();
+		List<BankCorpBean> bList = bankCorpDao.allBankList();
 		mv.addObject("bank", bList);
 		
 		// DB에 저장되어 있는 자산 목록을 브라우저로 보내주는 문법
-		List<AssetBean> assetList = assetDao.memAssetList(user.getRoot_idn());
+		List<AssetBean> assetList = assetDao.memAssetList(rootIdn);
+		System.out.println("assetList개수 : "+assetList.size());
 		List<AssetViewBean> viewList = new ArrayList<AssetViewBean>();
 		int seq = 1;
 		for(AssetBean a : assetList) {
 			AssetViewBean view = new AssetViewBean();
 			view.setAsset_seq(seq++);
-			if(a.getRoot_idn() == user.getRoot_idn()) {
-				view.setRoot_id(user.getRoot_id());
+			if(a.getRoot_idn() == rootIdn) {
+				view.setRoot_id(rootId);
 			}
 			view.setRoot_idn(a.getRoot_idn());
 			view.setAsset_name(a.getAsset_name());
@@ -203,6 +205,7 @@ public class AssetController {
 			for(BankCorpBean b : bList) {
 				if(a.getBank_code().equals(b.getBank_code())) {
 					view.setBank_name(b.getBank_name());
+					view.setBank_code(b.getBank_code());
 				}
 			}
 			
@@ -219,9 +222,33 @@ public class AssetController {
 			}
 			view.setNow_amount((a.getNow_amount()-sum));
 			view.setAsset_code(a.getAsset_code());
+			view.setAsset_use(a.getAsset_use());
 			viewList.add(view);
 		}
 		mv.addObject("assetList", viewList);
+		
+		return mv;
+	}
+	
+	// 자산 유형을 선택하면 해당 거래 은행을 보여주는 메소드
+	@RequestMapping(value="asset_detail_bank.do", method=RequestMethod.POST)
+	public ModelAndView expenseDetailAsset(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String trade_code = request.getParameter("trade_code");
+		String bank_code = request.getParameter("bank_code");
+		
+		ModelAndView mv = new ModelAndView("expense/asset_detail_bank");
+		
+		System.out.println(trade_code+" / "+bank_code);
+		//List<ItemBean> list = itemDao.itemDetailList((as+"%"));
+		List<BankCorpBean> list = null;
+		if(trade_code.equals("cash")){
+			list = bankCorpDao.unBankList();
+		} else {
+			list = bankCorpDao.bankList();
+		}
+		//System.out.println("assetDetailList 개수 : "+list.size());
+		mv.addObject("bankList", list);
+		mv.addObject("bank_code", bank_code);
 		
 		return mv;
 	}

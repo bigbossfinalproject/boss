@@ -49,31 +49,32 @@ public class LoanController {
 	public ModelAndView loanWrite(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
+		
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 		
 		Calendar cal = Calendar.getInstance();			// 오늘 날짜 호출
 		Date d = new Date(cal.getTimeInMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String date = sdf.format(d);
+		String today = sdf.format(d);
 		
 		// 분류 항목 정보 가져오기
-		String item_code = user.getRoot_idn()+"l001%";
-		int icnt = itemDao.itemCount(item_code);
+		String item_code = rootIdn+"l001";
+		int icnt = itemDao.itemCount((item_code+"%"));
 		List<ItemBean> iList = null;
 		if(icnt > 0) {
-			iList = itemDao.detailItemList(item_code);
+			iList = itemDao.detailItemList((item_code+"%"));
 		}
 		
 		// 자산 목록 정보 가져오기
-		String asset_code = user.getRoot_idn() + "bk%";
-		List<AssetBean> aList = assetDao.codeConList(asset_code);
+		String asset_code = rootIdn + "bk";
+		List<AssetBean> aList = assetDao.codeConList((asset_code+"%"));
 		
 		// 대출 금융사 목록 정보 가져오기
 		List<CapitalCorpBean> cList = capitalCorpDao.capitalList();
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("expense/loan_write");
-		mv.addObject("date", date);
+		mv.addObject("date", today);
 		mv.addObject("iList", iList);
 		mv.addObject("aList", aList);
 		mv.addObject("cList", cList);
@@ -85,7 +86,6 @@ public class LoanController {
 	public ModelAndView loanInsert(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
 		String item_code = request.getParameter("item_code");
 		int root_idn = Integer.parseInt(request.getParameter("root_idn"));
@@ -233,9 +233,10 @@ public class LoanController {
 	public ModelAndView loanList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
-		ObjectRootBean user = (ObjectRootBean) session.getAttribute("user");
 		
-		String loanCode = user.getRoot_idn()+"lo";
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		
+		String loanCode = rootIdn+"lo";
 		List<LoanBean> lList = loanDao.userLoanList((loanCode+"%"));
 		List<LoanViewBean> lvList = new ArrayList<LoanViewBean>();
 		
