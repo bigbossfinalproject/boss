@@ -81,7 +81,7 @@
 
 	<header>
 		<div>
-			<jsp:include page=/resources/include/header.jsp></jsp:include>
+			<jsp:include page='/resources/include/header.jsp'></jsp:include>
 		</div>
 	</header>	
 
@@ -168,7 +168,7 @@
 		
 	<footer>	
 		<div>
-			<jsp:include page=/resources/include/footer.jsp></jsp:include>
+			<jsp:include page='/resources/include/footer.jsp'></jsp:include>
 		</div>
 	</footer>	
 

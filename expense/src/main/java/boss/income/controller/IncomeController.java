@@ -34,17 +34,17 @@ public class IncomeController {
 	@RequestMapping(value = "/list2.io", method = RequestMethod.POST)
 	public void getIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
-
+		int root_idn = (int) session.getAttribute("root_Idn");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		response.getWriter().write(getIncome_JSON());
+		response.getWriter().write(getIncome_JSON(root_idn));
 	}
 
-	public String getIncome_JSON() {
+	public String getIncome_JSON(int root_idn) {
 		StringBuffer str = new StringBuffer("");
 		str.append("{\"result\":[");
 		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
-		int root_idn = 1;
+		
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
 		for (int i = 0; i < list.size(); i++) {
