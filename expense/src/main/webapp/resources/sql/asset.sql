@@ -34,7 +34,8 @@ create table asset(
 insert into asset values('1cs001', 'cash', 1, '2018/02/14', '지갑속 현금', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 insert into asset values('1bk001', 'account', 1, '2018-02-14', '신한입출금통장', '주 사용 통장', 'fnc011', 1000000, 1000000, 'Y', 'admin');
 insert into asset values('1bk002', 'account', 1, '2018-02-14', '신한주택청약저축통장', '주택 구입 준비용', 'fnc011', 1500000, 1500000, 'Y', 'admin');
-
+insert into asset values('1bk003', 'account', 1, '2018-02-24', '신한주택저축통장', '주택 준비용', 'fnc011', 1500000, 1500000, 'Y', 'admin');
+insert into asset values('1cs002', 'cash', 1, '2018/02/14', '지갑속 동전', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 select * from asset;
 
 delete from asset where asset_code = '1bk001';
