@@ -59,6 +59,7 @@ public class AssetController {
 		
 		// 브라우저에서 받은 파라메터를 변수에 저장
 		String[] idn = request.getParameterValues("root_idn");
+		//Integer[] idn = ((Integer) request.getAttribute("root_idn")).intValue();
 		String[] id = request.getParameterValues("root_id");
 		String[] code = request.getParameterValues("asset_code");
 		String[] name = request.getParameterValues("asset_name");
@@ -182,7 +183,7 @@ public class AssetController {
 		
 		// DB에 저장되어 있는 자산 목록을 브라우저로 보내주는 문법
 		List<AssetBean> assetList = assetDao.memAssetList(rootIdn);
-		System.out.println("assetList개수 : "+assetList.size());
+		//System.out.println("assetList개수 : "+assetList.size());
 		List<AssetViewBean> viewList = new ArrayList<AssetViewBean>();
 		int seq = 1;
 		for(AssetBean a : assetList) {
@@ -238,7 +239,7 @@ public class AssetController {
 		
 		ModelAndView mv = new ModelAndView("expense/asset_detail_bank");
 		
-		System.out.println(trade_code+" / "+bank_code);
+		//System.out.println(trade_code+" / "+bank_code);
 		//List<ItemBean> list = itemDao.itemDetailList((as+"%"));
 		List<BankCorpBean> list = null;
 		if(trade_code.equals("cash")){

@@ -55,3 +55,14 @@ insert into expense values('1e000009', 1, 'admin', '2018-02-09', '1e003002', '1e
 insert into expense values('1e000010', 1, 'admin', '2018-02-10', '1e003002', '1e003000', 'cash', '1cs001', '점심식사(떡볶이)', '5000');
 insert into expense values('1e000011', 1, 'admin', '2018-02-11', '1e004001', '1e004000', 'cash', '1cs001', '월세 지불', '300000');
 
+
+
+select (select sum(expense_amount) from expense where trade_code = 'cash') exp,
+(select sum(expense_amount) from expense where trade_code = 'account') exp2
+from expense group by root_idn;
+
+select sum(expense_amount) from expense where = 'cash';
+
+
+
+

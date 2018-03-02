@@ -13,10 +13,6 @@
 	List<ItemBean> iList = (List<ItemBean>) request.getAttribute("itemList");
 	int btnCnt = 1;
 	String root_idn = rootIdn+"";
-	/* int countResult = 1;
-	if(request.getAttribute("countResult") != null) {
-		countResult = ((Integer)request.getAttribute("countResult")).intValue();
-	} */
 %>
 
 <!DOCTYPE html>
@@ -40,17 +36,17 @@
 		
 		.frame_1000 {
 			width: 1000px;
-			margin: 0 auto;
+			margin: 150px auto 0 auto;
 		}
 		
 		.frame_1080 {
 			width: 1080px;
-			margin: 0 auto;
+			margin: 150px auto 0 auto;
 		}
 		
 		.frame_1200 {
 			width: 1200px;
-			margin: 0 auto;
+			margin: 150px auto 0 auto;
 		}
 		
 		a {
@@ -71,13 +67,15 @@
 			background-color: #87cefa;
 		}
 		
+		.new_line {
+			margin:0;
+			height:10px;
+		}
+		
 		tr:NTH-OF-TYPE(2n+1) {
 			background-color: #b0c4de;
 		}
-		/* .asset_list:HOVER {
-					background-color: #9FA0A1;
-					color: white;
-				} */
+		
 		.no, .text, .date {
 			text-align: center; /* 번호, 문자, 날짜는 중앙 정렬 */
 		}
@@ -130,17 +128,9 @@
 </head>
 <body style="width: 1280px; margin: 0 auto;">
 	<header><jsp:include page="/resources/include/header.jsp"/></header>
-    
-	아이디 : ${ root_Id } / 고유번호 : ${ root_Idn } 입니다.<br>
-	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
-	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
-	<a href="card_write.do">카드 입력</a>
-	
+    <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
 	<div class="frame_1080">
+		<div class="new_line"></div>
 		<table class="table table-bordered text-center" id="item_table">
 			<colgroup>
 				<col width="120px">
@@ -184,20 +174,6 @@
 						</select>
 					</td>
 					<td class="text" id="detail_item_<%= btnCnt %>" style="padding: 0; line-height: 50px; text-align: center; padding-left: 5px;">
-						<%-- <%
-							for(ItemBean i : iList){
-								if(i.getItem_level() == 3 && i.getItem_code().substring(0, root_idn.length()+1).equals(item_class)) {
-						%>
-							<div id="detail_code_<%= dtlCnt %>" style="margin:0; padding:0; width: 147px; float: left; height: 50px; line-height: 50px; vertical-align: middle;">
-								<input type="hidden" name="item_remove" value="<%= i.getItem_code() %>">
-								<%= i.getItem_name() %>
-								<input id="item_remove_<%= dtlCnt %>" type="button" class="white_btn item_remove" value="X" style="margin-left:10px; height:50px;">
-							</div>
-						<%
-								dtlCnt++;
-								}
-							}
-						%> --%>
 					</td>
 					<td class="text" style="padding: 0; height: 50px; line-height: 50px; vertical-align: middle;">
 						<input type="text" class="item_add" name="item_add" style="width:100px; height:40px; line-height: 40px; background-color:#fff; border: 1px solid #ccc; border-radius: 4px;">
