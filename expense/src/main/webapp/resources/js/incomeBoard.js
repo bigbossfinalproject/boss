@@ -30,16 +30,9 @@ function getOptions(option) {
 
 			if (option == '현금') {
 				test = cash;
-				console.log(test);
-				
 			} else {
-
 				test = account;
-				console.log(test);
-				
 			}
-
-
 		},
 		error : function() {
 			console.log("에러");
@@ -75,11 +68,13 @@ function getIncomeBoard() {
 						if (j == 0) {
 							rowItem += "<input type ='hidden' id='income_Id' value = " + result[i][j].value + " ></input>";
 							continue;
-						}
-
-
-
-						if (j == 5) {
+						} else if (j == 3) {
+							rowItem += "<td><input type='hidden' name='trade' value ='" + result[i][j].value + "'>" + result[i][j].value + "</td>";
+							continue;
+						} else if (j == 4) {
+							rowItem += "<td><input type='hidden' name='account' value ='" + result[i][j].value + "'>" + result[i][j].value + "</td>";
+							continue;
+						} else if (j == 5) {
 							rowItem += "<td class = 'text-right'>" + result[i][j].value + "</td>";
 							continue;
 						}
@@ -90,10 +85,6 @@ function getIncomeBoard() {
 				$('#incomeTable').append(rowItem);
 
 				drawChart();
-
-
-
-
 
 			},
 			error : function() {
@@ -157,6 +148,29 @@ $(document).on("click", "#row_remove", function() {
 
 
 });
+
+$(document).on("change", '[name="trade"]', function() {
+	var tr = $(this).parent().parent();
+	var td = tr.children();
+	var data = getOptions($(this).val());
+	td.eq(4).html("");
+	var b = "";
+	b += "<select class='form-control' id = 'asset_code'>";
+	for (var i = 0; i < data.length; i++) {
+		b += "<option value = " + data[i] + ">" + data[i] + "</option> ";
+	}
+	b += "</select>";
+
+	td.eq(4).append(b);
+
+
+
+
+
+
+})
+
+
 
 $(document).on("click", "#row_add", function() {
 
@@ -260,13 +274,15 @@ $(document).on('click', 'td', function() {
 			} else if (tdIdx === 2) {
 				var otherData;
 				data == '현금' ? otherData = '통장' : otherData = '현금';
-				$(this).html("<select class='form-control' id = 'trade_code'><option value='" + data + "'>" + data + "</option><option value='" + otherData + "'>" + otherData + "</option></select>")
+				$(this).html("<select class='form-control' name= 'trade' ><option value='" + data + "'>" + data + "</option><option value='" + otherData + "'>" + otherData + "</option></select>")
 
 			} else if (tdIdx === 3) {
-				console.log($('#trade_code option:selected').val());
-				var ad = $('#trade_code option:selected').val();
+
+				var tt = tr.find('[name="trade"]').val();
+
+				console.log(tt);
 				var a = new Array();
-				a = getOptions(ad);
+				a = getOptions(tt);
 
 				var b = "";
 				$(this).html("");
