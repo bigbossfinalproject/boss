@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="./resources/dist/jquery.jqplot.css" />
 <script type="text/javascript" src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
 
-<script src="./resources/js/incomeBoard.js"></script>
+<script src="./resources/js/incomeBoard.js?ver=1.1"></script>
 
 <style type="text/css">
 	body {

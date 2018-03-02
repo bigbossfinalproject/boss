@@ -15,26 +15,28 @@ window.onload = function() {
 var income_option = "<option value ='i1'>주요소득</option><option value ='i2'>기타소득</option>";
 
 function getOptions(option) {
-	var abc = new Array();
+	var test = new Array();
 	$.ajax({
 		url : './getOptions.io',
 		type : 'GET',
+		async : false,
 		dataType : 'json',
 		success : function(data) {
-			console.log("성공");
+			console.log("옵션 불러오기 성공 함수");
 
 			var jsonObj = data;
 			var cash = jsonObj.cash;
 			var account = jsonObj.account;
 
-
 			if (option == '현금') {
-				abc = cash;
-
+				test = cash;
+				console.log(test);
+				
 			} else {
-				console.log("else : " + option);
-				abc = account;
 
+				test = account;
+				console.log(test);
+				
 			}
 
 
@@ -43,8 +45,8 @@ function getOptions(option) {
 			console.log("에러");
 		}
 	})
-	return abc;
-
+	console.log('test = ' + test);
+	return test;
 }
 
 
@@ -263,10 +265,9 @@ $(document).on('click', 'td', function() {
 			} else if (tdIdx === 3) {
 				console.log($('#trade_code option:selected').val());
 				var ad = $('#trade_code option:selected').val();
-				var d = getOptions(ad);
+				var a = new Array();
+				a = getOptions(ad);
 
-				console.log("??a?22" + d);
-				var a = d;
 				var b = "";
 				$(this).html("");
 				b += "<select class='form-control' id = 'asset_code'>";

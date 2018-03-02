@@ -1,4 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page session="true" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,9 +38,11 @@
 		document.getElementById('cal').valueAsDate = new Date();
 		item_list();
 		selectFunction();
-
 	}
+	
+	
 </script>
+
 <style type="text/css">
 .aa:hover {
 	background-color: lightgray;
@@ -47,11 +53,14 @@ table.ui-datepicker-calendar {
 }
 </style>
 
+
+
 </head>
 
 
 <body>
-
+<header><jsp:include page="/resources/include/header.jsp"/></header>
+    
 	<table align="center">
 		<tr>
 			<td id="graph" style="width: 700px; height: 304px;"></td>
@@ -67,12 +76,19 @@ table.ui-datepicker-calendar {
 
 	<br>
 
+				
+	
 
 	<div class="container">
 
-		<input id=cal type="month" onchange="selectFunction();">
-
-
+	<table>
+		<td><input id=cal type="month" onchange="selectFunction();"></td>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<td><input type="month" id="excel1" ><input type="month" id="excel2"></td>
+	<td><button onclick="excelFunction();" type="button">엑셀로 다운</button></td>
+		<td id="excel3"></td>
+				
+</table>
 		<table class="table"
 			style="text-align: center; border: 1px solid #dddddd">
 			<thead>
@@ -97,8 +113,7 @@ table.ui-datepicker-calendar {
 				<tr>
 					<td style="background-color: #fafafa; text-align: center"><h5>아이템품목</h5></td>
 					<td>
-					
-					
+		
 					 <select  class="form-control" id="item_code">		
 					</select></td>
 
@@ -111,11 +126,11 @@ table.ui-datepicker-calendar {
 			</tbody>
 		</table>
 	</div>
-	<div class="col-xs-2" align="center">
-	</div>
- <input type="month" id="excle1"><input type="month" id="excle2"><button onclick="excelFunction();" type="button">엑셀로 저장하기 예산 복사</button>
- <a href="원하는_주소" download>download 속성 예제</a>
-
+	
+ 
+		
+		
+		
 </body>
 
 </html>

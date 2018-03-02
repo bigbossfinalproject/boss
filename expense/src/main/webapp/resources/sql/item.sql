@@ -6,6 +6,7 @@ create table item(
 	item_level  number  constraint item_item_level_nn not null,
 	item_name  varchar2(50)  constraint item_item_name_nn not null,
 	item_seq  number  constraint item_item_seq not null
+
 );
 
 create table item(
@@ -15,6 +16,8 @@ create table item(
 	item_name  varchar2(50),
 	item_seq  number
 );
+
+select * from budget where to_char(budget_date,'YYYY-MM')='2017-02' and root_idn=2
 
 select * from item;
 

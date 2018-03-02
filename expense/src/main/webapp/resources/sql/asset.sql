@@ -15,6 +15,7 @@ create table asset(
 	
 );
 
+
 create table asset(
 	asset_code  varchar2(20)  constraint asset_asset_code_pk primary key,
 	trade_code  varchar2(20),
