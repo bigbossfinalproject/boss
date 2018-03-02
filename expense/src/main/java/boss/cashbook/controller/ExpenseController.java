@@ -171,8 +171,10 @@ public class ExpenseController {
 			//System.out.println("카드 문자열 포함 여부 check : "+expense.getTrade_code().contains("card"));
 			if(expense.getTrade_code().contains("card")){
 				card = cardDao.cardOne(expense);														// 지출 카드 항목 - 신용카드에 해당
+				//System.out.println("card 정보 : "+card);
 			} else {
 				asset = assetDao.assetOne(expense);												// 지출 자산 항목 - 현금, 통장, 계좌이체, 체크카드 사용시에 해당
+				//System.out.println("자산 정보 : "+asset);
 			}
 			
 			ItemBean item = null;
