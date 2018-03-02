@@ -7,9 +7,11 @@
 <style type="text/css">
 	.main_header {
 		position: fixed;
+		top:0;
 		background:#1e90ff;
 		width:1280px;
 		height:100px;
+		z-index: 250;
 	}
 	
 	.menutop{
@@ -18,9 +20,9 @@
 	
 	.menubar {
 		border: none;
-		border: 0px;
-		margin: 0px auto;
-		padding: 0px;
+		border: 0;
+		margin: 0 auto;
+		padding: 0;
 		font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans",
 			"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
 			sans-serif;
@@ -40,7 +42,7 @@
 	
 	.menubar li {
 		float: left;
-		padding: 0px;
+		padding: 0;
 	}
 	
 	.menubar li a {
@@ -50,8 +52,8 @@
 		display: block;
 		font-weight: normal;
 		line-height: 50px;
-		margin: 0px;
-		padding: 0px 25px;
+		margin: 0;
+		padding: 0 25px;
 		text-align: center;
 		text-decoration: none;
 	}
@@ -63,7 +65,7 @@
 	}
 	
 	.menubar li ul {
-		background: #1e90ff;
+		background: #4682b4;
 		display: none; /* 평상시에는 드랍메뉴가 안보이게 하기 */
 		height: auto;
 		padding: 0px;
@@ -81,7 +83,7 @@
 	}
 	
 	.menubar li li {
-		background: #1e90ff;
+		background: #4682b4;
 		display: block;
 		float: none;
 		margin: 0px;
@@ -98,21 +100,24 @@
 		height: 50px;
 		font-size: 12px;
 		font-style: normal;
-		margin: 0px;
-		padding: 0px 10px 0px 15px;
+		margin: 0;
+		padding: 0 10px 0 15px;
 		text-align: left;
 	}
 	
 	.menubar li ul a:hover, .menubar li ul li:hover a {
-		background: #4682b4;
-		border: 0px;
-		color: #ffffff;
+		background: #b0c4de;
+		border: 0;
+		color: #000000;
+		text-shadow:none;
+		font-weight:bold;
 		text-decoration: none;
 	}
 	
 	.menubar p {
 		clear: left;
 	}
+	
 </style>
 
 </head>
