@@ -41,7 +41,7 @@ update expense set root_id = 'sehoon.jin' where root_idn=2;
 
 delete from expense where root_idn = 1;
 
-delete from expense where expense_discription = '테스트';
+delete from expense where item_code in ('1ch001', '1cd001');
 
 insert into expense values('1e000001', 1, 'admin', '2018-02-01', '1e003002', '1e003000', 'cash', '1cs001', '점심식사(짬뽕)', '5500');
 insert into expense values('1e000002', 1, 'admin', '2018-02-02', '1e003002', '1e003000', 'cash', '1cs001', '점심식사(비빔밥)', '6000');

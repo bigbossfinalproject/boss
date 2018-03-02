@@ -6,7 +6,6 @@ create table item(
 	item_level  number  constraint item_item_level_nn not null,
 	item_name  varchar2(50)  constraint item_item_name_nn not null,
 	item_seq  number  constraint item_item_seq not null
-	root_idn varchar2(4000)
 );
 
 create table item(
@@ -14,8 +13,7 @@ create table item(
 	parent_code  varchar2(20),
 	item_level  number,
 	item_name  varchar2(50),
-	item_seq  number,
-	root_idn varchar2(4000)
+	item_seq  number
 );
 
 select * from item;
