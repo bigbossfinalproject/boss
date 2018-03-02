@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import boss.income.bean.IncomeBean;
+import boss.income.bean.IncomeOptionBean;
 
 @Repository
 public class IncomeDaoImpl implements IncomeDao {
@@ -59,8 +60,16 @@ public class IncomeDaoImpl implements IncomeDao {
 		
 	}
 	
+	@Override
 	public int incomeCodeCount(Map<String, String> income_code) {
 		return this.sqlSession.selectOne("incomeCodeCount", income_code);
 	}
 
+	@Override
+	public List<IncomeOptionBean> getIncomeOptions(int root_Idn) {
+
+		return this.sqlSession.selectList("getIncomeOptions", root_Idn);
+	}
+
+	
 }
