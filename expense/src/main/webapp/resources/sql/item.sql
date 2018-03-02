@@ -14,9 +14,10 @@ create table item(
 	parent_code  varchar2(20),
 	item_level  number,
 	item_name  varchar2(50),
-	item_seq  number,
-	root_idn varchar2(4000)
+	item_seq  number
 );
+
+select * from budget where to_char(budget_date,'YYYY-MM')='2017-02' and root_idn=2
 
 select * from item;
 

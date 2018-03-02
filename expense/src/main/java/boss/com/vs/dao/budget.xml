@@ -7,35 +7,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="boss.com.vs.model.BudgetBean"> 
 
  	<!-- 예산 목록  -->  
-	 <select id="budget_list" parameterType="String" resultType="budget">
-		select * from budget where to_char(budget_date,'YYYY-MM')=#{budget_date}
-	</select>
-	<!-- 예산 엑셀 목록  -->  
-	 <select id="budget_excel_list" parameterType="String" resultType="budget">
-		select * from budget 
+	 <select id="budget_list" parameterType="budget" resultType="budget">
+		select * from budget where to_char(budget_date,'YYYY-MM')=#{budget_date} and root_idn=#{root_idn}
 	</select>
 	
+	<!-- 예산 엑셀 목록  -->  
+	 <select id="budget_excel_list" parameterType="budget_excel" resultType="budget">
+select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date(#{firstDate},'YYYY-MM') and add_months(to_date(#{lastDate},'YYYY-MM'),1) and root_idn=#{root_idn}
+	</select>
 	
 	<!-- 예산 중복 확인  -->  
-	 <select id="insert_check" parameterType="String" resultType="int">
-			select count(*) from budget where to_char(budget_date,'YYYY-MM')=to_char(sysdate,'YYYY-MM') and ITEM_code=#{item_code}
+	 <select id="insert_check" parameterType="budget" resultType="int">
+			select count(*) from budget where to_char(budget_date,'YYYY-MM')=to_char(sysdate,'YYYY-MM') and ITEM_code=#{item_code} and root_idn=#{root_idn}
 	</select>
 
 	<!-- 통합 예산 목록 -->
-	<select id="budget_total_list" resultType="budget">
-	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYYMM') budget_date from budget group by to_char(budget_date,'YYYYMM')
+	<select id="budget_total_list" parameterType="int" resultType="budget">
+	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYYMM') budget_date from budget where root_idn= #{root_idn} group by to_char(budget_date,'YYYYMM')  
 	</select>
+	
 	<!-- 아이템 리스트 -->
-	<select id="item_list" resultType="String">
+	<select id="item_list" parameterType="int" resultType="String">
 	select item_name from item
 	</select>
 	
 	<!-- 예산 등록 -->
  <insert id="budget_insert" parameterType="budget">
 	 insert into budget 
-	 values(budget_code_seq.nextVal,1,#{budget_amount}, 
+	 values(budget_code_seq.nextVal,#{root_idn},#{budget_amount}, 
 	 0,sysdate,#{item_code})         
 	</insert>
+	
 	<!-- 예산 복사 -->
  <insert id="budget_copy" parameterType="budget">
 	 insert into budget 
@@ -43,9 +45,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 0,sysdate,#{item_code})         
 	</insert>
 	
-	
-	
- 
  	<!-- 예산 삭제 -->
  <delete id="budget_delete" parameterType="int">
  	delete from budget where budget_code =#{budget_code}
@@ -53,18 +52,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
  
  	<!-- 예산 수정 -->
- 	<update id="budget_modify" parameterType="budget">
-		update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
-		where budget_code=#{budget_code}
-	</update>
-
-	<!-- 예산에서 세부항목 개수 가져오기 -->
-	<select id="budgetItemCount" parameterType="java.util.Map" resultType="int">
-		select count(*) from budget where item_code <![CDATA[=]]> #{item_code}
-	</select>
-
-
-
+  <update id="budget_modify" parameterType="budget">
+ 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
+ 	where budget_code=#{budget_code}
+ </update>
+ 
+ 
+ 
+  
+ 
+ 
 </mapper>
 
 

@@ -18,7 +18,7 @@
 		<typeAlias alias="capitalCorp" type="boss.cashbook.model.CapitalCorpBean"/>
 		<typeAlias alias="incomeBoard" type="boss.income.bean.IncomeBean" />
 		<typeAlias alias="budget" type="boss.com.vs.model.BudgetBean"/>
-		<typeAlias alias="user" type="boss.com.vs.model.User"/>
+		<typeAlias alias="budget_excel" type="boss.com.vs.model.Budget_excelBean"/>
 		<typeAlias alias="User_Bean" type="boss.user.model.User_Bean" /> 
 		<typeAlias alias="Board_Bean" type="boss.board.model.Board_Bean" /> 
 		
@@ -40,7 +40,6 @@
 		<mapper resource="boss/cashbook/dao/capital_corp.xml"/>
 		<mapper resource="boss/income/dao/income.xml" />
 		<mapper resource="boss/com/vs/dao/budget.xml"/>
- 		<mapper resource="boss/com/vs/dao/user.xml"/> 
  		<mapper resource="boss/user/dao/loginCheck.xml" /> 
 		<mapper resource="boss/user/dao/userJoin.xml" /> 
 		<mapper resource="boss/user/dao/userDelete.xml" /> 

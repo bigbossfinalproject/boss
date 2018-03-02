@@ -1,7 +1,7 @@
 	function cofyFunction() {
 		$.ajax(
 			{
-				url : './budget_copy',
+				url : './budget_copy.bg',
 				type : 'POST',
 				dataType : 'text',
 				success : function(result) {
@@ -17,26 +17,14 @@
 
 	}
 	function excelFunction(){
-		$.ajax(
-				{
-					url : './budget_excel',
-					type : 'POST',
-					dataType : 'text',
-					success : function(result) {
-						console.log(result);
-						
-						alert('통신성공임!!');	
-									
-					},
-					error : function() {
-						alert('통신실패!!');
-						
-						
-						
-					}
-				})
+		$("#excel3").html("");
+		var firstDate=document.getElementById("excel1").value;
+		var lastDate=document.getElementById("excel2").value;
 		
-		
+		var date="<a id=excel3 href=./budget_excel.bg?firstDate="+firstDate+"&lastDate="+lastDate+" download=budget.xls>파일 다운로드</a>";
+	
+		$('#excel3').append(date);
+	
 	}
 	
 
@@ -225,7 +213,7 @@
 
 	function selectFunction() {
 		console.log(document.getElementById("cal").value);
-		selectRequest.open("Post", "./budget_list?date=" + document.getElementById("cal").value, true);
+		selectRequest.open("Post", "./budget_list.bg?date=" + document.getElementById("cal").value, true);
 		selectRequest.onreadystatechange = selectProcess;
 		selectRequest.send(null);
 		total_listFunction();
@@ -295,7 +283,7 @@
 	function updateFunction(i) {
 		$.ajax(
 			{
-				url : "./budget_modify?item_code=" + document.getElementById("budget_Id" + i + 0).value + "&budget_amount=" + document.getElementById("budget_Id" + i + 1).value
+				url : "./budget_modify.bg?item_code=" + document.getElementById("budget_Id" + i + 0).value + "&budget_amount=" + document.getElementById("budget_Id" + i + 1).value
 					+ "&budget_code=" + document.getElementById("budget_Id" + i + 2).value + "&budget_amount_spent=" + document.getElementById("budget_Id" + i + 3).value,
 				type : 'GET',
 				success : function(result) {
@@ -312,7 +300,7 @@
 		
 		$.ajax(
 			{
-				url : './item_list',
+				url : './item_list.bg',
 				type : 'GET',
 				dataType : 'json',
 				success : function(data) {
@@ -338,7 +326,7 @@
 	function total_listFunction() {
 		$.ajax(
 			{
-				url : './budget_list_total',
+				url : './budget_list_total.bg',
 				type : 'GET',
 				dataType : 'text',
 				success : function(data) {
@@ -373,7 +361,7 @@
 	function deleteFunction(budget_code) {
 		$.ajax(
 			{
-				url : './budget_delete?budget_code=' + budget_code,
+				url : './budget_delete.bg?budget_code=' + budget_code,
 				type : 'POST',
 				dataType : 'text',
 				success : function(result) {
@@ -387,7 +375,7 @@
 	}
 
 	function insertFunction() {
-		insertRequest.open("Post", "./budget_insert?budget_amount=" + encodeURIComponent(document.getElementById("budget_amount").value) + "&item_code=" + encodeURIComponent(document.getElementById("item_code").value), true);
+		insertRequest.open("Post", "./budget_insert.bg?budget_amount=" + encodeURIComponent(document.getElementById("budget_amount").value) + "&item_code=" + encodeURIComponent(document.getElementById("item_code").value), true);
 		insertRequest.onreadystatechange = insertProcess;
 		insertRequest.send(null);
 
