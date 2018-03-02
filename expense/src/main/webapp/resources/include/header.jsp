@@ -136,7 +136,7 @@
 				</li>
 				<li><a href="#">입력</a>
 					<ul>
-						<li><a href="budget_list">예산</a></li>
+						<li><a href="budget_page.bg">예산</a></li>
 						<li><a href="list.io">수입</a></li>
 						<li><a href="expense_list.do">지출</a></li>
 					</ul>
