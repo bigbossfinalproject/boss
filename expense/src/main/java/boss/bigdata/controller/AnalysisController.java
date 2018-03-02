@@ -27,12 +27,4 @@ public class AnalysisController {
         return mav;
 	}
 	
-	@RequestMapping("/expense-analysis2.do")
-	public ModelAndView expense_analysis2(HttpServletRequest request, HttpServletResponse response){
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/bigdata/total_analysis/main_expense_page2");
-        return mav;
-	}
-	
 }
