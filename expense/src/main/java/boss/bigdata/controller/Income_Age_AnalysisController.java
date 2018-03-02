@@ -151,7 +151,7 @@ public class Income_Age_AnalysisController {
 	public ModelAndView age_income_gender(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-<<<<<<< HEAD
+
 //		RConnection connection = null;
 //		try {
 //            connection = new RConnection();
@@ -259,7 +259,7 @@ public class Income_Age_AnalysisController {
 //        	connection.close();
 //        }
 		mav.setViewName("/bigdata/total_analysis/age_income_gender_result");
-=======
+
 		RConnection connection = null;
 		try {
             connection = new RConnection();
@@ -367,7 +367,6 @@ public class Income_Age_AnalysisController {
         	connection.close();
         }
 		mav.setViewName("/bigdata/total_analysis/age_income/age_income_gender_result");
->>>>>>> branch 'master' of https://github.com/bigbossfinalproject/boss.git
 		return mav;
 	}
 	
