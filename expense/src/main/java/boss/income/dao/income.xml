@@ -44,5 +44,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from income where income_code <![CDATA[=]]> #{item_code}
 	</select>
 	
+	<select id="getIncomeOptions" parameterType="int" resultType="incomeOption">
+		
+		select trade_code, asset_name from asset where root_idn = #{root_Idn}
+		
+	</select>
+	
 </mapper>
 

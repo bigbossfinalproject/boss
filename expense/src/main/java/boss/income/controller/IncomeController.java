@@ -1,21 +1,22 @@
 package boss.income.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import boss.income.bean.IncomeBean;
+import boss.income.bean.IncomeOptionBean;
 import boss.income.dao.IncomeDaoImpl;
 
 @Controller
@@ -33,17 +34,17 @@ public class IncomeController {
 	@RequestMapping(value = "/list2.io", method = RequestMethod.POST)
 	public void getIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
-
+		int root_idn = (int) session.getAttribute("root_Idn");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		response.getWriter().write(getIncome_JSON());
+		response.getWriter().write(getIncome_JSON(root_idn));
 	}
 
-	public String getIncome_JSON() {
+	public String getIncome_JSON(int root_idn) {
 		StringBuffer str = new StringBuffer("");
 		str.append("{\"result\":[");
 		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
-		int root_idn = 1;
+		
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
 		for (int i = 0; i < list.size(); i++) {
@@ -107,4 +108,32 @@ public class IncomeController {
 
 		incomeService.updateImcomeList(bean);
 	}
+	
+	@RequestMapping(value = "/getOptions.io", method = RequestMethod.GET)
+	public void getOptions(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		int root_Idn = 1;
+		List<IncomeOptionBean> list = this.incomeService.getIncomeOptions(root_Idn);
+		JSONArray cash = new JSONArray();
+		JSONArray account = new JSONArray();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getTrade_Code().equals("cash")) {
+				cash.add(list.get(i).getAsset_Name());
+			} else {
+				account.add(list.get(i).getAsset_Name());
+			}
+		}
+
+		JSONObject obj = new JSONObject();
+
+		obj.put("cash", cash);
+		obj.put("account", account);
+		System.out.println(obj.toString());
+		response.getWriter().write(obj.toString());
+
+	}
 }
+
