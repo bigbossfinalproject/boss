@@ -15,7 +15,7 @@ create table item(
 	item_level  number,
 	item_name  varchar2(50),
 	item_seq  number,
-	root_idn varchar2(4000)
+	--root_idn varchar2(4000)  -- 안쓸듯
 );
 
 select * from item;
