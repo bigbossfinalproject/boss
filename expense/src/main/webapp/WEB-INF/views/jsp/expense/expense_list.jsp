@@ -3,8 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="variable.jsp" %>
-<%-- <% int btnCnt = 1; %> --%>
+<% int btnCnt = 1; %>
 
 <!DOCTYPE html>
 <html>
@@ -60,10 +59,6 @@
 body {
 	width: 1280px;
 	margin: 0 auto;
-}
-
-.inner_frame {
-	margin-top:100px;
 }
 
 table, tr, td, th {
@@ -158,159 +153,179 @@ input, select, option {
 }
 </style>
 </head>
-<body>
+<body style="width: 1280px; margin: 0 auto;">
 	<header><jsp:include page="/resources/include/header.jsp"/></header>
+	아이디 : ${ root_Id } / 고유번호 : ${ root_Idn } 입니다.<br>
+	<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
+	<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="card_write.do">카드 입력</a>
+	
 	<form action="expense_write_ok.do" method="post" class="expenseform" name="expenseform">
-		<div class="inner_frame">
-			<div class="frame_1000">
-				아이디 : ${ root_Id } / 고유번호 : ${ root_Idn } 입니다.<br>
-				<a href="item_list.do">분류항목 목록</a>&nbsp;&nbsp;&nbsp;
-				<a href="expense_list.do">지출 목록</a>&nbsp;&nbsp;&nbsp;
-				<a href="asset_list.do">자산 목록</a>&nbsp;&nbsp;&nbsp;
-				<a href="loan_list.do">대출 목록</a>&nbsp;&nbsp;&nbsp;
-				<a href="loan_write.do">대출 입력</a>&nbsp;&nbsp;&nbsp;
-				<a href="card_list.do">카드 목록</a>&nbsp;&nbsp;&nbsp;
-				<a href="card_write.do">카드 입력</a>
-				<table class="table table-bordered text-center" id="expense_subject" style="margin-bottom: 0;">
-					<ul id="top" style="padding: 0; border: 0; margin: 0;">
-						<li id="subject" style="line-height: 30px;">
-							<b>지출관리하기</b>
-						</li>
-						<li id="add">
-							<b><input type="button" class="white_btn" id="add_row" value="항목추가" style="padding: 0; width:100px; height: 30px;"></b>
-						</li>
-						<li id="rollback">
-							<b><input type="reset" class="white_btn" id="expense_cancel" value="취소" style="padding: 0; width:100px; height: 30px;"></b>
-						</li>
-						<li id="save">
-							<b><input type="submit" class="white_btn" id="expense_submit" value="저장" style="padding: 0; width:100px; height: 30px;"></b>
-						</li>
-					</ul>
-					<colgroup>
-						<col width="150px" />
-						<col width="115px" />
-						<col width="115px" />
-						<col width="100px" />
-						<col width="160px" />
-						<col width="200px" />
-						<col width="100px" />
-						<col width="60px" />
-					</colgroup>
-					<tr id="expense_subject">
-						<th>지출일자</th>
-						<th colspan="2">분류</th>
-						<th>지출유형</th>
-						<th>계좌명</th>
-						<th>적요</th>
-						<th>금액</th>
-						<th>삭제</th>
-					</tr>
-				</table>
-				<table class="table table-bordered text-center" id="expense_table" style="margin-top: 0;">
-					
-					<colgroup>
-						<col width="150px" />
-						<col width="115px" />
-						<col width="115px" />
-						<col width="100px" />
-						<col width="160px" />
-						<col width="200px" />
-						<col width="100px" />
-						<col width="60px" />
-					</colgroup>
-					<%-- <tr id="expense_subject">
-						<th>지출일자</th>
-						<th colspan="2">분류</th>
-						<th>지출유형</th>
-						<th>계좌명</th>
-						<th>적요</th>
-						<th>금액</th>
-						<th>삭제</th>
-					</tr> --%>
-					
-					<c:if test="${ expenseList != null }">
-						<c:forEach items="${ expenseList }" var="eList">
-							<tr>
-								<input type="hidden" id="root_idn_<%= btnCnt %>" name="root_idn" value="${ eList.root_idn }">
-								<input type="hidden" id="root_id_<%= btnCnt %>" name="root_id" value="${ eList.root_id }">
-								<input type="hidden" id="expense_id_<%= btnCnt %>" name="expense_id" value="${ eList.expense_id }">
-								<!-- 지출일자 input 태그 -->
-								<td class="text" id="expense_date_<%= btnCnt %>" style="padding: 0;">
-									<%-- <c:out value="${ eList.root_idn }" /><c:out value="${ eList.root_id }" /><c:out value="${ eList.expense_id }" /> --%>
-									<input type="date" class="modify" id="expense_date_<%= btnCnt %>" name="expense_date" value="${ eList.expense_date }" style="width:149px;">
-								</td>
-								<%-- 지출 중분류 항목 select 태그 --%>
-								<td class="text" id="parent_item_<%= btnCnt %>" style="padding: 0;">
-									<input type="hidden" id="children_code_<%= btnCnt %>" value="${ eList.item_code }">
-									<select style="width: 114px; height: 50px;" id="parent_code_<%= btnCnt %>" name="parent_code">
-										<c:forEach items="${ itemList }" var="item">
-											<c:if test="${ item.item_level == 2 }">
-												<c:choose>
-													<c:when test="${ item.item_code == eList.parent_code }">
-														<option id="item_value_<%=btnCnt %>" value="${ item.item_code }" selected="selected">
-															<c:out value="${ item.item_name }" />
-														</option>
-													</c:when>
-													<c:when test="${ item.item_code != eList.item_code }">
-														<option value="${ item.item_code }">
-															<c:out value="${ item.item_name }" />
-														</option>
-													</c:when>
-												</c:choose>
-											</c:if>
-										</c:forEach>
-									</select>
-								</td>
-								<%-- 지출 세부항목 select 태그 --%>
-								<td class="text" id="expense_item_<%= btnCnt %>" style="padding: 0;">
-								</td>
-								<%-- 지출 거래유형 select 태그 --%>
-								<td class="text" id="expense_trade_<%= btnCnt %>" style="padding: 0;">
-									<input type="hidden" id="asset_code_<%= btnCnt %>" name="asset_code" value="${ eList.asset_code }">
-									<select style="width: 99px; height: 50px;" id="trade_code_<%= btnCnt %>" name="trade_code">
-										<c:forEach items="${ tradeList }" var="trade">
+		<div class="frame_1080">
+			<table class="table table-bordered text-center" id="expense_table">
+				<ul id="top" style="padding: 0; border: 0; margin: 0;">
+					<li id="subject" style="line-height: 30px;">
+						<b>지출관리하기</b>
+					</li>
+					<li id="add">
+						<b><input type="button" class="white_btn" id="add_row" value="항목추가" style="padding: 0; width:100px; height: 30px;"></b>
+					</li>
+					<li id="rollback">
+						<b><input type="reset" class="white_btn" id="expense_cancel" value="취소" style="padding: 0; width:100px; height: 30px;"></b>
+					</li>
+					<li id="save">
+						<b><input type="submit" class="white_btn" id="expense_submit" value="저장" style="padding: 0; width:100px; height: 30px;"></b>
+					</li>
+				</ul>
+				<colgroup>
+					<col width="150px" />
+					<col width="115px" />
+					<col width="135px" />
+					<col width="100px" />
+					<col width="160px" />
+					<col width="240px" />
+					<col width="100px" />
+					<col width="80px" />
+				</colgroup>
+				<tr>
+					<th>지출일자</th>
+					<th colspan="2">분류</th>
+					<th>지출유형</th>
+					<th>계좌명</th>
+					<th>적요</th>
+					<th>금액</th>
+					<th>삭제</th>
+				</tr>
+				
+				<c:if test="${ expenseList != null }">
+					<c:forEach items="${ expenseList }" var="eList">
+						<tr>
+							<input type="hidden" id="root_idn_<%= btnCnt %>" name="root_idn" value="${ eList.root_idn }">
+							<input type="hidden" id="root_id_<%= btnCnt %>" name="root_id" value="${ eList.root_id }">
+							<input type="hidden" id="expense_id_<%= btnCnt %>" name="expense_id" value="${ eList.expense_id }">
+							<!-- 지출일자 input 태그 -->
+							<td class="text" id="expense_date_<%= btnCnt %>" style="padding: 0;">
+								<%-- <c:out value="${ eList.root_idn }" /><c:out value="${ eList.root_id }" /><c:out value="${ eList.expense_id }" /> --%>
+								<input type="date" class="modify" id="expense_date_<%= btnCnt %>" name="expense_date" value="${ eList.expense_date }" style="width:145px;">
+							</td>
+							<%-- 지출 중분류 항목 select 태그 --%>
+							<td class="text" id="parent_item_<%= btnCnt %>" style="padding: 0;">
+								<input type="hidden" id="children_code_<%= btnCnt %>" value="${ eList.item_code }">
+								<select style="width: 110px; height: 50px;" id="parent_code_<%= btnCnt %>" name="parent_code">
+									<c:forEach items="${ itemList }" var="item">
+										<c:if test="${ item.item_level == 2 }">
 											<c:choose>
-												<c:when test="${ eList.trade_code == trade.trade_code }">
-													<option value="${ trade.trade_code }" selected="selected">
-														<c:out value="${ trade.trade_name }" />
+												<c:when test="${ item.item_code == eList.parent_code }">
+													<option id="item_value_<%=btnCnt %>" value="${ item.item_code }" selected="selected">
+														<c:out value="${ item.item_name }" />
 													</option>
 												</c:when>
-												<c:when test="${ eList.trade_code != trade.trade_code }">
-													<option value="${ trade.trade_code }">
-														<c:out value="${ trade.trade_name }" />
+												<c:when test="${ item.item_code != eList.item_code }">
+													<option value="${ item.item_code }">
+														<c:out value="${ item.item_name }" />
 													</option>
 												</c:when>
 											</c:choose>
-										</c:forEach>
-									</select>
-								</td>
-								<%-- 지출 자산 또는 카드 목록 select 태그 --%>
-								<td class="text" id="expense_asset_<%= btnCnt %>" style="padding: 0;">
-								</td>
-								<%-- 지출한 상세 내용을 기록한 input 태그 --%>
-								<td class="text" id="expense_discription_<%= btnCnt %>" style="padding: 0; height: 50px;">
-									<input type="text" id="expense_discription_<%= btnCnt %>" name="expense_discription" class="modify" value="${ eList.expense_discription }" style="width:199px; line-height:40px;">
-								</td>
-								<td class="text amount" id="expense_amount_<%= btnCnt %>" style="padding: 0; text-align: right; padding:5px; height: 50px;">
-									<b><input type="text" id="expense_amount_<%= btnCnt %>" name="expense_amount" class="modify" value="${ eList.expense_amount }" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:35px; margin:0; border:0; width: 89px;"></b>
-								</td>
-								<td class="text" id="expense_remove_<%= btnCnt %>" style="line-height: 50px; padding: 0;">
-									<input id="row_remove" type="button" class="white_btn asset_remove" name="asset_remove" value="삭제" style="width:50px; line-height:45px;">
-								</td>
-							</tr>
-							<%
-								btnCnt++;
-								request.setAttribute("btnCnt", btnCnt);
-							%>
-						</c:forEach>
-					</c:if>
-					 
-				</table>
-				
-			</div>
+										</c:if>
+									</c:forEach>
+								</select>
+							</td>
+							<%-- 지출 세부항목 select 태그 --%>
+							<td class="text" id="expense_item_<%= btnCnt %>" style="padding: 0;">
+								<%-- <select style="width: 130px; height: 50px;" id="item_code_<%= btnCnt %>" name="item_code">
+									<c:forEach items="${ itemList }" var="item">
+										<c:if test="${ item.item_level == 3 }">
+											<c:choose>
+												<c:when test="${ item.item_code == eList.item_code }">
+													<option value="${ item.item_code }" selected="selected">
+														<c:out value="${ item.item_name }" />
+													</option>
+												</c:when>
+												<c:when test="${ item.item_code != eList.item_code }">
+													<option value="${ item.item_code }">
+														<c:out value="${ item.item_name }" />
+													</option>
+												</c:when>
+											</c:choose>
+										</c:if>
+									</c:forEach>
+								</select> --%>
+							</td>
+							<%-- 지출 거래유형 select 태그 --%>
+							<td class="text" id="expense_trade_<%= btnCnt %>" style="padding: 0;">
+								<input type="hidden" id="asset_code_<%= btnCnt %>" name="asset_code" value="${ eList.asset_code }">
+								<select style="width: 95px; height: 50px;" id="trade_code_<%= btnCnt %>" name="trade_code">
+									<c:forEach items="${ tradeList }" var="trade">
+										<c:choose>
+											<c:when test="${ eList.trade_code == trade.trade_code }">
+												<option value="${ trade.trade_code }" selected="selected">
+													<c:out value="${ trade.trade_name }" />
+												</option>
+											</c:when>
+											<c:when test="${ eList.trade_code != trade.trade_code }">
+												<option value="${ trade.trade_code }">
+													<c:out value="${ trade.trade_name }" />
+												</option>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</td>
+							<%-- 지출 자산 또는 카드 목록 select 태그 --%>
+							<td class="text" id="expense_asset_<%= btnCnt %>" style="padding: 0;">
+								<%-- <select style="width: 155px; height: 50px;" id="asset_code_<%= btnCnt %>" name="asset_code">
+									<c:forEach items="${ assetList }" var="asset">
+										<c:choose>
+											<c:when test="${ eList.asset_code == asset.asset_code }">
+												<option value="${ asset.asset_code }" selected="selected">
+													<c:out value="${ asset.asset_name }" />
+												</option>
+											</c:when>
+											<c:when test="${ eList.asset_code != asset.asset_code }">
+												<option value="${ asset.asset_code }">
+													<c:out value="${ asset.asset_name }" />
+												</option>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+									<c:forEach items="${ cardList }" var="card">
+										<c:choose>
+											<c:when test="${ eList.asset_code == card.card_code }">
+												<option value="${ card.card_code }" selected="selected">
+													<c:out value="${ card.card_name }" />
+												</option>
+											</c:when>
+											<c:when test="${ eList.asset_code != card.card_code }">
+												<option value="${ card.card_code }">
+													<c:out value="${ card.card_name }" />
+												</option>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+								</select> --%>
+							</td>
+							<%-- 지출한 상세 내용을 기록한 input 태그 --%>
+							<td class="text" id="expense_discription_<%= btnCnt %>" style="padding: 0; height: 50px;">
+								<input type="text" id="expense_discription_<%= btnCnt %>" name="expense_discription" class="modify" value="${ eList.expense_discription }" style="width:235px; line-height:40px;">
+							</td>
+							<td class="text amount" id="expense_amount_<%= btnCnt %>" style="padding: 0; text-align: right; padding:5px; height: 50px;">
+								<b><input type="text" id="expense_amount_<%= btnCnt %>" name="expense_amount" class="modify" value="${ eList.expense_amount }" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:35px; margin:0; border:0; width: 95px;"></b>
+							</td>
+							<td class="text" id="expense_remove_<%= btnCnt %>" style="line-height: 50px; padding: 0;">
+								<input id="row_remove" type="button" class="white_btn asset_remove" name="asset_remove" value="삭제" style="width:75px; line-height:45px;">
+							</td>
+						</tr>
+						<% btnCnt++; %>
+					</c:forEach>
+				</c:if>
+				 
+			</table>
 		</div>
 	</form>
-	
 	<footer><jsp:include page="/resources/include/footer.jsp"/></footer>
 </body>
 
@@ -550,10 +565,10 @@ input, select, option {
 			rowItem += '<input type="hidden" id="root_id_'+btnCnt+'" name="root_id" value="${ root_Id }">';
 			rowItem += '<input type="hidden" id="expense_id_'+btnCnt+'" name="expense_id" value="new_code">';
 			/* 지출 일자를 입력할 input date 태그 */
-			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:149px;"></td>';
+			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:145px;"></td>';
 			
 			/* 지출 중분류 항목을 지정할 select 태그 */
-			rowItem += '<td class="text" id="parent_item_'+btnCnt+'" style="padding: 0;"><select style="width: 114px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
+			rowItem += '<td class="text" id="parent_item_'+btnCnt+'" style="padding: 0;"><select style="width: 110px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
 			for(var i = 0; i < itemCode.length; i++) {
 				if(itemLevel[i] == 2) {	
 					if(itemCode[i] == '1e003000') {
@@ -569,7 +584,7 @@ input, select, option {
 			rowItem += '<td class="text" id="expense_item_'+btnCnt+'" style="padding: 0;"></td>';
 			
 			/* 지출 거래유형을 지정할 select 태그 */
-			rowItem += '<td class="text" id="expense_trade_'+btnCnt+'" style="padding: 0;"><select style="width: 99px; height: 50px;" id="trade_code_'+btnCnt+'" name="trade_code">';
+			rowItem += '<td class="text" id="expense_trade_'+btnCnt+'" style="padding: 0;"><select style="width: 95px; height: 50px;" id="trade_code_'+btnCnt+'" name="trade_code">';
 			for(var i = 0; i < tradeCode.length; i++) {
 				if(tradeCode[i] == 'cash') {
 					rowItem += '<option value="'+tradeCode[i]+'" selected="selected">'+tradeName[i]+'</option>';
@@ -581,15 +596,96 @@ input, select, option {
 			
 			/* 지출할 자산계좌/카드 목록을 보여줄 select 태그 */
 			rowItem += '<td class="text" id="expense_asset_'+btnCnt+'"style="padding: 0;"></td>';
-			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:199px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
-			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 89px;"></b></td>'
-			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:50px; line-height:45px;"></td>';
+			
+			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:235px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
+			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 95px;"></b></td>'
+			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:75px; line-height:45px;"></td>';
 			
 			btnCnt++;
-			$('#expense_table').prepend(rowItem)
+			$('#expense_table').append(rowItem)/* .trigger('create'); */
 			
 			return value;
 		}
+		
+		/* 
+		// 자산 목록 행 추가하는 함수
+		$('#add_row').click(function() {
+			
+			var rowItem = "<tr>"
+			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ user.root_idn }">';
+			rowItem += '<input type="hidden" id="root_id_'+btnCnt+'" name="root_id" value="${ user.root_id }">';
+			rowItem += '<input type="hidden" id="expense_id_'+btnCnt+'" name="expense_id" value="new_code">';
+			// 지출 일자를 입력할 input date 태그
+			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:145px;"></td>';
+			// 지출 중분류 항목을 지정할 select 태그
+			rowItem += '<td class="text" style="padding: 0;"><select style="width: 110px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
+			for(var i = 0; i < itemCode.length; i++) {
+				if(itemLevel[i] == 2) {	
+					if(itemCode[i] == '1e003000') {
+						rowItem += '<option value="'+itemCode[i]+'" selected="selected">'+itemName[i]+'</option>';
+					} else {
+						rowItem += '<option value="'+itemCode[i]+'">'+itemName[i]+'</option>';
+					}
+				}
+			}
+			rowItem += '</select></td>';
+			
+			// 지출 세부항목을 지정할 select 태그
+			rowItem += '<td class="text" style="padding: 0;">';
+			rowItem += '</td>';
+			// rowItem += '<td class="text" style="padding: 0;"><select style="width: 130px; height: 50px;" id="item_code_'+btnCnt+'" name="item_code">';
+			//for(var i = 0; i < itemCode.length; i++) {
+			//	if(itemLevel[i] == 3) {
+			//		if(itemCode[i] == '1e003002') {
+			//			rowItem += '<option value="'+itemCode[i]+'" selected="selected">'+itemName[i]+'</option>';
+			//		} else {
+			//			rowItem += '<option value="'+itemCode[i]+'">'+itemName[i]+'</option>';
+			//		}
+			//	}
+			//}
+			//owItem += '</select></td>';
+			
+			// 지출 거래유형을 지정할 select 태그
+			rowItem += '<td class="text" style="padding: 0;"><select style="width: 95px; height: 50px;" id="trade_code_'+btnCnt+'" name="trade_code">';
+			for(var i = 0; i < tradeCode.length; i++) {
+				if(tradeCode[i] == 'cash') {
+					rowItem += '<option value="'+tradeCode[i]+'" selected="selected">'+tradeName[i]+'</option>';
+				} else {
+					rowItem += '<option value="'+tradeCode[i]+'">'+tradeName[i]+'</option>';
+				}
+			}
+			rowItem += '</select></td>';
+			
+			// 지출할 자산계좌/카드 목록을 보여줄 select 태그
+			rowItem += '<td class="text" style="padding: 0;">';
+			rowItem += '</td>';
+			// rowItem += '<td class="text" style="padding: 0;"><select style="width: 155px; height: 50px;" id="asset_code_'+btnCnt+'" name="asset_code">';
+			//for(var i = 0; i < assetCode.length; i++) {
+			//	if(assetCode[i] == '1cs001') {
+			//		rowItem += '<option value="'+assetCode[i]+'" selected="selected">'+assetName[i]+'</option>';
+			//	} else {
+			//		rowItem += '<option value="'+assetCode[i]+'">'+assetName[i]+'</option>';
+			//	}
+			//}
+			//for(var i = 0; i < cardCode.length; i++) {
+			//	if(assetCode[i] == '1cs001') {
+			//		rowItem += '<option value="'+cardCode[i]+'" selected="selected">'+cardName[i]+'</option>';
+			//	} else {
+			//		rowItem += '<option value="'+cardCode[i]+'">'+assetName[i]+'</option>';
+			//	}
+			//}
+			//rowItem += '</select></td>';
+			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:235px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
+			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 95px;"></b></td>'
+			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:75px; line-height:45px;"></td>';
+			
+			btnCnt++;
+			$('#expense_table').append(rowItem).trigger('create');
+			
+			expenseDetailItem(this);
+			expenseDetailAsset(this);
+			
+		}); */
 		
 		// 체크박스 체크여부에 따른 값 설정 함수
 		$(document).on("change", 'input', function(){
