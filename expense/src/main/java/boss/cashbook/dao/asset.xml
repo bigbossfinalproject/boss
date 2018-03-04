@@ -76,4 +76,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 from asset a where a.root_idn=1 group by a.root_idn
 	</select> 
 	
+
+	<!-- 자산 계좌 이름을 입력받아서 자산 코드를 받아오기(소득 테이블에서 사용) -->
+	<select id="getAssetCode" parameterType="String" resultType="String">
+		select asset_code from asset where asset_name <![CDATA[=]]> #{assetName}
+	</select>
+
 </mapper>

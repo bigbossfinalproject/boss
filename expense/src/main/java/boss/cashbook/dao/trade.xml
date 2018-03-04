@@ -14,4 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="tradeList" resultType="trade">
 		select * from trade
 	</select>
+	
+	<!-- trade_name으로 trade_code를 불러오는 sql문(income에서 사용) -->
+	<select id="getTradeCode" parameterType="String" resultType="String">
+		select trade_code from trade where trade_name <![CDATA[=]]> #{tradeName}
+	</select>
+	
+	
+	
 </mapper>

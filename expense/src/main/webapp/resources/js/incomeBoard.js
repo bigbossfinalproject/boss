@@ -12,42 +12,10 @@ window.onload = function() {
 
 }
 
-var income_option = "<option value ='i1'>주요소득</option><option value ='i2'>기타소득</option>";
-
-function getOptions(option) {
-	var test = new Array();
-	$.ajax({
-		url : './getOptions.io',
-		type : 'GET',
-		async : false,
-		dataType : 'json',
-		success : function(data) {
-			console.log("옵션 불러오기 성공 함수");
-
-			var jsonObj = data;
-			var cash = jsonObj.cash;
-			var account = jsonObj.account;
-
-			if (option == '현금') {
-				test = cash;
-			} else {
-				test = account;
-			}
-		},
-		error : function() {
-			console.log("에러");
-		}
-	})
-	console.log('test = ' + test);
-	return test;
-}
-
-
-
+var income_option = "<option >주요소득</option><option >기타소득</option>";
 
 // 페이지 로드시 실행되는 함수 (테이블 ajax로 그리기)
 function getIncomeBoard() {
-	console.log("얘 실행되냐");
 	var table = document.getElementById("ajaxTable");
 	table.innerHTML = "";
 	$.ajax(
@@ -149,15 +117,18 @@ $(document).on("click", "#row_remove", function() {
 
 });
 
+
+// '거래 유형' 체크박스 변경시 '거래 은행' 체크박스 내용 변경 함수
 $(document).on("change", '[name="trade"]', function() {
 	var tr = $(this).parent().parent();
 	var td = tr.children();
 	var data = getOptions($(this).val());
+	console.log(td.eq(4).html())
 	td.eq(4).html("");
 	var b = "";
 	b += "<select class='form-control' id = 'asset_code'>";
 	for (var i = 0; i < data.length; i++) {
-		b += "<option value = " + data[i] + ">" + data[i] + "</option> ";
+		b += "<option value = '" + data[i] + "'>" + data[i] + "</option> ";
 	}
 	b += "</select>";
 
@@ -183,14 +154,12 @@ $(document).on("click", "#row_add", function() {
 
 	td.each(function(i) {
 		if (td.eq(i).children().val != null) {
-			console.log(td.eq(i).text);
 			tdArr.push(td.eq(i).children().val());
-			console.log('text 존재' + i);
 		} else {
 
 		}
 	});
-	console.log("배열에 담긴 값 : " + tdArr);
+	console.log("add배열에 담긴 값 : " + tdArr);
 	var tdArr2 = tdArr.slice(0, 6);
 	console.log("tdArr2 :" + tdArr2)
 	var allArray = {
@@ -224,6 +193,7 @@ $(document).on("click", "#row_modify", function() {
 
 		if (td.eq(i).children().val() != null) {
 			tdArr.push(td.eq(i).children().val());
+			console.log(td.eq(i).children().val());
 		} else if (td.eq(i).text() != "") {
 			tdArr.push(td.eq(i).text());
 		}
@@ -231,7 +201,7 @@ $(document).on("click", "#row_modify", function() {
 
 	});
 	var tdArr2 = tdArr.slice(0, 6);
-	console.log(tdArr2);
+	console.log('수정 배열 :'+ tdArr2);
 
 
 	var allArray = {
@@ -289,9 +259,10 @@ $(document).on('click', 'td', function() {
 				b += "<select class='form-control' id = 'asset_code'>";
 				for (var i = 0; i < a.length; i++) {
 					b += "<option value = " + a[i] + ">" + a[i] + "</option> ";
+				
 				}
 				b += "</select>";
-
+				
 				$(this).append(b);
 
 			} else {
@@ -319,3 +290,32 @@ $(document).on('blur', 'input', function() {
 	}
 
 })
+
+function getOptions(option) {
+	var test = new Array();
+	$.ajax({
+		url : './getOptions.io',
+		type : 'GET',
+		async : false,
+		dataType : 'json',
+		success : function(data) {
+			
+
+			var jsonObj = data;
+			var cash = jsonObj.cash;
+			var account = jsonObj.account;
+
+			if (option == '현금') {
+				test = cash;
+				console.log(cash);
+			} else {
+				test = account;
+			}
+		},
+		error : function() {
+			alert("옵션 불러오기 에러");
+		}
+	})
+	
+	return test;
+}
