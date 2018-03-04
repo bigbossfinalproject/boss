@@ -13,6 +13,7 @@
 		<typeAlias alias="card" type="boss.cashbook.model.CardBean"/>
 		<typeAlias alias="cardCorp" type="boss.cashbook.model.CardCorpBean"/>
 		<typeAlias alias="loan" type="boss.cashbook.model.LoanBean"/>
+		<typeAlias alias="header_info" type="boss.cashbook.model.header_infoBean"/>
 		<typeAlias alias="bankCorp" type="boss.cashbook.model.BankCorpBean"/>
 		<typeAlias alias="expenseMonthSum" type="boss.cashbook.model.ExpenseMonthSumBean"/>
 		<typeAlias alias="capitalCorp" type="boss.cashbook.model.CapitalCorpBean"/>
@@ -22,8 +23,6 @@
 		<typeAlias alias="budget_excel" type="boss.com.vs.model.Budget_excelBean"/>
 		<typeAlias alias="User_Bean" type="boss.user.model.User_Bean" /> 
 		<typeAlias alias="Board_Bean" type="boss.board.model.Board_Bean" /> 
-		
-		 
 	</typeAliases>
 	<mappers>
 		<mapper resource="boss/cashbook/dao/object_root.xml"/>

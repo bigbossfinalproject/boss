@@ -35,7 +35,7 @@ select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') bet
  <insert id="budget_insert" parameterType="budget">
 	 insert into budget 
 	 values(budget_code_seq.nextVal,#{root_idn},#{budget_amount}, 
-	 0,sysdate,#{item_code})         
+	 0,#{budget_date},#{item_code})         
 	</insert>
 	
 	<!-- 예산 복사 -->
@@ -53,7 +53,7 @@ select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') bet
  
  	<!-- 예산 수정 -->
   <update id="budget_modify" parameterType="budget">
- 	update budget set BUDGET_AMOUNT = #{budget_amount}, item_code=#{item_code},budget_amount_spent=#{budget_amount_spent} 
+ 	update budget set BUDGET_AMOUNT = #{budget_amount}, budget_date=#{budget_date},budget_amount_spent=#{budget_amount_spent} 
  	where budget_code=#{budget_code}
  </update>
  

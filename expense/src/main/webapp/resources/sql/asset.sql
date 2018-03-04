@@ -1,5 +1,16 @@
 drop table asset purge;
 
+
+select sum(basic_amount) total_amount, 
+(select sum(a1.basic_amount) from asset a1 where trade_code='account')account_amount, 
+(select sum(e1.expense_amount) from expense e1 where trade_code='account') account_amount_spent,
+(select sum(a2.basic_amount) from asset a2 where trade_code='cash') cash_amount,
+(select sum(e2.expense_amount) from expense e2 where trade_code='cash') cash_amount_spent
+from asset a where a.root_idn=1 group by a.root_idn
+
+select * from budget
+
+
 create table asset(
 	asset_code  varchar2(20)  constraint asset_asset_code_pk primary key,
 	trade_code  varchar2(20)  constraint asset_trade_code_fk references trade(trade_code),

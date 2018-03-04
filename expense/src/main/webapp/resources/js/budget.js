@@ -237,28 +237,38 @@
 			for (var i = 0; i < result.length; i++) {
 				row += "<tr>"
 
-				for (var j = 0; j < result[i].length; j++) {
+				for (var j = 0; j < result[i].length-1; j++) {
 
 					if (j == 1) {
-						sum_amount += parseInt(result[i][1].value)
+					
 					}
 					if (j == 3) {
-						sum_amount_spent += parseInt(result[i][3].value)
+						
 					}
 					if (j == 2) {
-						row += "<input type=hidden id=budget_Id" + i + j + " value=" + result[i][j].value + ">"
+						
 					}else if(j==0){
-						row += "<td>" +result[i][0].value + "</td>"
-					}else{
-						row += "<td><input type=text class=aa id=budget_Id" + i + j + " value=" + result[i][j].value + "></td>"
+						
+					}else if(j==4){
+						
 					}
 				}
-
+				sum_amount += parseInt(result[i][1].value)
+				sum_amount_spent += parseInt(result[i][3].value)
+				
+			
+				
+				
+				row += "<td>" +result[i][0].value + "</td>"
+				row += "<td><input type=text class=aa id=update_amount" + i + " value=" + result[i][1].value + "></td>"
+				row += "<input type=hidden id=update_budget_code" + i + " value=" + result[i][2].value + ">"
+				row += "<td><input type=text class=aa id=update_amount_spent" + i + " value=" + result[i][3].value + "></td>"
 				row += "<td>" + ((result[i][1].value) - (result[i][3].value)) + "</td>"
+				row += "<td><input type=date id=update_date" + i + " value="+result[i][4].value+"></td>"
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=updateFunction(" + i + "); type=button >" + "수정" + "</button></td>"
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=deleteFunction(" + result[i][2].value + "); type=button >" + "삭제" + "</button></td>"
 				row += "</tr>"
-
+					
 
 				graph3Val1.push(parseInt(result[i][3].value));
 				graph3Val2.push((result[i][1].value) - (result[i][3].value));
@@ -283,8 +293,8 @@
 	function updateFunction(i) {
 		$.ajax(
 			{
-				url : "./budget_modify.bg?item_code=" + document.getElementById("budget_Id" + i + 0).value + "&budget_amount=" + document.getElementById("budget_Id" + i + 1).value
-					+ "&budget_code=" + document.getElementById("budget_Id" + i + 2).value + "&budget_amount_spent=" + document.getElementById("budget_Id" + i + 3).value,
+				url : "./budget_modify.bg?budget_date=" + document.getElementById("update_date" + i).value + "&budget_amount=" + document.getElementById("update_amount" + i).value
+					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value + "&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
 				type : 'GET',
 				success : function(result) {
 					selectFunction();
@@ -313,7 +323,7 @@
 					}
 					console.log(row);
 					
-
+					$("#item_code").html("");
 					$('#item_code').append(row);
 
 				},
@@ -375,10 +385,10 @@
 	}
 
 	function insertFunction() {
-		insertRequest.open("Post", "./budget_insert.bg?budget_amount=" + encodeURIComponent(document.getElementById("budget_amount").value) + "&item_code=" + encodeURIComponent(document.getElementById("item_code").value), true);
+		insertRequest.open("Post", "./budget_insert.bg?budget_amount=" + encodeURIComponent(document.getElementById("budget_amount").value) + 
+		"&item_code=" + encodeURIComponent(document.getElementById("item_code").value)+"&budget_date=" + encodeURIComponent(document.getElementById("budget_date").value), true);
 		insertRequest.onreadystatechange = insertProcess;
 		insertRequest.send(null);
-
 	}
 
 	function insertProcess() {

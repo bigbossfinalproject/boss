@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +29,8 @@ import boss.cashbook.dao.TradeDAOImpl;
 import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.BankCorpBean;
 import boss.cashbook.model.ExpenseBean;
-import boss.cashbook.model.ObjectRootBean;
 import boss.cashbook.model.TradeBean;
+import boss.cashbook.model.header_infoBean;
 import boss.cashbook.service.AssetViewBean;
 
 @Controller
@@ -305,6 +307,37 @@ public class AssetController {
 		int start = (int) (Math.random()*16);
 		String uId = uid.substring(start, start+15);
 		return uId;
+	}
+	
+	// headerInfo를 생성하는 메서드
+	@RequestMapping(value = "header_info.do", method = RequestMethod.GET)
+	public void item_list(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
+		int info[]=new int[3];
+		System.out.println("헤더인포");		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		header_infoBean bean=null;
+		int root_idn =1; 
+		//((Integer) session.getAttribute("root_Idn")).intValue();
+		bean = assetDao.header_info(root_idn);
+		JSONArray list = new JSONArray();
+		JSONObject obj = new JSONObject();
+		
+
+		list.add(bean.getTotal_amount()-(bean.getAccount_amount_spent()+bean.getCash_amount_spent()));
+		list.add(bean.getAccount_amount()-bean.getAccount_amount_spent());
+		list.add(bean.getCash_amount()-bean.getCash_amount_spent());
+				
+
+		obj.put("list", list);
+		
+		System.out.println(obj.toString());
+		response.getWriter().write(obj.toString());
+		
+		
+		
+		
+		
 	}
 	
 }

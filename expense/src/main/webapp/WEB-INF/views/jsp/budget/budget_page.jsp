@@ -60,34 +60,26 @@ table.ui-datepicker-calendar {
 
 <body>
 <header><jsp:include page="/resources/include/header.jsp"/></header>
-    
-	<table align="center">
-		<tr>
-			<td id="graph" style="width: 700px; height: 304px;"></td>
-			<td id="chart6" style="width: 700px; height: 304px;"></td>
-		</tr>
-	</table>
-
-	<table align="center">
-		<tr>
-			<td id="chart5" style="width: 1500px; height: 304px;"></td>
-		</tr>
-	</table>
-
-	<br>
+<div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
+	
+	<div class="frame_1080">
+	<br>	<br><br><br><br><br><br>
+	
 
 				
 	
 
-	<div class="container">
 
 	<table>
+	<tbody>
+	<tr>
 		<td><input id=cal type="month" onchange="selectFunction();"></td>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
 		<td><input type="month" id="excel1" ><input type="month" id="excel2"></td>
 	<td><button onclick="excelFunction();" type="button">엑셀로 다운</button></td>
 		<td id="excel3"></td>
-				
+		</tr>
+				</tbody>
 </table>
 		<table class="table"
 			style="text-align: center; border: 1px solid #dddddd">
@@ -97,6 +89,7 @@ table.ui-datepicker-calendar {
 					<th style="background: #fafafa; text-align: center;">예산</th>
 					<th style="background: #fafafa; text-align: center;">사용금액</th>
 					<th style="background: #fafafa; text-align: center;">남은금액</th>
+					<th style="background: #fafafa; text-align: center;">예산설정일</th>
 					<th style="background: #fafafa; text-align: center;">수정</th>
 					<th style="background: afafa; text-align: center;">삭제</th>
 				</tr>
@@ -105,32 +98,42 @@ table.ui-datepicker-calendar {
 			</tbody>
 
 		</table>
-	</div>
-	<div class="container">
+	
 		<table class="table"
 			style="text-align: center; border: 1px solid #dddddd">
 			<tbody>
 				<tr>
 					<td style="background-color: #fafafa; text-align: center"><h5>아이템품목</h5></td>
-					<td>
-		
-					 <select  class="form-control" id="item_code">		
-					</select></td>
-
+					<td><select  class="form-control" id="item_code">	</select></td>
 					<td style="background-color: #fafafa; text-align: center"><h5>예산</h5></td>
-					<td><input class="form-control" type="text" id="budget_amount"
-						size="20"></td>
+					<td><input class="form-control" type="text" id="budget_amount" size="20"></td>
+					<td style="background-color: #fafafa; text-align: center"><h5>예산날짜</h5></td>
+					<td><input class="form-control" type="date" id="budget_date" size="20"></td>
+					
 					<td colspan="2"><button class="btn btn-primary pull-right"
 							onclick="insertFunction();" type="button">등록</button>
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	
  
+	
+	<br><br><br>
+ 	<table >
+		<tr>
+			<td id="graph" style="width: 700px; height: 304px;"></td>
+			<td id="chart6" style="width: 700px; height: 304px;"></td>
+		</tr>
+	</table>
+
+	<table >
+		<tr>
+			<td id="chart5" style="width: 1500px; height: 304px;"></td>
+		</tr>
+	</table>
+	 
 		
-		
-		
+		</div>
+			
 </body>
 
 </html>
