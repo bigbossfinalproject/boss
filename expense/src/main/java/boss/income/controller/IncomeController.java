@@ -44,7 +44,7 @@ public class IncomeController {
 		StringBuffer str = new StringBuffer("");
 		str.append("{\"result\":[");
 		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
-		
+
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
 		for (int i = 0; i < list.size(); i++) {
@@ -63,6 +63,8 @@ public class IncomeController {
 			}
 		}
 		str.append("]}");
+
+		System.out.println(str);
 
 		return str.toString();
 	}
@@ -98,17 +100,22 @@ public class IncomeController {
 		System.out.println("root_idn = " + dataToInt);
 		IncomeBean bean = new IncomeBean();
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
+		String assetCode = incomeService.getAssetCode(arrayData.get(3));
+		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
+
+		System.out.println("tradeCode :" + tradeCode);
+		
 		bean.setIncome_Id(data);
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
 		bean.setIncome_Code(incomeName);
-		bean.setTrade_Code(arrayData.get(2));
-		bean.setAsset_Code(arrayData.get(3));
+		bean.setTrade_Code(tradeCode);
+		bean.setAsset_Code(assetCode);
 		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
 		bean.setIncome_Description(arrayData.get(5));
 
 		incomeService.updateImcomeList(bean);
 	}
-	
+
 	@RequestMapping(value = "/getOptions.io", method = RequestMethod.GET)
 	public void getOptions(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
@@ -131,9 +138,8 @@ public class IncomeController {
 
 		obj.put("cash", cash);
 		obj.put("account", account);
-		System.out.println(obj.toString());
+
 		response.getWriter().write(obj.toString());
 
 	}
 }
-

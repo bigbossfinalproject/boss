@@ -56,10 +56,10 @@ public class IncomeDaoImpl implements IncomeDao {
 
 	@Override
 	public String getIncomeName(String income_Name) {
-		return this.sqlSession.selectOne("setIncomeId",income_Name);
-		
+		return this.sqlSession.selectOne("setIncomeId", income_Name);
+
 	}
-	
+
 	@Override
 	public int incomeCodeCount(Map<String, String> income_code) {
 		return this.sqlSession.selectOne("incomeCodeCount", income_code);
@@ -71,5 +71,16 @@ public class IncomeDaoImpl implements IncomeDao {
 		return this.sqlSession.selectList("getIncomeOptions", root_Idn);
 	}
 
-	
+	@Override
+	public String getAssetCode(String assetName) {
+
+		return this.sqlSession.selectOne("getAssetCode", assetName);
+
+	}
+
+	@Override
+	public String getTradeCode(String tradeName) {
+		return this.sqlSession.selectOne("getTradeCode", tradeName);
+	}
+
 }

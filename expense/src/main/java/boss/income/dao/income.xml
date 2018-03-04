@@ -9,7 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- select * from income where root_idn = #{root_idn} -->
 		select i.root_idn, i.income_id, i.income_date, (select item_name from
 		income_classification where income_code = i.income_code )
-		income_code, i.income_amount,(select trade_name from trade where
+		income_code,
+		i.income_amount,(select trade_name from trade where
 		trade_code=i.trade_code) trade_code, (select asset_name from asset
 		where asset_code = i.asset_code) asset_code,
 		i.income_description
@@ -18,37 +19,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		i.income_date asc
 	</select>
 
-	<select id="addIncomeList" parameterType="incomeBoard">
+	<insert id="addIncomeList" parameterType="incomeBoard">
 		insert into income
 		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
 		#{income_Amount}, #{trade_Code}, #{asset_Code},#{income_Description} )
-	</select>
+	</insert>
 
-	<select id="delIncomeList" parameterType="int">
+	<delete id="delIncomeList" parameterType="int">
 		delete from income
 		where income_id = #{income_Id}
+	</delete>
+	
 
-	</select>
-
-	<select id="modifyIncomeList" parameterType="incomeBoard">
+	<update id="modifyIncomeList" parameterType="incomeBoard">
 		update income set
 		Income_Date = #{income_Date}, Income_code =
 		#{income_Code}, Trade_Code
 		= #{trade_Code}, Asset_Code=#{asset_Code}, Income_Amount =
 		#{income_Amount}, Income_Description = #{income_Description} where
 		income_id = #{income_Id}
+	</update>
+	
 
+	<select id="incomeCodeCount" parameterType="java.util.Map"
+		resultType="int">
+		select count(*) from income where income_code <![CDATA[=]]>
+		#{item_code}
 	</select>
-	
-	<select id="incomeCodeCount" parameterType="java.util.Map" resultType="int">
-		select count(*) from income where income_code <![CDATA[=]]> #{item_code}
-	</select>
-	
+
 	<select id="getIncomeOptions" parameterType="int" resultType="incomeOption">
-		
 		select trade_code, asset_name from asset where root_idn = #{root_Idn}
-		
 	</select>
-	
+
 </mapper>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
@@ -7,22 +8,26 @@
 <title>소득 보기</title>
 
 <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="./resources/bootstrap/js/bootstrap.js"></script>
 <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 
 <!-- chart 용 라이브러리 -->
 <script type="text/javascript" src="./resources/dist/jquery.jqplot.js"></script>
-<script type="text/javascript" src="./resources/dist/plugins/jqplot.json2.js"></script>
-<link rel="stylesheet" type="text/css" href="./resources/dist/jquery.jqplot.css" />
-<script type="text/javascript" src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.json2.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="./resources/dist/jquery.jqplot.css" />
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
 
-<script src="./resources/js/incomeBoard.js?ver=1.3"></script>
+<script src="./resources/js/incomeBoard.js?ver=1.7"></script>
 
 <style type="text/css">
-	body {
-		width: 1280px;
-		margin: 0 auto;
-	}
+body {
+	width: 1280px;
+	margin: 0 auto;
+}
 </style>
 
 </head>
@@ -30,7 +35,7 @@
 	<header><jsp:include page="/resources/include/header.jsp" /></header>
 	<h2 class="text-center">소득 내역</h2>
 
-	<div id="income_chart" class = "container"></div>
+	<div id="income_chart" class="container"></div>
 
 
 
@@ -40,9 +45,9 @@
 				<col width="15%" />
 				<col width="10%" />
 				<col width="10%" />
-				<col width="10%" />
+				<col width="20%" />
 				<col width="25%" />
-				<col width="30%" />
+				<col width="20%" />
 			</colgroup>
 
 			<thead>
