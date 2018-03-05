@@ -24,6 +24,10 @@ public class BudgetDaoImpl {
 		int insert_check=this.sqlSession.selectOne("insert_check",bean);
 		return insert_check;
 	}
+	public int modify_check(BudgetBean bean){
+		int insert_check=this.sqlSession.selectOne("modify_check",bean);
+		return insert_check;
+	}
 	
 	public List<BudgetBean> budget_excel_list(Budget_excelBean excel_bean){
 		
