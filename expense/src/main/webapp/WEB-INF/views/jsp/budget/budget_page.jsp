@@ -13,25 +13,16 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="./resources/bootstrap/js/bootstrap.js"></script>
 
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="./resources/dist/jquery.jqplot.js"></script>
-<script type="text/javascript"
-	src="./resources/dist/plugins/jqplot.barRenderer.js"></script>
-<script type="text/javascript"
-	src="./resources/dist/plugins/jqplot.pieRenderer.js"></script>
-<script type="text/javascript"
-	src="./resources/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
-<script type="text/javascript"
-	src="./resources/dist/plugins/jqplot.pointLabels.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="./resources/dist/jquery.jqplot.css" />
-<script src="./resources/js/calendar_beans_v2.2.js"
-	type="text/javascript" charset="utf-8"></script>
-<script src="./resources/js/jquery.mask.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="./resources/js/budget.js" type="text/javascript"
-	charset="utf-8"></script>
+<script type="text/javascript" src="./resources/dist/plugins/jqplot.barRenderer.js"></script>
+<script type="text/javascript" src="./resources/dist/plugins/jqplot.pieRenderer.js"></script>
+<script type="text/javascript" src="./resources/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
+<script type="text/javascript" src="./resources/dist/plugins/jqplot.pointLabels.js"></script>
+<link rel="stylesheet" type="text/css" href="./resources/dist/jquery.jqplot.css" />
+<script src="./resources/js/calendar_beans_v2.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="./resources/js/jquery.mask.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="./resources/js/budget.js" type="text/javascript" charset="utf-8"></script>
 		
 
 <script>	window.onload = function() {
@@ -39,7 +30,8 @@
 		item_list();
 		selectFunction();
 	}
-		
+	
+	
 </script>
 
 <style type="text/css">
@@ -58,23 +50,25 @@ table.ui-datepicker-calendar {
 
 
 <body>
-<%-- <header><jsp:include page="/resources/include/header.jsp"/></header>
-<div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
-	 --%>
+<header><jsp:include page="/resources/include/header.jsp"/></header>
+<%-- <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div> --%>
+
 	<div class="frame_1080">
 	<br>	<br><br><br><br><br><br>
 	
+
+				
+	
+
+
 	<table>
 	<tbody>
-		
-		<tr>
+	<tr>
 		<td><input id=cal type="month" onchange="selectFunction();"></td>
-		</tr>
-		<tr>
-			<td><input type="month" id="excel1" ><input type="month" id="excel2"></td>
-		<td><button class="btn btn-primary pull-right" onclick="excelFunction();" type="button" style="width: 300">Excel download</button></td>
+		
+		<td><input type="month" id="excel1" ><input type="month" id="excel2"></td>
+	<td><button onclick="excelFunction();" type="button">엑셀로 다운</button></td>
 		<td id="excel3"></td>
-	
 		</tr>
 				</tbody>
 </table>
@@ -105,7 +99,8 @@ table.ui-datepicker-calendar {
 					<td style="background-color: #fafafa; text-align: center"><h5>예산</h5></td>
 					<td><input class="form-control" type="text" id="budget_amount" size="20"></td>
 					<td style="background-color: #fafafa; text-align: center"><h5>예산날짜</h5></td>
-					<td><input class="form-control" type="date" id="budget_date" size="20"></td>			
+					<td><input class="form-control" type="date" id="budget_date" size="20"></td>
+					
 					<td colspan="2"><button class="btn btn-primary pull-right"
 							onclick="insertFunction();" type="button">등록</button>
 				</tr>
@@ -127,6 +122,7 @@ table.ui-datepicker-calendar {
 		</tr>
 	</table>
 	 
+		
 		</div>
 			
 </body>

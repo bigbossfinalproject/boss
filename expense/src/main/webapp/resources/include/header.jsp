@@ -6,7 +6,7 @@
 <title>header</title>
 <style type="text/css">
 	.main_header {
-		position: fixed;
+		/* position: fixed; */
 		top:0;
 		background:#1e90ff;
 		width:1280px;
@@ -127,11 +127,11 @@
 			<div class="menutop"></div>
 			<div class="menubar">
 				<ul>		
-				<li><a href="boardList.bo">Home</a></li>
+				<li><a href="testMain.bo">Home</a></li>
 				<li><a href="#">커뮤니티</a>
 					<ul>
-						<li><a href="#">공지사항</a></li>
-						<li><a href="boardList.bo">자유게시판</a></li>
+						<li><a href="noticeBoard.bo">공지사항</a></li>
+						<li><a href="communiteBoard.bo">자유게시판</a></li>
 					</ul>		 
 				</li>
 				<li><a href="#">입력</a>
@@ -158,7 +158,7 @@
 				<li><a href="#">${ root_Id }님 환영합니다.</a></li>
 				<li><a href="#" style="font-size: 20px">▼</a>
 					<ul>
-						<li><a href="userLogin.uo">로그아웃</a></li>
+						<li><a href="userLogout.uo">로그아웃</a></li>
 						<li><a href="userModify_view.uo?root_Id=${root_Id }">정보 수정</a></li>
 						<li><a href="userDelete.uo?root_Id=${root_Id }">탈퇴</a></li>
 					</ul>	 

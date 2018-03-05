@@ -21,10 +21,8 @@
 		var firstDate=document.getElementById("excel1").value;
 		var lastDate=document.getElementById("excel2").value;
 		
-		var date="<a href=./budget_excel.bg?firstDate="+firstDate+"&lastDate="+lastDate+" download='budget.xls'><button type=button class='btn btn-info'>" +
-				"<span class='glyphicon glyphicon-save'></span></button></a>";
+		var date="<a id=excel3 href=./budget_excel.bg?firstDate="+firstDate+"&lastDate="+lastDate+" download=budget.xls>파일 다운로드</a>";
 	
-		console.log(date);
 		$('#excel3').append(date);
 	
 	}
@@ -55,15 +53,11 @@
 
 	}
 	;
-	function graph2(value1, value2, value3) {
+	function graphy2(value1, value2) {
 		var s1 = value1;
 		var s2 = value2;
-		
-		console.log(s1);
-		console.log(s2);
-		
 		$("#chart5").html("");
-		plot1 = $.jqplot("chart5", [ s1, s2 ], {
+		plot1 = $.jqplot("chart5", [ s2, s1 ], {
 			// Turns on animatino for all series in this plot.
 			animate : true,
 			// Will animate plot on calls to plot1.replot({resetAxes:true})
@@ -113,8 +107,17 @@
 			axes : {
 				// These options will set up the x axis like a category axis.
 				xaxis : {
-					renderer : $.jqplot.CategoryAxisRenderer,
-					ticks : value3
+					tickOptions : {
+						formatString : "%'d월"
+					},
+					tickInterval : 1,
+					drawMajorGridlines : false,
+					drawMinorGridlines : true,
+					drawMajorTickMarks : false,
+					rendererOptions : {
+						tickInset : 0.5,
+						minorTicks : 1
+					}
 				},
 				yaxis : {
 					tickOptions : {
@@ -138,7 +141,6 @@
 			highlighter : {
 				show : true,
 				showLabel : true,
-				formatString : "%'s월",
 				tooltipAxes : 'y',
 				sizeAdjust : 7.5,
 				tooltipLocation : 'ne'
@@ -168,11 +170,12 @@
 			},
 
 
-			legend : {		
+			legend : {	
+				
 				show : true, 
 				labels : ticks, 
-				location : 'ne', 
-				placement : 'insideGrid' ,
+				location : 'e', 
+				placement : 'outsideGrid' ,
 				labels:[ '남은금액','사용금액']
 				}
 				
@@ -209,7 +212,7 @@
 	var insertRequest = new XMLHttpRequest();
 
 	function selectFunction() {
-	
+		console.log(document.getElementById("cal").value);
 		selectRequest.open("Post", "./budget_list.bg?date=" + document.getElementById("cal").value, true);
 		selectRequest.onreadystatechange = selectProcess;
 		selectRequest.send(null);
@@ -234,15 +237,29 @@
 			for (var i = 0; i < result.length; i++) {
 				row += "<tr>"
 
+				for (var j = 0; j < result[i].length-1; j++) {
 
+					if (j == 1) {
+					
+					}
+					if (j == 3) {
+						
+					}
+					if (j == 2) {
+						
+					}else if(j==0){
+						
+					}else if(j==4){
+						
+					}
+				}
 				sum_amount += parseInt(result[i][1].value)
 				sum_amount_spent += parseInt(result[i][3].value)
 				
 			
 				
 				
-				row += "<input type=hidden class=aa id=update_item_code" + i + " value=" + result[i][0].value + ">"
-				row += "<td>"+ result[i][0].value + "</td>"
+				row += "<td>" +result[i][0].value + "</td>"
 				row += "<td><input type=text class=aa id=update_amount" + i + " value=" + result[i][1].value + "></td>"
 				row += "<input type=hidden id=update_budget_code" + i + " value=" + result[i][2].value + ">"
 				row += "<td><input type=text class=aa id=update_amount_spent" + i + " value=" + result[i][3].value + "></td>"
@@ -252,9 +269,7 @@
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=deleteFunction(" + result[i][2].value + "); type=button >" + "삭제" + "</button></td>"
 				row += "</tr>"
 					
-				
-					console.log(document.getElementById("update_item_code"+i))
-					
+
 				graph3Val1.push(parseInt(result[i][3].value));
 				graph3Val2.push((result[i][1].value) - (result[i][3].value));
 				graph3Val3.push(result[i][0].value);
@@ -278,17 +293,11 @@
 	function updateFunction(i) {
 		$.ajax(
 			{
-				
 				url : "./budget_modify.bg?budget_date=" + document.getElementById("update_date" + i).value + "&budget_amount=" + document.getElementById("update_amount" + i).value
-					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value +"&item_code=" + document.getElementById("update_item_code"+i).value
-					+"&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
+					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value + "&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
 				type : 'GET',
 				success : function(result) {
-					if (result == 1) {
-						alert('이미 존재하는 예산입니다.')
-					}else{
 					selectFunction();
-					}
 				},
 				error : function() {
 					alert('통신실패!!');
@@ -312,6 +321,7 @@
 					for (var i = 0; i < result.length; i++) {
 						row+="<option value="+result[i]+">"+result[i]+"</option>";
 					}
+					console.log(row);
 					
 					$("#item_code").html("");
 					$('#item_code').append(row);
@@ -334,17 +344,22 @@
 					var result = jsonObj.result;
 					var value1 = new Array();
 					var value2 = new Array();
-					var value3 = new Array();
 					for (var i = 0; i < result.length; i++) {
+						var value3 = new Array();
+						var value4 = new Array();
 
-						value1.push(parseInt(result[i][0].value));
-						value2.push(parseInt(result[i][1].value));
-						value3.push(result[i][2].value);
+						value3.push(parseInt(result[i][2].value), parseInt(result[i][0].value));
+						value4.push(parseInt(result[i][2].value), parseInt(result[i][1].value));
 
+						value1.push(value3);
+						value2.push(value4);
 					}
 
+					console.log(value1);
+					console.log(value2);
 
-					graph2(value1, value2,value3);
+					graphy2(value2, value1)
+
 
 				},
 				error : function() {

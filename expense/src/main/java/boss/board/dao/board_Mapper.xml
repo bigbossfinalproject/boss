@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boss.board.model.Board_Bean"> 
+	<!-- 목록 --> 
+	 <select id="notice" resultType="Board_Bean">
+		SELECT * FROM notice		
+	</select>
+	 <select id="boardList" resultType="Board_Bean">
+		SELECT * FROM COMMUNITE		
+	</select>
+	
+	<!-- 내용 -->
+	 <select id="noticeContent" parameterType="String" resultType="Board_Bean">
+		SELECT * FROM notice where bId = #{bId}
+	</select>
+	 <select id="boardContent" parameterType="String" resultType="Board_Bean">
+		SELECT * FROM COMMUNITE 	where bId = #{bId}
+	</select>
+	 <select id="noticeView" parameterType="String" resultType="Board_Bean">
+		SELECT * FROM notice where bId = #{bId}
+	</select>
+	
+	
+	<!--카운트증가  -->
+	<update id="noticeCnt" parameterType="String">
+		update notice set bHit = bHit+1 where bId = #{bId}
+	</update>
+	<update id="boardCnt" parameterType="String">
+		update communite set bHit = bHit+1 where bId = #{bId}
+	</update>
+	
+	<!--삭제  -->
+	<delete id="noticeDelete" parameterType="String">
+		delete FROM notice where bId = #{bId}
+	</delete>
+	<delete id="boardDelete" parameterType="String">
+		delete FROM COMMUNITE where bId = #{bId}
+	</delete>
+	
+	<!--작성  -->
+	 <insert id="noticeWrite" parameterType="java.util.Map">
+		insert into notice(bId, root_id, bTitle, bContent, bHit, bGroup, bStep, bIndent, bGrade)
+		values(notice_seq.nextVal, #{root_Id}, #{bTitle}, #{bContent}, 0, 0, 0, 0, 1)			
+	</insert>
+	<insert id="boardWrite" parameterType="java.util.Map">
+		insert into communite(bId, root_id, bTitle, bContent, bHit, bGroup, bStep, bIndent, bGrade)
+		values(communite_seq.nextVal, #{root_Id}, #{bTitle}, #{bContent}, 0, 0, 0, 0, 0)			
+	</insert>
+	
+	<!--수정  -->
+	<update id="noticeModify">
+		update notice set bTitle=#{bTitle}, bContent=#{bContent} where bId = #{bId}
+	</update>
+	
+	<update id="boardModify">
+		update communite set bTitle=#{bTitle}, bContent=#{bContent} where bId = #{bId}
+	</update>
+	
+</mapper>

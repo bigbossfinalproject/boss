@@ -16,20 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date(#{firstDate},'YYYY-MM') and add_months(to_date(#{lastDate},'YYYY-MM'),1) and root_idn=#{root_idn}
 	</select>
 	
-	<!-- 예산입력 중복 확인  -->  
+	<!-- 예산 중복 확인  -->  
 	 <select id="insert_check" parameterType="budget" resultType="int">
-			select count(*) from budget where to_char(budget_date,'YYYY-MM')=#{budget_date} and ITEM_code=#{item_code} and root_idn=#{root_idn}
+			select count(*) from budget where to_char(budget_date,'YYYY-MM')=to_char(sysdate,'YYYY-MM') and ITEM_code=#{item_code} and root_idn=#{root_idn}
 	</select>
-	<!-- 예산수정 중복 확인  -->  
-	 <select id="modify_check" parameterType="budget" resultType="int">
-			select count(*) from budget where to_char(budget_date,'YYYY-MM')=#{budget_date} and ITEM_code=#{item_code} and root_idn=#{root_idn} and budget_code !=#{budget_code}
-	</select>
-
 
 	<!-- 통합 예산 목록 -->
 	<select id="budget_total_list" parameterType="int" resultType="budget">
-	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYY-MM') budget_date from budget where root_idn= #{root_idn} group by to_char(budget_date,'YYYY-MM')  
-	order by budget_date
+	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYYMM') budget_date from budget where root_idn= #{root_idn} group by to_char(budget_date,'YYYYMM')  
 	</select>
 	
 	<!-- 아이템 리스트 -->
@@ -48,7 +42,7 @@ select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') bet
  <insert id="budget_copy" parameterType="budget">
 	 insert into budget 
 	 values(budget_code_seq.nextVal,#{root_idn},#{budget_amount}, 
-	 0,sysdate,#{item_code}) 
+	 0,sysdate,#{item_code})         
 	</insert>
 	
  	<!-- 예산 삭제 -->

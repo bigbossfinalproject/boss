@@ -23,59 +23,43 @@ public class User_Controller {
 		//로그인 체크
 		@RequestMapping(value="/userLogin.uo")
 		public String userLogin(Model model, HttpServletRequest request, HttpServletResponse reponse,HttpSession session,
-				@RequestParam(value="root_Id", required=false, defaultValue="") String root_Id, 
-				@RequestParam(value="root_Pwd", required=false,defaultValue="") String root_Pwd) {
+				@RequestParam(value="loginId", required=false, defaultValue="") String loginId, 
+				@RequestParam(value="loginPwd", required=false,defaultValue="") String loginPwd) {
 			
-			System.out.println("id" + root_Id);
-			System.out.println("pwd" + root_Pwd);
-			User_Bean dto = dao.loginCheck(root_Id, root_Pwd);
-			
+			User_Bean dto = dao.loginCheck(loginId, loginPwd);
 			if(dto!=null) {
-				session.setAttribute("root_Id", dto.getRoot_Id());
-				session.setAttribute("root_Idn", dto.getRoot_Idn());
-				session.setAttribute("root_Grade", dto.getRoot_Grade());
-				return "redirect:item_list.do";
-			}
-/*		int loginCheck = dao.loginCheck(root_Id, root_Pwd); //파라메터 2개 전달 가능
-		
-		if(loginCheck==1) {
-			model.addAttribute("loginCheck", loginCheck);
-			model.addAttribute("root_Id", root_Id);
-			return "include/header";
 			
-		}*/
+			session.setAttribute("root_Id", dto.getRoot_Id());
+			session.setAttribute("root_Idn", dto.getRoot_Idn());
+			session.setAttribute("root_Grade", dto.getRoot_Grade());			
+//			return "redirect:mainBoard.bo";
+			return "testMain";
+		}
 			return "user/userLogin";
 	}
-		
-			
-		//회원가입 폼 제출
-		
+		//회원가입 폼 제출		
 		@RequestMapping(value="/userJoin_write.uo")
 		public String userJoin_write() {
-			
 			return "user/userJoin_write";
-		}
-		
+		}		
 		
 		//회원가입진행
 		@RequestMapping(value="/userJoin.uo")
 		public String userJoin(HttpServletRequest request, 
 				@RequestParam(value="root_Id") String root_Id, 
 				@RequestParam(value="root_Pwd") String root_Pwd,
-				@RequestParam(value="root_Name") String root_Name,
-				@RequestParam(value="root_Gender") String root_Gender,
+				@RequestParam(value="root_Name") String root_Name,				
 				@RequestParam(value="root_Email") String root_Email,
-				@RequestParam(value="root_Birth") String root_Birth,
-				@RequestParam(value="root_Job") String root_Job,
-				@RequestParam(value="root_Address") String root_Address){		
-		
+				@RequestParam(value="root_Address", defaultValue="") String root_Address
+				){		
 			
-			dao.userJoin(root_Id, root_Pwd, root_Name ,root_Gender ,root_Email ,root_Birth ,root_Job , root_Address);
+			System.out.println("주소 "+root_Address);
+			dao.userJoin(root_Id, root_Pwd, root_Name ,root_Email);
 			
-			
-			
-			return "redirect:userLogin.uo";
+			return "redirect:mainBoard.bo";
 		}
+		
+		
 		
 		//회원탈퇴
 		@RequestMapping(value="/userDelete.uo")
@@ -119,5 +103,12 @@ public class User_Controller {
 			return mv;
 			
 		}		
+		//로그아웃
+		@RequestMapping(value="userLogout.uo")
+		public String userLogout(HttpSession session){
+			session.invalidate();
+			
+			return "redirect:mainBoard.bo";
+		}
 }
 

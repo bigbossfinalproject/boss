@@ -21,6 +21,7 @@ select root_idn, income_id, to_char(income_date,'yyyy.mm.dd') income_date, incom
 from income
 -- 날짜를 변환해서 불러오는방식
 
+create sequence income_code_seq;
 
 ----------------테스트케이스
 insert into INCOME values (1, 1, sysdate, 'i2', 30000, 1, 1, 1)

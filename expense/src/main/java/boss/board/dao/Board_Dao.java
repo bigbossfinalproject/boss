@@ -16,60 +16,86 @@ public class Board_Dao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	//목록 확인(notice)
+		public List<Board_Bean> noticeList() {
+				List<Board_Bean> list = sqlSession.selectList("notice");
+				return list;
+		}
 	
-	
-	//게시판 목록 확인
-	public List<Board_Bean> boardList(String root_Grade) {
-		
-		List<Board_Bean> list = sqlSession.selectList("boardList", root_Grade);
-		
-		
+	//목록 확인(communite)
+	public List<Board_Bean> boardList() {
+		List<Board_Bean> list = sqlSession.selectList("boardList");
 		return list;
 	}
-	
-	//글 작성
-	public void boardWrite(String root_Id, String bTitle, String bContent) {
-		
-		if(root_Id.equals("Admin")) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("root_Id", root_Id);
-			map.put("bTitle", bTitle);
-			map.put("bContent", bContent);
-			
-			sqlSession.insert("noticeWrite", map);
-			return;
-		}
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("root_Id", root_Id);
-		map.put("bTitle", bTitle);
-		map.put("bContent", bContent);
-		
-		sqlSession.insert("boardWrite", map);
-		
-	}
-	
-	//글보기
-	public Board_Bean boardContent(String bId) {
-		
-		boardCnt(bId);
-		Board_Bean dto = sqlSession.selectOne("boardContent", bId);
+	//공지 내용 확인(notice)- 비로그인
+	public Board_Bean noticeBoard_view(String bId){
+		noticeCnt(bId);
+		Board_Bean dto = sqlSession.selectOne("noticeView", bId);
 		
 		return dto;
 	}
 	
-	//글 카운트 증가
-	public void boardCnt(String bId) {
-		
+	//글내용(notice)
+	public Board_Bean noticeContent(String bId){
+		noticeCnt(bId);
+		Board_Bean dto = sqlSession.selectOne("noticeContent", bId);		
+		return dto;
+	}
+	
+	//글내용(communite)
+	public Board_Bean boardContent(String bId) {
+		boardCnt(bId);
+		Board_Bean dto = sqlSession.selectOne("boardContent", bId);		
+		return dto;
+	}
+	
+	//게시판 글 작성(notice)
+	public void noticeWrite(String root_Id, String bTitle, String bContent){
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("root_Id", root_Id);
+		map.put("bTitle", bTitle);
+		map.put("bContent", bContent);
+		sqlSession.insert("noticeWrite", map);		
+	}
+	
+	//게시판 글 작성(communite)
+	public void boardWrite(String root_Id, String bTitle, String bContent) {		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("root_Id", root_Id);
+		map.put("bTitle", bTitle);
+		map.put("bContent", bContent);		
+		sqlSession.insert("boardWrite", map);		
+	}
+
+
+	//카운트증가(notice)
+	public void noticeCnt(String bId) {			
+		sqlSession.update("noticeCnt", bId);
+	}
+	//카운트증가(communite)
+	public void boardCnt(String bId) {		
 		sqlSession.update("boardCnt", bId);
 	}
 	
-	//글삭제
-	public void boardDelete(String bId) {
-		
-		sqlSession.delete("boardDelete", bId);
-		
+	
+	//글삭제(notice)
+	public void noticeDelete(String bId) {		
+		sqlSession.delete("noticeDelete", bId);		
 	}
+	//글삭제(communite)
+	public void boardDelete(String bId) {		
+		sqlSession.delete("boardDelete", bId);		
+	}
+	//글 수정(notice)
+		public void noticeModify(String bId, String bTitle, String bContent) {
+			
+			Map<String, String>map = new HashMap<String, String>();
+			map.put("bId", bId);
+			map.put("bTitle", bTitle);
+			map.put("bContent", bContent);
+			
+			sqlSession.update("noticeModify", map);
+		}
 	
 	//글 수정
 	public void boardModify(String bId, String bTitle, String bContent) {
@@ -91,7 +117,6 @@ public class Board_Dao {
 	
 	//답글
 	public void boardReply(String bId, String bGroup, String bStep, String bIndent, String root_Id, String bTitle, String bContent) {
-
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("bId", bId);

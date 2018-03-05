@@ -41,20 +41,9 @@
 		<mapper resource="boss/income/dao/income.xml" />
 		<mapper resource="boss/income/dao/income_code.xml" />
 		<mapper resource="boss/com/vs/dao/budget.xml"/>
- 		<mapper resource="boss/user/dao/loginCheck.xml" /> 
-		<mapper resource="boss/user/dao/userJoin.xml" /> 
-		<mapper resource="boss/user/dao/userDelete.xml" /> 
-		<mapper resource="boss/user/dao/userModify_view.xml" /> 
-		<mapper resource="boss/user/dao/userModify.xml" /> 
-		<mapper resource="boss/board/dao/boardList.xml" /> 
-		<mapper resource="boss/board/dao/boardWrite.xml" /> 
-		<mapper resource="boss/board/dao/noticeWrite.xml" /> 
-		<mapper resource="boss/board/dao/boardContent.xml" /> 
-		<mapper resource="boss/board/dao/boardCnt.xml" /> 
-		<mapper resource="boss/board/dao/boardDelete.xml" /> 
-		<mapper resource="boss/board/dao/boardModify.xml" /> 
-		<mapper resource="boss/board/dao/board_reply_view.xml" /> 
-		<mapper resource="boss/board/dao/boardReply.xml" /> 
+ 		<mapper resource="boss/board/dao/board_Mapper.xml" /> 
+		<mapper resource="boss/user/dao/user_Mapper.xml" /> 
+		
  		
 	</mappers>
 </configuration>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,7 +24,7 @@ body .container {
   position: relative;
   overflow: hidden;
   
-  width: 350px;
+  width: 1000px;
   
   height: 700px;
   margin: 80px auto 0;
@@ -40,13 +41,7 @@ body .container .half {
   height: 100%;
   padding: 58px 40px 0;
 }
-body .container .half.bg {
-  
-  background-image: url("http://www.blueb.co.kr/SRC2/_image/v01.jpg"); 
-  background-size: 400px;
-  background-repeat: no-repeat;
-  
-}
+
 body .container h1 {
   font-size: 18px;
   font-weight: 700;
@@ -62,19 +57,7 @@ body .container .tabs {
   margin-bottom: 29px;
   border-bottom: 1px solid #d9d9d9;
 }
-body .container .tabs .tab {
-  display: inline-block;
-  margin-bottom: -1px;
-  padding: 20px 15px 10px;
-  cursor: pointer;
-  letter-spacing: 0;
-  border-bottom: 1px solid #d9d9d9;
-  -moz-user-select: -moz-none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  transition: all 0.1s ease-in-out;
-}
+
 body .container .tabs .tab a {
   font-size: 11px;
   text-decoration: none;
@@ -92,6 +75,7 @@ body .container .content form {
   position: relative;
   height: 450px;
 }
+
 body .container .content label:first-of-type, body .container .content input:first-of-type, body .container .content .more:first-of-type {
   -moz-animation: slideIn 0.4s cubic-bezier(0.37, 0.82, 0.2, 1);
   -webkit-animation: slideIn 0.4s cubic-bezier(0.37, 0.82, 0.2, 1);
@@ -137,6 +121,45 @@ body .container .content input.inpt {
   -webkit-border-radius: 2px;
   border-radius: 2px;
 }
+
+body .container .content .form div:nth-of-type(3){
+  width:40%;
+}
+
+body .container .content .list{
+	border: 1px solid #d9d9d9;
+	text-align:center;
+	clear: both;	
+}
+
+body .container .half .tabs .welcome{
+	
+	 font-size: 13px;
+ 	 font-weight: 700;
+  	margin-bottom: 23px;
+  	text-indent: 6px;
+  	letter-spacing: 7px;
+  	text-transform: uppercase;
+  	color: #263238;
+	float:right;	
+
+}
+
+body .container .content .inpt2 {
+  
+  margin-top:10px;
+  text-align:center;
+  width:15%;
+  font-size: 14px;
+  display: block;  
+  height: 30px;
+  color: #999999;
+  background: transparent;
+  float: left;
+}
+
+
+
 body .container .content input.inpt::-webkit-input-placeholder {
   font-size: 14px;
   color: #999999;
@@ -289,67 +312,79 @@ body .container .content .signup-cont {
   text-decoration: none;
 }
 
+
+
+
+
 </style>
 
+<%
+String root_Id = (String)session.getAttribute("root_Id");
+String noticeSize = (String)request.getAttribute("noticeSize");
+%>
 
  <body>
+ 
+ <%if(root_Id!=null){ %>
+ <div>
+ 	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
+ 
+ </div>	
+ <%} %>
+
+ 
 
 <section class="container" id="container">
+		    
+		    
+		    
 		    <article class="half" id="half">
-			        <h1>Big Bo SS</h1>
+			        <h1>Notice</h1>
 			       	
-              		
               		<div class="tabs">
-				            <span class="tab signin active"><a href="#signin">logIN</a></span>				           
+				            <span class="tab signin active"></span>				          
 			        </div>
-              		
 			        <div class="content">
 				            
                       		<div class="signin-cont cont">
                               		
-					                <form action="userLogin.uo" method="post">
-						                    <input type="text" name="loginId" id="loginId" class="inpt" required="required" placeholder="Your id">
-						                    <label for="loginId">Your id</label>
-						                    <input type="password" name="loginPwd" id="loginPwd" class="inpt" required="required" placeholder="Your password">
-                						    <label for="loginPwd">Your password</label>
-						                  
-                                      		<input type="checkbox" id="remember" class="checkbox">
-						                    <label for="remember">Remember me</label>						                    
-                                      		
-                                      		<div class="submit-wrap">
-							                        <input type="submit" value="Sign in" class="submit">
-							                        <a href="#" class="more">Forgot your password ?</a>
+					                <form action="noticeBoard_Write_view.bo" method="post" class="form">
+					                		
+						                    <div class="inpt2">No</div>
+						                    <div class="inpt2">Writer</div>
+						                    <div class="inpt2">Title</div>
+						                    <div class="inpt2">Date</div>
+						                    <div class="inpt2">Hit</div>
+						                    
+						                    <%if(noticeSize.equals("0")){%>
+						                    	<h1>(Notice)등록된 글이 없습니다.</h1>
+						                    <%} %>
+						                    <c:forEach items="${list}" var="dto">
+						                    <div class="list">							          
+							                    	<div class="inpt2">${dto.bId}</div>
+							                    	<div class="inpt2">${dto.root_Id }</div>
+							                    	<div class="inpt2"><a href="noticeBoard_content.bo?bId=${dto.bId}">${dto.bTitle}</a></div>
+							                    	<div class="inpt2">${dto.bDate}</div>
+							                    	<div class="inpt2">${dto.bHit}</div>
+						                  	</div>
+						                  	</c:forEach>
+						                  	<%if(root_Id.equals("Admin")){
+						                  		%>
+						                  		<div class="submit-wrap">
+							                        <input type="submit" value="write" class="submit">
 						                    </div>
+						                  		<%} %>
+						                  	
+						                  	
+						                  	
         					        </form>                              		
     				        </div>
-    				        
-                      		
-            				 
             				
 			        </div>
-		    </article>
+		 
 		    
 </section>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
-<script type="text/javascript">
-$('.tabs .tab').click(function(){
-    if ($(this).hasClass('signin')) {
-        $('.tabs .tab').removeClass('active');
-        $(this).addClass('active');
-        $('.cont').hide();
-        $('.signin-cont').show();
-    } 
-    if ($(this).hasClass('signup')) {
-        $('.tabs .tab').removeClass('active');
-        $(this).addClass('active');
-        $('.cont').hide();
-        $('.signup-cont').show();
-    }
-});
-
-</script>
 
 
  </body>

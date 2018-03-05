@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 사용자별 지출코드별 카드 지출 정보 가져오기 -->
 	<select id="cardOne" parameterType="expense" resultType="card">
-		select * from card where root_idn <![CDATA[=]]> #{root_idn} and card_code <![CDATA[=]]> #{expense_code}
+		select * from card where root_idn <![CDATA[=]]> #{root_idn} and card_code <![CDATA[=]]> #{asset_code}
 	</select>
 	
 	<!-- 전체 사용자의 카드 정보 가져오기 -->

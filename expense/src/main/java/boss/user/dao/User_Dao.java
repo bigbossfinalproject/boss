@@ -16,36 +16,7 @@ public class User_Dao {
 	private SqlSessionTemplate sqlSession;
 	
 	
-//	Connection con=null;
-//	PreparedStatement pstmt=null;
-//	ResultSet rs=null;
-//	DataSource ds=null;
-//	String sql=null;
-//	
-//	public User_Dao(){
-//		try{
-//	      Context ctx=new InitialContext();
-//	      ds=(DataSource)ctx.lookup("java:comp/env/jdbc/xe");
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//	}
-	
-/*	//로그인 체크
-	public int loginCheck(String root_Id, String root_Pwd) {
-	
-		
-		//쿼리 실행 인자값 전달 2개 불가하기 때문에 map 으로 
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("root_Id", root_Id);
-		map.put("root_Pwd", root_Pwd);
-		
-		int loginCheck = sqlSession.selectOne("loginCheck",map);
-		
-		
-		return loginCheck;
-	}*/
+
 
 	//로그인 체크
 	public User_Bean loginCheck(String root_Id, String root_Pwd) {
@@ -63,22 +34,18 @@ public class User_Dao {
 		return dto;
 	}
 	
-	//회원가입
-	public void userJoin(String root_Id, String root_Pwd,String root_Name,String root_Gender,String root_Email,String root_Birth, String root_Job, String root_Address) {
+	//일반회원가입
+	public void userJoin(String root_Id, String root_Pwd,String root_Name,String root_Email) {
 	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("root_Id", root_Id);
 		map.put("root_Pwd", root_Pwd);
-		map.put("root_Name", root_Name);
-		map.put("root_Gender", root_Gender);
-		map.put("root_Email", root_Email);
-		map.put("root_Birth", root_Birth);
-		map.put("root_Job", root_Job);
-		map.put("root_Address", root_Address);
-		
+		map.put("root_Name", root_Name);	
+		map.put("root_Email", root_Email);		
 		
 		sqlSession.insert("userJoin", map);
 	}
+	
 	
 	//회원 탈퇴
 	public void userDelete(String root_Id) {

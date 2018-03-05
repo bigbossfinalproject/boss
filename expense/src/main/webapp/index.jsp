@@ -6,6 +6,6 @@
 <title>로그인 화면</title>
 </head>
 <body>
-	<jsp:forward page="/userLogin.uo" />
+	<jsp:forward page="mainBoard.bo" />
 </body>
 </html>
