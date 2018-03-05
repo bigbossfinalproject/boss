@@ -9,6 +9,13 @@
 </head>
 
 <style rel="stylesheet">
+
+ 
+.header {
+	width:1280px;
+	margin: 0 auto;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 * {
   -moz-box-sizing: border-box;
@@ -27,7 +34,7 @@ body .container {
   width: 1000px;
   
   height: 700px;
-  margin: 80px auto 0;
+  margin: 120px auto 0;
   background-color: #ffffff;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
@@ -326,7 +333,7 @@ String noticeSize = (String)request.getAttribute("noticeSize");
  <body>
  
  <%if(root_Id!=null){ %>
- <div>
+ <div class="header">
  	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
  
  </div>	

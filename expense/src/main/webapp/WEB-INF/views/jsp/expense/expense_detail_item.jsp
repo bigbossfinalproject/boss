@@ -6,7 +6,7 @@
 	String item_code = (String) request.getAttribute("item_code");
 %>
 <!-- 지출 세부항목 select 태그 -->
-<select style="width: 130px; height: 50px;" id="item_code_" name="item_code">
+<select style="width: 114px; height: 50px;" id="item_code_" name="item_code">
 	<%
 		for(ItemBean item : itemList) {
 			if(item.getItem_code().equals(item_code)) {

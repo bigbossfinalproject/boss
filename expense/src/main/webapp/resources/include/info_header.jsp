@@ -4,7 +4,7 @@
 <head>
 <style type="text/css">
 	.amount_frame {
-		/* position:fixed; */
+		position:fixed;
 		top:100px;
 		width: 1280px;
 		height: 50px;

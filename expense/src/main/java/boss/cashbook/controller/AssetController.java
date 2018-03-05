@@ -313,7 +313,7 @@ public class AssetController {
 	@RequestMapping(value = "header_info.do", method = RequestMethod.GET)
 	public void item_list(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
 		int info[]=new int[3];
-		System.out.println("헤더인포");		
+		//System.out.println("헤더인포");		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		header_infoBean bean=null;

@@ -170,7 +170,6 @@ public class ItemController {
 		mv.addObject("itemList", iList);
 		
 		return mv;
-		
 	}
 
 	// expense_id의 중복 검사를 마친 최종 expense_id 생성 메서드

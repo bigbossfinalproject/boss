@@ -36,17 +36,17 @@
 		
 		.frame_1000 {
 			width: 1000px;
-			margin: 150px auto 0 auto;
+			margin: 170px auto 0 auto;
 		}
 		
 		.frame_1080 {
 			width: 1080px;
-			margin: 150px auto 0 auto;
+			margin: 170px auto 0 auto;
 		}
 		
 		.frame_1200 {
 			width: 1200px;
-			margin: 150px auto 0 auto;
+			margin: 170px auto 0 auto;
 		}
 		
 		a {
@@ -166,7 +166,7 @@
 						<% }} %>
 					</td>
 					<td class="text" id="mid_item_<%= btnCnt %>" style="padding: 0; height:50px; vertical-align: middle;">
-						<select style="width: 115px; height: 50px;" id="mid_code_<%= btnCnt %>" name="mid_code">
+						<select style="width: 159px; height: 50px;" id="mid_code_<%= btnCnt %>" name="mid_code">
 							<% for(ItemBean i : iList){
 								if(i.getItem_level() == 2 && i.getItem_code().substring(0, root_idn.length()+1).equals(item_class)) { %>
 								<option value="<%= i.getItem_code() %>"><%= i.getItem_name() %></option>

@@ -9,6 +9,12 @@
 </head>
 
 <style rel="stylesheet">
+
+.header {
+	width:1280px;
+	margin:0 auto;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 * {
   -moz-box-sizing: border-box;
@@ -28,7 +34,7 @@ body .container {
   overflow: hidden;  
   width: 1000px;  
   height: 800px;
-  margin: 80px auto 0;
+  margin: 120px auto 0;
   background-color: #ffffff;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
@@ -382,14 +388,6 @@ String communiteSize = (String)request.getAttribute("communiteSize");
 
  <body>
  
- <%if(root_Id!=null){ %>
- <div>
- 	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
-  </div>	
- <%} %>
- 
- 
- 
 
 <section class="container" id="container">
 		    
@@ -532,8 +530,8 @@ String communiteSize = (String)request.getAttribute("communiteSize");
         					        </form>   
         					        
         					         <div class="submit-wrap2" >
-							                        <input type="button" value="Sign up" class="submit" id="submit_button" name="submit_button" onclick="aa();">
-						    	 	</div> 
+										<input type="button" value="Sign up" class="submit" id="submit_button" name="submit_button" onclick="aa();">
+									</div> 
 						    	
 			        		</div>
 			        		

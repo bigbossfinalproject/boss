@@ -6,12 +6,13 @@
 <title>header</title>
 <style type="text/css">
 	.main_header {
-		/* position: fixed; */
+		position: fixed;
 		top:0;
 		background:#1e90ff;
 		width:1280px;
 		height:100px;
 		z-index: 250;
+		margin:0 auto;
 	}
 	
 	.menutop{

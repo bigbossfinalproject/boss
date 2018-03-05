@@ -69,17 +69,17 @@ table, tr, td, th {
 
 .frame_1000 {
 	width: 1000px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 .frame_1080 {
 	width: 1080px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 .frame_1200 {
 	width: 1200px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 a {
@@ -235,7 +235,7 @@ input, select, option {
 							<%-- 지출 중분류 항목 select 태그 --%>
 							<td class="text" id="parent_item_<%= btnCnt %>" style="padding: 0;">
 								<input type="hidden" id="children_code_<%= btnCnt %>" value="${ eList.item_code }">
-								<select style="width: 114px; height: 50px;" id="parent_code_<%= btnCnt %>" name="parent_code">
+								<select style="width: 113px; height: 50px;" id="parent_code_<%= btnCnt %>" name="parent_code">
 									<c:forEach items="${ itemList }" var="item">
 										<c:if test="${ item.item_level == 2 }">
 											<c:choose>
@@ -543,7 +543,7 @@ input, select, option {
 			rowItem += '<td class="text" style="padding: 0;"><input type="date" class="modify" id="expense_date_'+btnCnt+'" name="expense_date" value="'+result+'" style="width:149px;"></td>';
 			
 			/* 지출 중분류 항목을 지정할 select 태그 */
-			rowItem += '<td class="text" id="parent_item_'+btnCnt+'" style="padding: 0;"><select style="width: 114px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
+			rowItem += '<td class="text" id="parent_item_'+btnCnt+'" style="padding: 0;"><select style="width: 113px; height: 50px;" id="high_item_code_'+btnCnt+'" name="parent_code">';
 			for(var i = 0; i < itemCode.length; i++) {
 				if(itemLevel[i] == 2) {	
 					if(itemCode[i] == '1e003000') {

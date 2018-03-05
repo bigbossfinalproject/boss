@@ -27,15 +27,20 @@ public class Board_Controller {
 		return "testMain";
 	}
 	
-	
 	//메인화면(notice + communite + login + join) 
 	@RequestMapping(value="/mainBoard.bo")
 	public ModelAndView notice(HttpSession session, HttpServletRequest request){
 		
 		request.setAttribute("loginId", "");  //초기 로그인 id 파라메터값 null 생성		
 		session.getAttribute("root_Id");//로그인 이후 저장된 session 값 받아오기
-				
+		
 		ModelAndView mv = new ModelAndView();
+		
+		if(session.getAttribute("root_Id")!=null){ //브라우저 미종료 시 index 접속으로 인해 index 가 접근되는것을 방지
+	         System.out.println("초기 session 값 : " + session.getAttribute("root_Id")); 
+	         mv.setViewName("testMain");
+	         return mv;
+	    }
 		
 		List<Board_Bean> list = dao.noticeList(); //공지사항 리스트
 		List<Board_Bean> list2 = dao.boardList(); //일반 게시판 리스트
@@ -53,6 +58,7 @@ public class Board_Controller {
 		mv.setViewName("board/mainBoard");
 		return mv;		
 	}
+	
 	//읽기 전용(notice) - 비 로그인
 	@RequestMapping(value="noticeBoard_view.bo")
 	public ModelAndView noticeBoard_view(@RequestParam(value="bId")String bId){

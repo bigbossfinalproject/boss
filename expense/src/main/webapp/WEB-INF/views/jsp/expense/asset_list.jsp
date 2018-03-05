@@ -48,17 +48,17 @@ table, tr, td, th {
 
 .frame_1000 {
 	width: 1000px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 .frame_1080 {
 	width: 1080px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 .frame_1200 {
 	width: 1200px;
-	margin: 150px auto 0 auto;
+	margin: 170px auto 0 auto;
 }
 
 a {
