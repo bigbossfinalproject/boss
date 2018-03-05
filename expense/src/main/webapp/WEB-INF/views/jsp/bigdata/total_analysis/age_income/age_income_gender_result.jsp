@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>소득 분석</title>
+<title>소득 나이 분석</title>
 
 <style type="text/css">
 
@@ -27,16 +28,28 @@
 		padding: 0;
 		margin: 0;
 		color: #FFFFFF;
+		overflow: auto;
 	}
 	
   	#article {
-		width: 1080px; height: 100%;
+		width: 1080px; height: 800px;
 		background-color:white;
 		margin-left: 200px;
 		position:absolute;   /* 부모 시작 절대값 related 자식 끝부분에서 시작 */ 
 		float:right;
+		overflow: auto;
 	}
 	
+ 	/* #htmlwidget_container{
+ 		width: 300px; height:400px;
+ 		margin: 0 auto;
+ 	} */
+
+	/* .plotly{
+		clear: both;
+		margin: 0 auto;
+		overflow: auto;
+	} */
 
 		
 </style>
@@ -51,17 +64,16 @@
 	<div id="section">
 		
 		<div id="aside">
-			<jsp:include page="./income_aside.jsp"></jsp:include>		
+			<jsp:include page="../income_aside.jsp"></jsp:include>		
 		</div>
 		<div id="article">
 			<hr/>
+			<jsp:include page="/resources/bigdata_html/age_income_gender.html"></jsp:include>
 		</div>
-		
 	</div>
 	
 	
-		
-	<footer class="footer">	
+	<footer>	
 			<jsp:include page="/resources/include/footer.jsp"></jsp:include>
 	</footer>	
 

@@ -31,12 +31,11 @@ public class User_Controller {
 			User_Bean dto = dao.loginCheck(root_Id, root_Pwd);
 			
 			if(dto!=null) {
-			session.setAttribute("root_Id", dto.getRoot_Id());
-			session.setAttribute("root_Idn", dto.getRoot_Idn());
-			session.setAttribute("root_Grade", dto.getRoot_Grade());
-			return "redirect:item_list.do";
-			
-		}
+				session.setAttribute("root_Id", dto.getRoot_Id());
+				session.setAttribute("root_Idn", dto.getRoot_Idn());
+				session.setAttribute("root_Grade", dto.getRoot_Grade());
+				return "redirect:item_list.do";
+			}
 /*		int loginCheck = dao.loginCheck(root_Id, root_Pwd); //파라메터 2개 전달 가능
 		
 		if(loginCheck==1) {

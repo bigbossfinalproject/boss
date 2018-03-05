@@ -19,15 +19,6 @@ public class Income_gender_AnalysisController {
 	@Autowired
 	IncomeAnalysisDao dao;
 	
-	@RequestMapping(value="/gender_income.do", method=RequestMethod.GET)
-	public ModelAndView income_age_form(HttpServletRequest request, HttpServletResponse response){
-		System.out.println("gopgo");
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/bigdata/total_analysis/gender_income/gender_income_form");
-		return mav;
-	}
-	
 	@RequestMapping(value="/gender_income_age.do")
 	public ModelAndView gender_income_age(HttpServletRequest request, HttpServletResponse response){
 		response.setCharacterEncoding("UTF-8");
@@ -119,13 +110,12 @@ public class Income_gender_AnalysisController {
             +" +bigdata$h1109_aq8"); 
             connection.eval("bigdata$age <- 2016 - bigdata$root_birth + 1");
             connection.eval("bigdata$root_gender <- ifelse(bigdata$root_gender == 1, \"남성\", \"여성\")");
-            connection.eval("bigdata$agegen <- ifelse(bigdata$age < 30, \"초년\", "
-            +" ifelse(bigdata$age < 50, \"중년\", \"말년\"))");
-            connection.eval("age_income <- bigdata %>% "
-              + " filter(!is.na(income_amount)) %>% "
-              + " group_by(agegen, root_gender) %>% "
-              + " summarise(mean_income = mean(income_amount))");
-            connection.eval("a <- ggplot(data=age_income, aes(x=root_gender, y=mean_income, fill=agegen))"
+            connection.eval("bigdata$root_gender <- ifelse(bigdata$root_gender == 1, \"남성\", \"여성\")");
+            connection.eval("age_expense <- bigdata %>% "
+              + " filter(!is.na(expense_total)) %>% "
+              + " group_by(age, root_gender) %>% "
+              + " summarise(mean_income = mean(expense_total))");
+            connection.eval("a <- ggplot(data=age_expense, aes(x=root_gender, y=mean_expense, fill=agegen))"
               + "+geom_col(position=\"dodge\")"
               + "+theme(legend.title = element_blank() ,legend.background = element_rect(fill=\"gainsboro\", color = \"black\")"		
               + "+ggtitle(\"분석 그래프\")"

@@ -143,8 +143,8 @@
 				</li>
 				<li><a href="#">분석</a>
 					<ul>
-						<li><a href="#">분석 1</a></li>
-					    <li><a href="#">분석 2</a></li>		 	
+						<li><a href="<%=request.getContextPath() %>/income-analysis.do">분석 1</a></li>
+					    <li><a href="<%=request.getContextPath() %>/expense-analysis.do">분석 2</a></li>		 	
 					</ul>
 				</li> <li><a href="#">설정</a>
 					<ul>

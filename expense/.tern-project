@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "guess-types": {
+      
+    },
+    "ckeditor4.4.x": {
+      
+    }
+  },
+  "libs": [
+    "ecma5",
+    "browser",
+    "jquery"
+  ],
+  "ecmaVersion": 6
+}
