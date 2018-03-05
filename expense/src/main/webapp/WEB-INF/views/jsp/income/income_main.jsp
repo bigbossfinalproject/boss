@@ -21,7 +21,7 @@
 <script type="text/javascript"
 	src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
 
-<script src="./resources/js/incomeBoard.js?ver=1.7"></script>
+<script src="./resources/js/incomeBoard.js?ver=1.9"></script>
 
 <style type="text/css">
 body {

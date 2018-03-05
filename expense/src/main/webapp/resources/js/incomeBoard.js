@@ -62,7 +62,6 @@ function getIncomeBoard() {
 }
 
 // +버튼 눌렀을때 실행되는 함수 (행 추가)
-
 $(document).on('click', '#add_row', function() {
 	var now = new Date() // 현재 날짜
 	var curr_date = now.getDate();
@@ -78,7 +77,7 @@ $(document).on('click', '#add_row', function() {
 	var rowItem = "<tr>"
 	rowItem += "<td> <input type='date' class='form-control' value = '" + result + "'> </td>"
 	rowItem += "<td> <select class='form-control' id = 'income_code'>" + income_option + "</select> </td>"
-	rowItem += "<td> <select class='form-control' id = 'trade_code'><option value=''>선택</option></select> </td>"
+	rowItem += "<td> <select class='form-control' name='trade'><option value='현금'>현금</option><option value='통장'>통장</option></select> </td>"
 	rowItem += "<td> <select class='form-control' id = 'asset_code'><option value=''>선택</option></select> </td>"
 	rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
 	rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
@@ -123,8 +122,8 @@ $(document).on("change", '[name="trade"]', function() {
 	var tr = $(this).parent().parent();
 	var td = tr.children();
 	var data = getOptions($(this).val());
-	console.log(td.eq(4).html())
-	td.eq(4).html("");
+
+	tr.find('td').eq(3).html("");
 	var b = "";
 	b += "<select class='form-control' id = 'asset_code'>";
 	for (var i = 0; i < data.length; i++) {
@@ -132,7 +131,7 @@ $(document).on("change", '[name="trade"]', function() {
 	}
 	b += "</select>";
 
-	td.eq(4).append(b);
+	tr.find('td').eq(3).append(b);
 
 
 
@@ -201,7 +200,7 @@ $(document).on("click", "#row_modify", function() {
 
 	});
 	var tdArr2 = tdArr.slice(0, 6);
-	console.log('수정 배열 :'+ tdArr2);
+	console.log('수정 배열 :' + tdArr2);
 
 
 	var allArray = {
@@ -259,10 +258,10 @@ $(document).on('click', 'td', function() {
 				b += "<select class='form-control' id = 'asset_code'>";
 				for (var i = 0; i < a.length; i++) {
 					b += "<option value = " + a[i] + ">" + a[i] + "</option> ";
-				
+
 				}
 				b += "</select>";
-				
+
 				$(this).append(b);
 
 			} else {
@@ -299,7 +298,7 @@ function getOptions(option) {
 		async : false,
 		dataType : 'json',
 		success : function(data) {
-			
+
 
 			var jsonObj = data;
 			var cash = jsonObj.cash;
@@ -316,6 +315,6 @@ function getOptions(option) {
 			alert("옵션 불러오기 에러");
 		}
 	})
-	
+
 	return test;
 }

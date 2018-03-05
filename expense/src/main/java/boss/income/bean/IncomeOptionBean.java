@@ -1,3 +1,5 @@
+/*사용안할듯......*/
+
 package boss.income.bean;
 
 public class IncomeOptionBean {

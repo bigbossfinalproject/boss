@@ -5,8 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="boss.income.bean.IncomeBean">
 
+<!-- 회원 고유번호로 테이블의 모든 정보를 불러오는 메서드 -->
 	<select id="getIncome_Board" parameterType="int" resultType="incomeBoard">
-		<!-- select * from income where root_idn = #{root_idn} -->
+		
 		select i.root_idn, i.income_id, i.income_date, (select item_name from
 		income_classification where income_code = i.income_code )
 		income_code,
@@ -19,18 +20,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		i.income_date asc
 	</select>
 
+<!-- DB 저장 메서드 -->
 	<insert id="addIncomeList" parameterType="incomeBoard">
 		insert into income
 		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
 		#{income_Amount}, #{trade_Code}, #{asset_Code},#{income_Description} )
 	</insert>
 
+<!-- DB 삭제 메서드 -->
 	<delete id="delIncomeList" parameterType="int">
 		delete from income
 		where income_id = #{income_Id}
 	</delete>
 	
-
+<!-- DB 수정 메서드 -->
 	<update id="modifyIncomeList" parameterType="incomeBoard">
 		update income set
 		Income_Date = #{income_Date}, Income_code =

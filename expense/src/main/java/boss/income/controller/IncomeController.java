@@ -25,12 +25,15 @@ public class IncomeController {
 	@Autowired
 	private IncomeDaoImpl incomeService;
 
+	
+	/* 다른 페이지에서 '소득' 버튼을 눌렀을 때 매핑되는 메서드 */
 	@RequestMapping(value = "/list.io")
 	public String income_Boardlist(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		return "income/income_main";
 	}
 
+	/*테이블 새로고침용 메서드*/
 	@RequestMapping(value = "/list2.io", method = RequestMethod.POST)
 	public void getIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
@@ -40,10 +43,11 @@ public class IncomeController {
 		response.getWriter().write(getIncome_JSON(root_idn));
 	}
 
+	/*DB에서 테이블 정보를 읽어와서 JSON 형태로 변환해주는 메서드*/
 	public String getIncome_JSON(int root_idn) {
 		StringBuffer str = new StringBuffer("");
 		str.append("{\"result\":[");
-		// 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
+		
 
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
@@ -69,21 +73,27 @@ public class IncomeController {
 		return str.toString();
 	}
 
+	/*DB에 저장하는 메서드*/
 	@RequestMapping(value = "/addIncomeList.io", method = RequestMethod.POST)
 	public void addIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "arrData[]") List<String> arrayData) {
 		IncomeBean bean = new IncomeBean();
+		
+		String incomeName = incomeService.getIncomeName(arrayData.get(1));
+		String assetCode = incomeService.getAssetCode(arrayData.get(3));
+		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
 
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
-		bean.setIncome_Code(arrayData.get(1));
-		bean.setTrade_Code(arrayData.get(2));
-		bean.setAsset_Code(arrayData.get(3));
+		bean.setIncome_Code(incomeName);
+		bean.setTrade_Code(tradeCode);
+		bean.setAsset_Code(assetCode);
 		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
 		bean.setIncome_Description(arrayData.get(5));
 
 		incomeService.addIncomeList(bean);
 	}
 
+	/*DB 삭제 메서드*/
 	@RequestMapping(value = "/delIncomeList.io", method = RequestMethod.POST)
 	public void delIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "income_Id") String data) {
@@ -91,6 +101,7 @@ public class IncomeController {
 		incomeService.delIncomeList(dataToInt);
 	}
 
+	/*DB 수정 메서드*/
 	@RequestMapping(value = "/modifyIncomeList.io", method = RequestMethod.POST)
 	public void modifyIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "arrData[]") List<String> arrayData, @RequestParam(value = "income_Id") String data) {
@@ -104,7 +115,7 @@ public class IncomeController {
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
 
 		System.out.println("tradeCode :" + tradeCode);
-		
+
 		bean.setIncome_Id(data);
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
 		bean.setIncome_Code(incomeName);
@@ -116,6 +127,7 @@ public class IncomeController {
 		incomeService.updateImcomeList(bean);
 	}
 
+	/*테이블 selectbox 내용물을 불러오는 메서드*/
 	@RequestMapping(value = "/getOptions.io", method = RequestMethod.GET)
 	public void getOptions(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
