@@ -2,6 +2,7 @@ package boss.com.vs.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class BudgetController {
 	@Autowired
 	private BudgetDaoImpl budgetService;
 	
-	@RequestMapping(value ="./budget_modify.bg")
+	@RequestMapping(value ="/budget_modify.bg")
 	public ModelAndView budget_modify(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
 		System.out.println("수정");
 		BudgetBean bean=new BudgetBean(); 
@@ -35,13 +36,13 @@ public class BudgetController {
 		
 		int budget_code=Integer.parseInt(request.getParameter("budget_code"));
 		int budget_amount_spent=Integer.parseInt(request.getParameter("budget_amount_spent"));
-		String item_code=request.getParameter("item_code");
+		String budget_date=request.getParameter("budget_date");
 		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));
 	
 		bean.setBudget_code(budget_code);
 		bean.setBudget_amount(budget_amount);
 		bean.setBudget_amount_spent(budget_amount_spent);
-		bean.setItem_code(item_code);
+		bean.setBudget_date(budget_date);
 		
 		
 		this.budgetService.modifyBudget(bean);
@@ -67,12 +68,14 @@ public class BudgetController {
 		String item_code=request.getParameter("item_code");
 		bean2.setItem_code(item_code);
 		bean2.setRoot_idn(rootIdn);
-		
-		
 		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));		
+		String budget_date=request.getParameter("budget_date");
+		
 		bean.setBudget_amount(budget_amount);
 		bean.setItem_code(item_code);
 		bean.setRoot_idn(rootIdn);
+		bean.setBudget_date(budget_date);
+		
 		
 		int insert_check=this.budgetService.insert_check(bean2);
 		
@@ -165,6 +168,7 @@ public class BudgetController {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		
 		response.getWriter().write(getBudget_JSON(bean));
 		
 		
@@ -190,7 +194,6 @@ public class BudgetController {
 	      }
 	      str.append("]}");
 	    
-	      System.out.println(str.toString());
 	      return str.toString();
 	   }
 	
@@ -200,7 +203,6 @@ public class BudgetController {
 		response.setContentType("text/html;charset=UTF-8");
 		session = request.getSession();
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
-		System.out.println("rootIdn "+rootIdn);
 
 		response.getWriter().write(getTotal_JSON(rootIdn));
 		
@@ -209,6 +211,8 @@ public class BudgetController {
 	public void item_list(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		
+		
 		List<String> list=null; 
 		
 		list=this.budgetService.item_list();
@@ -218,7 +222,7 @@ public class BudgetController {
 			item_list.add(list.get(i));
 		}
 		obj.put("item_list", item_list);
-		System.out.println(obj.toString());
+		
 		response.getWriter().write(obj.toString());
 	
 	}
@@ -233,14 +237,16 @@ public class BudgetController {
 			result.append("[{\"value\": \""+bean.get(i).getItem_code()+"\"},");
 			result.append("{\"value\": \""+bean.get(i).getBudget_amount()+"\"},");
 			result.append("{\"value\": \""+bean.get(i).getBudget_code()+"\"},");
-			result.append("{\"value\": \""+bean.get(i).getBudget_amount_spent()+"\"}],");
-		
+			result.append("{\"value\": \""+bean.get(i).getBudget_amount_spent()+"\"},");
+			result.append("{\"value\": \""+bean.get(i).getBudget_date().substring(0,10)+"\"}],");
+			
 		}
 		
 		result.append("]}");
 		
 
-	
+
+	      System.out.println("이거 값 모지? "+result.toString());
 		return result.toString();
 	}
 	

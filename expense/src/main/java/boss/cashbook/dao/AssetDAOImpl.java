@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.ExpenseBean;
+import boss.cashbook.model.header_infoBean;
+import boss.cashbook.model.header_infoBean;
+import boss.cashbook.model.header_infoBean;
+import boss.cashbook.model.header_infoBean;
 
 @Repository
 public class AssetDAOImpl {
@@ -83,5 +87,11 @@ public class AssetDAOImpl {
 	public void userAssetDelete(AssetBean asset) {
 		sql.delete("userAssetDelete", asset);
 	}
+	
+	//헤더info 가져오기
+		public header_infoBean header_info(int root_idn){
+			header_infoBean bean=sql.selectOne("header_info",root_idn);
+			return bean;
+		}
 	
 }

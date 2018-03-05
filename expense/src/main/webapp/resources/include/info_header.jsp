@@ -35,17 +35,50 @@
 	}
 	
 </style>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+function headerFunction() {
+	$.ajax(
+		{
+			url : './header_info.do',
+			type : 'get',
+			dataType : 'json',
+			success : function(data) {
+				var result=data.list;
+				console.log(result);
+				var row="";
+				for (var i = 0; i < result.length; i++) {				
+					
+					row+="<div class=info_amount>"+result[i]+"</div>"
+					if(i==0){
+						row+="<div class=info_title>자산총액</div>"
+					}else if(i==1){
+						row+="<div class=info_title>계좌잔액</div>"
+					}else if(i==2){
+						row+="<div class=info_title>현금잔액</div>"
+					}
+				}
+				$(".amount_frame").html("");
+				$('.amount_frame').append(row);
+				
+			},
+			error : function() {
+				alert('통신실패!!');
+			}
+		})
+
+}
+/*  window.onload = function() {
+	headerFunction();
+	
+} */
+ 
+</script>
 </head>
 <body>
 	<div class="amount_frame">
-		<div class="info_amount">10,000원</div>
-		<div class="info_title">자산총액</div>
-		<div class="info_amount">10,000원</div>
-		<div class="info_title">부채잔액</div>
-		<div class="info_amount">10,000원</div>
-		<div class="info_title">계좌잔액</div>
-		<div class="info_amount">10,000원</div>
-		<div class="info_title">현금잔액</div>
+		
 	</div>
 </body>
 </html>
