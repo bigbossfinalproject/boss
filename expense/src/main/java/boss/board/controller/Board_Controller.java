@@ -27,6 +27,7 @@ public class Board_Controller {
 		return "testMain";
 	}
 	
+	
 	//메인화면(notice + communite + login + join) 
 	@RequestMapping(value="/mainBoard.bo")
 	public ModelAndView notice(HttpSession session, HttpServletRequest request){
@@ -36,11 +37,12 @@ public class Board_Controller {
 		
 		ModelAndView mv = new ModelAndView();
 		
+		
 		if(session.getAttribute("root_Id")!=null){ //브라우저 미종료 시 index 접속으로 인해 index 가 접근되는것을 방지
-	         System.out.println("초기 session 값 : " + session.getAttribute("root_Id")); 
-	         mv.setViewName("testMain");
-	         return mv;
-	    }
+			mv.setViewName("testMain");
+			return mv;
+		}
+		
 		
 		List<Board_Bean> list = dao.noticeList(); //공지사항 리스트
 		List<Board_Bean> list2 = dao.boardList(); //일반 게시판 리스트
@@ -56,9 +58,8 @@ public class Board_Controller {
 		mv.addObject("communiteSize", communiteSize);
 		
 		mv.setViewName("board/mainBoard");
-		return mv;		
+		return mv;
 	}
-	
 	//읽기 전용(notice) - 비 로그인
 	@RequestMapping(value="noticeBoard_view.bo")
 	public ModelAndView noticeBoard_view(@RequestParam(value="bId")String bId){
@@ -179,29 +180,53 @@ public class Board_Controller {
 			
 			return "redirect:communiteBoard.bo";
 		}
-		//답글 시 현재 게시글 정보 가져오기
-		@RequestMapping(value="/board_reply_view.bo")
-		public ModelAndView boardReply_view(@RequestParam(value="bId")String bId) {
+		//답글(notice 선택 글 정보 가져오기)
+		@RequestMapping(value="/noticeBoard_reply_view.bo")
+		public ModelAndView noticeReply_view(@RequestParam(value="bId")String bId) {
+			
+			ModelAndView mv = new ModelAndView();
+			Board_Bean dto = dao.noticeReply_view(bId);
+			mv.addObject("dto", dto);
+			
+			mv.setViewName("board/noticeBoard_reply_view");
+			return mv;
+		}
+		//답글(communite 선택 글 정보 가져오기)
+		@RequestMapping(value="/communiteBoard_reply_view.bo")
+		public ModelAndView communiteReply_view(@RequestParam(value="bId")String bId) {
 			
 			ModelAndView mv = new ModelAndView();
 			Board_Bean dto = dao.boardReply_view(bId);
 			mv.addObject("dto", dto);
 			
-			mv.setViewName("board/board_reply_view");
+			mv.setViewName("board/communiteBoard_reply_view");
 			return mv;
 		}
-		//답글
-		@RequestMapping(value="/boardReply.bo")
-		public String boardReply(@RequestParam(value="bId")String bId, 
+		//답글(notice)
+		@RequestMapping(value="/noticeBoard_reply.bo")
+		public String noticeReply(@RequestParam(value="bId")String bId, 
 				@RequestParam(value="bGroup")String bGroup,
 				@RequestParam(value="bStep")String bStep,
 				@RequestParam(value="bIndent")String bIndent,
 				@RequestParam(value="root_Id")String root_Id,
 				@RequestParam(value="bTitle")String bTitle,
-				@RequestParam(value="bContent")String bContent) {
+				@RequestParam(value="bContent")String bContent) {			
+			dao.noticeReply(bId, bGroup, bStep, bIndent,root_Id, bTitle, bContent);
 			
-			dao.boardReply(bId, bGroup, bStep, bIndent,root_Id, bTitle, bContent);
-			
-			return "redirect:boardList.bo";
+			return "redirect:noticeBoard.bo";
 		}
+		//답글(communite)
+				@RequestMapping(value="/communiteBoard_reply.bo")
+				public String boardReply(@RequestParam(value="bId")String bId, 
+						@RequestParam(value="bGroup")String bGroup,
+						@RequestParam(value="bStep")String bStep,
+						@RequestParam(value="bIndent")String bIndent,
+						@RequestParam(value="root_Id")String root_Id,
+						@RequestParam(value="bTitle")String bTitle,
+						@RequestParam(value="bContent")String bContent) {			
+					dao.boardReply(bId, bGroup, bStep, bIndent,root_Id, bTitle, bContent);
+					
+					return "redirect:communiteBoard.bo";
+				}
+		
 }

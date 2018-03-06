@@ -172,6 +172,7 @@ body .container .content input.submit {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #263238;
+  
   border: 1px solid #263238;
   background: transparent;
   -moz-border-radius: 2px;
@@ -318,6 +319,7 @@ body .container .content .signup-cont {
                                       		
                                       		<div class="submit-wrap">
 							                        <input type="submit" value="Sign in" class="submit">
+							                        <input type="button" value="main" class="submit" onclick="goMain();" style="margin-top: 10px;">
 							                        <a href="#" class="more">Forgot your password ?</a>
 						                    </div>
         					        </form>                              		
@@ -332,7 +334,17 @@ body .container .content .signup-cont {
 </section>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+function goMain(){
+	location.href="mainBoard.bo";
+}
+
+</script> 
 <script type="text/javascript">
 $('.tabs .tab').click(function(){
     if ($(this).hasClass('signin')) {

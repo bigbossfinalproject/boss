@@ -5,16 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>상세 내용 보기</title>
+<title>로그인 화면</title>
 </head>
 
 <style rel="stylesheet">
-
-.header {
-	width:1280px;
-	margin:0 auto;
-}
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 * {
   -moz-box-sizing: border-box;
@@ -39,7 +33,7 @@ body .container {
   width: 1000px;
   
   height: 700px;
-  margin: 120px auto 0;
+  margin: 80px auto 0;
   background-color: #ffffff;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
@@ -189,7 +183,7 @@ function goDel(bId){
 
  <body>
  
-	 <div class="header">
+	 <div>
  	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
  
  	</div>

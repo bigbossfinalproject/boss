@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -200,6 +200,7 @@ function goDel(bId){
 		    	<form action = "communiteBoard_modify.bo">
 			        <h1>Writer : ${dto.root_Id}</h1>			       
 			       	<input type="hidden" id="bId" name="bId" value="${dto.bId }">
+				       
 				        <div class="tabs">
 					           <span class="welcome"> Title : </span>
 					            				<input type="text" name="bTitle" id="bTitle" class="inpt2" required="required" placeholder="Title" value="${dto.bTitle}">
@@ -223,7 +224,7 @@ function goDel(bId){
 							                    
 							                    <%if(root_Id.equals(writer) || root_Id.equals("Admin")){%>
 							                    	<div class="submit-wrap">
-								                        <input type="submit" value="modify" class="submit">
+								                        <input type="submit" value="modify" class="submit"">
 							                   		</div>
 							                    	<div class="submit-wrap">
 								                        <input type="button" value="delete" class="submit" onclick="javascript:goDel(${dto.bId});">
