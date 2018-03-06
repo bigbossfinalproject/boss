@@ -19,7 +19,16 @@ create table item(
 
 select * from budget where to_char(budget_date,'YYYY-MM')='2017-02' and root_idn=2
 
-select * from item;
+select * from item where item_code like '14%';
+
+
+
+delete from item where item_code like '13%';
+
+update item set parent_code = '' where item_code = '1a000000';
+update item set parent_code = '' where item_code = '1l000000';
+update item set parent_code = '' where item_code = '1i000000';
+update item set parent_code = '' where item_code = '1e000000';
 
 select * from item where item_code like '1%';
 

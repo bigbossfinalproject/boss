@@ -334,16 +334,31 @@ public class AssetController {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		header_infoBean bean = null;
-		int root_idn = 1;
-		// ((Integer) session.getAttribute("root_Idn")).intValue();
+		int root_idn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		//System.out.println("AssetController - root_idn : "+root_idn);
+		
 		bean = assetDao.header_info(root_idn);
 		JSONArray list = new JSONArray();
 		JSONObject obj = new JSONObject();
-
-		list.add(bean.getTotal_amount());
-		list.add(bean.getAccount_amount());
-		list.add(bean.getCash_amount());
-
+		
+		int value1 = 0;
+		int value2 = 0;
+		int value3 = 0;
+		
+		try {
+			value1=bean.getTotal_amount();
+			value2=bean.getAccount_amount();
+			value3=bean.getCash_amount();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		list.add(value1);
+		list.add(value2);
+		list.add(value3);
+		
+		
 		obj.put("list", list);
 
 		System.out.println(obj.toString());

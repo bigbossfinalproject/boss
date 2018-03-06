@@ -6,7 +6,7 @@
 <title>메인 홈</title>
 <style>
  
-.header {
+.header, .inner_frame {
 	width:1280px;
 	margin: 0 auto;
 }
@@ -35,7 +35,7 @@ div.img img {
  </script>
 </head>
 <body>
-	<header><jsp:include page="/resources/include/header.jsp"/></header>
+	<header class="header"><jsp:include page="/resources/include/header.jsp"/></header>
   <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div> 
  
  
