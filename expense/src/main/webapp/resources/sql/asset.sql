@@ -41,6 +41,12 @@ create table asset(
 	root_id varchar2(20)
 );
 
+update asset set now_amount = now_amount+30000000 where asset_code = '1bk001';
+
+update asset set now_amount = -374300 where asset_code = '1cs001';
+update asset set now_amount = 21506300 where asset_code = '1bk001';
+
+
 
 insert into asset values('1cs001', 'cash', 1, '2018/02/14', '지갑속 현금', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 insert into asset values('1bk001', 'account', 1, '2018-02-14', '신한입출금통장', '주 사용 통장', 'fnc011', 1000000, 1000000, 'Y', 'admin');
@@ -49,9 +55,12 @@ insert into asset values('1bk003', 'account', 1, '2018-02-24', '신한주택저�
 insert into asset values('1cs002', 'cash', 1, '2018/02/14', '지갑속 동전', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 select * from asset;
 
-delete from asset where asset_code = '1bk001';
+delete from asset where asset_name = 'test';
 
 select * from asset where asset_code like '1bk%';
 
 select count(*) from asset where root_id='admin' and trade_code ='account';
 
+
+
+select sum(expense_amount) from expense where root_idn = 1 and trade_code='cash';

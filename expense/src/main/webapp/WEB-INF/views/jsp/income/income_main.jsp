@@ -41,7 +41,7 @@
 <style type="text/css">
 body {
 	width: 1280px;
-	margin: 0 auto;
+	margin: 170px auto 0;
 }
 
 #income_chart {
@@ -49,10 +49,16 @@ body {
 	margin: 0 auto;
 }
 </style>
-
+<script type="text/javascript">
+window.onload = function() {
+	getIncomeBoard();
+	headerFunction();
+}
+</script>
 </head>
 <body>
 	<header><jsp:include page="/resources/include/header.jsp" /></header>
+	 <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
 	<h2 class="text-center">소득 내역</h2>
 
 	<div id="income_chart" class="container"></div>

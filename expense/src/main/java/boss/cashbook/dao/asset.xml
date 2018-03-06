@@ -68,12 +68,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 헤더info 가져오기 -->	
 	<select id="header_info" parameterType="int" resultType="header_info">
-	select sum(basic_amount) total_amount, 
-(select sum(a1.basic_amount) from asset a1 where trade_code='account')account_amount, 
+	select sum(now_amount) total_amount, 
+(select sum(a1.now_amount) from asset a1 where trade_code='account')account_amount, 
 (select sum(e1.expense_amount) from expense e1 where trade_code='account') account_amount_spent,
-(select sum(a2.basic_amount) from asset a2 where trade_code='cash') cash_amount,
+(select sum(a2.now_amount) from asset a2 where trade_code='cash') cash_amount,
 (select sum(e2.expense_amount) from expense e2 where trade_code='cash') cash_amount_spent
-from asset a where a.root_idn=1 group by a.root_idn
+from asset a where a.root_idn=#{root_idn} group by a.root_idn
 	</select> 
 	
 
@@ -81,5 +81,20 @@ from asset a where a.root_idn=1 group by a.root_idn
 	<select id="getAssetCode" parameterType="String" resultType="String">
 		select asset_code from asset where asset_name <![CDATA[=]]> #{assetName}
 	</select>
-
+	
+	<!-- 자산 정보에서 현재 금액에서 마이너스 하기 -->
+	<update id="nowAmountMinus" parameterType="java.util.Map">
+		update asset set now_amount <![CDATA[=]]> now_amount - #{amount} where root_idn <![CDATA[=]]> #{root_idn} and asset_code <![CDATA[=]]> #{asset_code}
+	</update>
+	
+	<!-- 자산 정보에서 현재 금액에서 플러스 하기 -->
+	<update id="nowAmountPlus" parameterType="java.util.Map">
+		update asset set now_amount <![CDATA[=]]> now_amount + #{amount} where root_idn <![CDATA[=]]> #{root_idn} and asset_code <![CDATA[=]]> #{asset_code}
+	</update>
+	
+	<!-- 자산 정보에서 현재 잔액 가져오기 -->
+	<select id="nowAmount" parameterType="java.util.Map" resultType="int">
+		select now_amount from asset where root_idn <![CDATA[=]]> #{idn} and asset_code <![CDATA[=]]> #{asset}
+	</select>
+	
 </mapper>
