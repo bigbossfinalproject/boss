@@ -242,7 +242,7 @@ public class BudgetController {
 		System.out.println(request.getParameter("lastDate"));
 		System.out.println("========================");
 		
-
+		
 		response.getWriter().write(getTotal_JSON(bean));
 		
 	}
