@@ -253,7 +253,7 @@
 
     if (typeof(sizing.padding) !== "undefined") {
       document.body.style.margin = "0";
-      document.body.style.padding = paddingToCss(unpackPadding(sizing.padding));
+      document.body.style.padding = "0";
     }
 
     if (sizing.fill) {
@@ -265,10 +265,10 @@
       if (cel) {
         cel.style.position = "absolute";
         var pad = unpackPadding(sizing.padding);
-        cel.style.top = pad.top + "px";
-        cel.style.right = pad.right + "px";
-        cel.style.bottom = pad.bottom + "px";
-        cel.style.left = pad.left + "px";
+//        cel.style.top = pad.top + "px";
+//        cel.style.right = pad.right + "px";
+//        cel.style.bottom = pad.bottom + "px";
+//        cel.style.left = pad.left + "px";
         el.style.width = "100%";
         el.style.height = "100%";
       }

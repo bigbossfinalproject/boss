@@ -74,11 +74,23 @@ $(document).on('click', '#add_row', function() {
 	var result = curr_year + "-" + curr_month + "-"
 		+ curr_date;
 
+	var a = getOptions('현금');
+	var optionInit = "";
+
+	for (var i = 0; i < a.length; i++) {
+		optionInit += "<option value = " + a[i] + ">" + a[i] + "</option> ";
+	}
+
+
+
+
+
+
 	var rowItem = "<tr>"
 	rowItem += "<td> <input type='date' class='form-control' value = '" + result + "'> </td>"
 	rowItem += "<td> <select class='form-control' id = 'income_code'>" + income_option + "</select> </td>"
 	rowItem += "<td> <select class='form-control' name='trade'><option value='현금'>현금</option><option value='통장'>통장</option></select> </td>"
-	rowItem += "<td> <select class='form-control' id = 'asset_code'><option value=''>선택</option></select> </td>"
+	rowItem += "<td> <select class='form-control' id = 'asset_code'>"+ optionInit + "</select> </td>"
 	rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
 	rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
 	rowItem += "<td><button type='button' id='row_add' ><span class='glyphicon glyphicon-ok' ></span></button></td>"

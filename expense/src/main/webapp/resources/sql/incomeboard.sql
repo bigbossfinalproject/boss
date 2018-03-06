@@ -12,6 +12,8 @@ CREATE TABLE income
     income_description    VARCHAR2(20)    NULL   -- 비고
 )
 
+create sequence income_code_seq;
+
 SELECT  table_name, table_type, comments FROM USER_TAB_COMMENTS WHERE comments IS NOT NULL;
 -- 주석 단 테이블 확인.
 SELECT table_name, column_name, comments FROM USER_COL_COMMENTS WHERE comments IS NOT NULL;
@@ -21,7 +23,7 @@ select root_idn, income_id, to_char(income_date,'yyyy.mm.dd') income_date, incom
 from income
 -- 날짜를 변환해서 불러오는방식
 
-create sequence income_code_seq;
+
 
 ----------------테스트케이스
 insert into INCOME values (1, 1, sysdate, 'i2', 30000, 1, 1, 1)
