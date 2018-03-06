@@ -10,6 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="budget_list" parameterType="budget" resultType="budget">
 		select * from budget where to_char(budget_date,'YYYY-MM')=#{budget_date} and root_idn=#{root_idn}
 	</select>
+
+	<!-- 예산 목록  -->  
+	 <select id="budget_item_list" parameterType="budget" resultType="budget">
+			select (select item_name from item where item_code=e.item_code)item_code, sum(expense_amount) budget_amount_spent from expense e where to_char(expense_date,'YYYY-MM')=#{budget_date} and root_idn=#{root_idn} group by item_code
+	</select>
 	
 	<!-- 예산 엑셀 목록  -->  
 	 <select id="budget_excel_list" parameterType="budget_excel" resultType="budget">

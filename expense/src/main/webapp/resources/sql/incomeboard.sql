@@ -27,6 +27,7 @@ from income
 
 ----------------테스트케이스
 insert into INCOME values (1, 1, sysdate, 'i2', 30000, 1, 1, 1)
+
 insert into INCOME values (1, 2, sysdate, 'i1', 10000, 1, 1, 1);
 
 select * from INCOME

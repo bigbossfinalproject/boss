@@ -54,6 +54,10 @@ public class BudgetDaoImpl {
 		
 		return bean;
 	}
+	public List<BudgetBean> budget_item_list(BudgetBean bean2){
+		List<BudgetBean> bean=this.sqlSession.selectList("budget_item_list",bean2);
+		return bean;
+	}
 	
 	public BudgetBean budget_list_total(){
 		BudgetBean bean=this.sqlSession.selectOne("budget_list_total");
