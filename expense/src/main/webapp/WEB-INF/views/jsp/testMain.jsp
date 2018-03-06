@@ -25,14 +25,26 @@ div.img img {
 }
 
  </style>
+ 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ <script type="text/javascript">
+ window.onload = function() {
+		headerFunction();
+	}
+
+ </script>
 </head>
 <body>
+	<header><jsp:include page="/resources/include/header.jsp"/></header>
+  <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div> 
  
  
  <div class="container">
-	 <div class="header">
-	 	<jsp:include page="/resources/include/header.jsp"></jsp:include>	 
-	 </div>
+
+		
+
+
+	 
 	 <div class="img">
 	 		<img src="boss2.jpg">
 	 </div>

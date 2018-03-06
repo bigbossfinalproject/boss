@@ -2,7 +2,6 @@ package boss.com.vs.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +49,6 @@ public class BudgetController {
 		bean2.setBudget_date(budget_date.substring(0,7));
 		bean2.setBudget_code(budget_code);
 		
-		System.out.println("=============");
-		System.out.println(item_code);
-		System.out.println(rootIdn);
-		System.out.println(budget_date);
-		System.out.println(budget_code);
-		System.out.println("=============");
 		
 		bean.setBudget_code(budget_code);
 		bean.setBudget_amount(budget_amount);
@@ -182,7 +175,6 @@ public class BudgetController {
 
 	@RequestMapping(value = "/budget_list.bg",method=RequestMethod.POST)
 	public void budget_list(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
-		System.out.println("zzzzzzzzzzzzzzzzzzzzzz");
 		
 		String budget_date= request.getParameter("date");
 		System.out.println("budget_date ="+budget_date);
@@ -268,24 +260,73 @@ public class BudgetController {
 	
 	public String getBudget_JSON(BudgetBean bean2){
 		StringBuffer result=new StringBuffer("");
+		
+		
 		result.append("{\"result\":[");
 		
 		List<BudgetBean> bean=null; 
+		List<BudgetBean> bean3=null; 
+		
+		bean3=this.budgetService.budget_item_list(bean2);
 		bean=this.budgetService.budget_list(bean2);
+		
+		int num=0;
+		
+		int cnt=0;
+
+		
+		int cnt2=0;
+		for (int i = 0; i < bean3.size(); i++) {
+				for (int j = 0; j < bean.size(); j++) {
+					if(bean3.get(i).getItem_code().equals(bean.get(j).getItem_code())){
+						cnt2++;
+					}
+				}
+				if(cnt2==0){
+					num+=bean3.get(i).getBudget_amount_spent();
+				}
+					cnt2=0;
+			}
+
+		
 		for (int i = 0; i < bean.size(); i++) {
 			result.append("[{\"value\": \""+bean.get(i).getItem_code()+"\"},");
 			result.append("{\"value\": \""+bean.get(i).getBudget_amount()+"\"},");
 			result.append("{\"value\": \""+bean.get(i).getBudget_code()+"\"},");
-			result.append("{\"value\": \""+bean.get(i).getBudget_amount_spent()+"\"},");
+			
+			for (int j = 0; j < bean3.size(); j++) {
+			 BudgetBean item= new BudgetBean();
+			item=bean3.get(j);
+			if(item.getItem_code().equals(bean.get(i).getItem_code())){
+				result.append("{\"value\": \""+item.getBudget_amount_spent()+"\"},");
+				
+				cnt++;
+					}
+			}	
+						if(cnt==0){
+						result.append("{\"value\": \""+0+"\"},");				
+						}
+						
+						cnt=0;
+			
+			
 			result.append("{\"value\": \""+bean.get(i).getBudget_date().substring(0,10)+"\"}],");
 			
 		}
 		
-		result.append("]}");
+		result.append("[{\"value\": \"기타금액\"},");
+		result.append("{\"value\": \""+0+"\"},");
+		result.append("{\"value\": \""+0+"\"},");
+		result.append("{\"value\": \""+num+"\"},");
+		result.append("{\"value\": \""+"2018-02-03"+"\"}],");
+		
 		
 
+			System.out.println("기타금액 ="+num);
+		
 
 	      System.out.println("이거 값 모지? "+result.toString());
+	      result.append("]}");
 		return result.toString();
 	}
 	
