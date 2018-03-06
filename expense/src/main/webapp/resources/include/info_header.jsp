@@ -9,7 +9,7 @@
 		width: 1280px;
 		height: 50px;
 		background: #4169e1;
-		z-index: 450;
+		z-index: 400;
 	}
 	
 	.info_title {

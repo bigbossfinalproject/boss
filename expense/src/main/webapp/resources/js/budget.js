@@ -21,8 +21,10 @@
 		var firstDate=document.getElementById("excel1").value;
 		var lastDate=document.getElementById("excel2").value;
 		
-		var date="<a id=excel3 href=./budget_excel.bg?firstDate="+firstDate+"&lastDate="+lastDate+" download=budget.xls>파일 다운로드</a>";
+		var date="<a href=./budget_excel.bg?firstDate="+firstDate+"&lastDate="+lastDate+" download='budget.xls'><button type=button class='btn btn-info'>" +
+				"<span class='glyphicon glyphicon-save'></span></button></a>";
 	
+		console.log(date);
 		$('#excel3').append(date);
 	
 	}
@@ -53,11 +55,15 @@
 
 	}
 	;
-	function graphy2(value1, value2) {
+	function graph2(value1, value2, value3) {
 		var s1 = value1;
 		var s2 = value2;
+		
+		console.log(s1);
+		console.log(s2);
+		
 		$("#chart5").html("");
-		plot1 = $.jqplot("chart5", [ s2, s1 ], {
+		plot1 = $.jqplot("chart5", [ s1, s2 ], {
 			// Turns on animatino for all series in this plot.
 			animate : true,
 			// Will animate plot on calls to plot1.replot({resetAxes:true})
@@ -107,17 +113,8 @@
 			axes : {
 				// These options will set up the x axis like a category axis.
 				xaxis : {
-					tickOptions : {
-						formatString : "%'d월"
-					},
-					tickInterval : 1,
-					drawMajorGridlines : false,
-					drawMinorGridlines : true,
-					drawMajorTickMarks : false,
-					rendererOptions : {
-						tickInset : 0.5,
-						minorTicks : 1
-					}
+					renderer : $.jqplot.CategoryAxisRenderer,
+					ticks : value3
 				},
 				yaxis : {
 					tickOptions : {
@@ -141,6 +138,7 @@
 			highlighter : {
 				show : true,
 				showLabel : true,
+				formatString : "%'s월",
 				tooltipAxes : 'y',
 				sizeAdjust : 7.5,
 				tooltipLocation : 'ne'
@@ -170,12 +168,11 @@
 			},
 
 
-			legend : {	
-				
+			legend : {		
 				show : true, 
 				labels : ticks, 
-				location : 'e', 
-				placement : 'outsideGrid' ,
+				location : 'ne', 
+				placement : 'insideGrid' ,
 				labels:[ '남은금액','사용금액']
 				}
 				
@@ -212,7 +209,7 @@
 	var insertRequest = new XMLHttpRequest();
 
 	function selectFunction() {
-		console.log(document.getElementById("cal").value);
+	
 		selectRequest.open("Post", "./budget_list.bg?date=" + document.getElementById("cal").value, true);
 		selectRequest.onreadystatechange = selectProcess;
 		selectRequest.send(null);
@@ -237,29 +234,15 @@
 			for (var i = 0; i < result.length; i++) {
 				row += "<tr>"
 
-				for (var j = 0; j < result[i].length-1; j++) {
 
-					if (j == 1) {
-					
-					}
-					if (j == 3) {
-						
-					}
-					if (j == 2) {
-						
-					}else if(j==0){
-						
-					}else if(j==4){
-						
-					}
-				}
 				sum_amount += parseInt(result[i][1].value)
 				sum_amount_spent += parseInt(result[i][3].value)
 				
 			
 				
 				
-				row += "<td>" +result[i][0].value + "</td>"
+				row += "<input type=hidden class=aa id=update_item_code" + i + " value=" + result[i][0].value + ">"
+				row += "<td>"+ result[i][0].value + "</td>"
 				row += "<td><input type=text class=aa id=update_amount" + i + " value=" + result[i][1].value + "></td>"
 				row += "<input type=hidden id=update_budget_code" + i + " value=" + result[i][2].value + ">"
 				row += "<td><input type=text class=aa id=update_amount_spent" + i + " value=" + result[i][3].value + "></td>"
@@ -268,9 +251,7 @@
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=updateFunction(" + i + "); type=button >" + "수정" + "</button></td>"
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=deleteFunction(" + result[i][2].value + "); type=button >" + "삭제" + "</button></td>"
 				row += "</tr>"
-					
-				
-					
+						
 				graph3Val1.push(parseInt(result[i][3].value));
 				graph3Val2.push((result[i][1].value) - (result[i][3].value));
 				graph3Val3.push(result[i][0].value);
