@@ -30,7 +30,6 @@
 		document.getElementById('cal').valueAsDate = new Date();
 		document.getElementById('total_firstDate').valueAsDate = dt;
 		document.getElementById('total_lastDate').valueAsDate = new Date();
-		total_listFunction();
 		item_list();
 		selectFunction();
 		headerFunction();
