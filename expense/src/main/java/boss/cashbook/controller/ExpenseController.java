@@ -216,6 +216,10 @@ public class ExpenseController {
 	public ModelAndView expenseDetailItem(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String parent_code = request.getParameter("parent_code");
 		String children_code = request.getParameter("children_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_item");
@@ -224,6 +228,9 @@ public class ExpenseController {
 		//System.out.println("itemDetailList 개수 : "+list.size());
 		mv.addObject("expenseItemDetailList", list);
 		mv.addObject("item_code", children_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}
@@ -233,6 +240,10 @@ public class ExpenseController {
 	public ModelAndView expenseDetailAsset(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String trade_code = request.getParameter("trade_code");
 		String asset_code = request.getParameter("asset_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("trade_code : "+trade_code+"\t / asset_code : "+asset_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_asset");
@@ -242,6 +253,9 @@ public class ExpenseController {
 		//System.out.println("assetDetailList 개수 : "+list.size());
 		mv.addObject("expenseAssetDetailList", list);
 		mv.addObject("asset_code", asset_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}
@@ -256,6 +270,10 @@ public class ExpenseController {
 		
 		String trade_code = request.getParameter("trade_code");
 		String card_code = request.getParameter("asset_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_card");
@@ -268,6 +286,9 @@ public class ExpenseController {
 		//System.out.println("cardDetailList 개수 : "+list.size());
 		mv.addObject("expenseCardDetailList", list);
 		mv.addObject("card_code", card_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}

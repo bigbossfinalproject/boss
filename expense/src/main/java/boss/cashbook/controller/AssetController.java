@@ -202,6 +202,7 @@ public class AssetController {
 			view.setNow_amount(a.getNow_amount());
 			for(TradeBean t : tList){
 				if(a.getTrade_code().equals(t.getTrade_code())) {
+					view.setTrade_code(a.getTrade_code());
 					view.setTrade_name(t.getTrade_name());
 				}
 			}
@@ -211,20 +212,29 @@ public class AssetController {
 					view.setBank_code(b.getBank_code());
 				}
 			}
+			view.setAsset_code(a.getAsset_code());
 			
-			Map<String, String> assetInfo = new HashMap<String, String>();
-			assetInfo.put("id", view.getRoot_id());
+			
+			Map<String, Object> assetInfo = new HashMap<String, Object>();
+			assetInfo.put("idn", view.getRoot_idn());
 			assetInfo.put("startDate", view.getAsset_date().toString());
-			List<ExpenseBean> expenseList = expenceDao.expenseTermList(assetInfo);
+			assetInfo.put("trade", view.getTrade_code());
+			assetInfo.put("asset", view.getAsset_code());
+			int nowAmount = expenceDao.expenseTermAmount(assetInfo);
+			/*AssetBean assetInfo = new AssetBean();
+			assetInfo.setRoot_idn(view.getRoot_idn());
+			assetInfo.setAsset_date(view.getAsset_date());
+			assetInfo.setTrade_code(view.getTrade_code());
+			int nowAmount = expenceDao.expenseTermAmount(assetInfo);*/
+			/*List<ExpenseBean> expenseList = expenceDao.expenseTermAmount(assetInfo);
 			
 			int sum = 0;
 			for(ExpenseBean e : expenseList) {
 				if(a.getAsset_code().equals(e.getAsset_code())) {
 					sum += e.getExpense_amount();
 				}
-			}
-			view.setNow_amount((a.getNow_amount()-sum));
-			view.setAsset_code(a.getAsset_code());
+			}*/
+			view.setNow_amount((a.getBasic_amount()-nowAmount));
 			view.setAsset_use(a.getAsset_use());
 			viewList.add(view);
 		}

@@ -23,6 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from expense where root_id <![CDATA[=]]> #{id} and expense_date <![CDATA[>=]]> #{startDate} order by expense_date desc
 	</select>
 	
+	<!-- 사용자 개인별 기간별 자산별 지출 금액 보여주기 -->
+	<select id="expenseTermAmount" parameterType="java.util.Map" resultType="int">
+		select basic_amount - (select sum(expense_amount) from expense where root_idn <![CDATA[=]]> #{idn} and expense_date <![CDATA[>=]]> #{startDate}
+		 and asset_code <![CDATA[=]]> #{asset} and trade_code <![CDATA[=]]> #{trade}) from asset where asset_code <![CDATA[=]]> #{asset}
+	</select>
+	
 	<!-- 사용자 개인별 지출 내역을 보여주기 -->
 	<select id="expenseCount" parameterType="int" resultType="int">
 		select count(*) from expense where root_idn <![CDATA[=]]> #{idn}

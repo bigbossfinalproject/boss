@@ -285,7 +285,7 @@ input, select, option {
 								<input type="text" id="expense_discription_<%= btnCnt %>" name="expense_discription" class="modify" value="${ eList.expense_discription }" style="width:199px; line-height:40px;">
 							</td>
 							<td class="text amount" id="expense_amount_<%= btnCnt %>" style="padding: 0; text-align: right; padding:5px; height: 50px;">
-								<b><input type="text" id="expense_amount_<%= btnCnt %>" name="expense_amount" class="modify" value="${ eList.expense_amount }" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:35px; margin:0; border:0; width: 89px;"></b>
+								<input type="text" id="expense_amount_<%= btnCnt %>" name="expense_amount" class="modify" value="${ eList.expense_amount }" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:35px; margin:0; border:0; width: 89px; font-weight: bold;">
 							</td>
 							<td class="text" id="expense_remove_<%= btnCnt %>" style="line-height: 50px; padding: 0;">
 								<input id="row_remove" type="button" class="white_btn asset_remove" name="asset_remove" value="삭제" style="width:50px; line-height:45px;">
@@ -334,6 +334,8 @@ input, select, option {
 		var trade_id = new Array();
 		var asset_hdn_val = new Array();
 		
+		headerFunction();
+		
 		for(var i = 1; i < btnCnt; i++) {
 			parent_sel_val[(i-1)] = $('td[id="parent_item_'+i+'"]').children('select:last-child').val();			// 지출 중분류 항목 코드값
 			children_det_id[(i-1)] = $('td[id="expense_item_'+i+'"]').attr('id');											// 지출 세부항목 콤보박스를 삽입하기 위한 id값
@@ -348,9 +350,9 @@ input, select, option {
 		
 		for(var i = 0; i < parent_sel_val.length; i++) {
 			//console.log("중분류 항목 value : "+parent_sel_val[i]+"  세부항목 id : "+children_det_id[i]+"  자식 아이템 id : "+parent_td_id[i]+"   자식 아이템 value : "+children_hdn_val[i]);
-			expenseDetailItemLoad(children_det_id[i], parent_sel_val[i], children_hdn_val[i]);
+			expenseDetailItemLoad(children_det_id[i], parent_sel_val[i], children_hdn_val[i], (i+1));
 			//console.log("trade_val : "+trade_val[i]+"  asset_input_id : "+asset_input_id[i]+"  trade_id : "+trade_id[i]+"   asset_hdn_val : "+asset_hdn_val[i]);
-			expenseAssetLoad(asset_input_id[i], trade_val[i], asset_hdn_val[i]);
+			expenseAssetLoad(asset_input_id[i], trade_val[i], asset_hdn_val[i], (i+1));
 		}
 		
 		//console.log('trade_val : '+trade_val.length+'   asset_input_id : '+asset_input_id.length+'   trade_id : '+trade_id.length+'   asset_hdn_val : '+asset_hdn_val.length)
@@ -360,7 +362,7 @@ input, select, option {
 		} */
 		
 		// 페이지로드시 실행하기 지출 세부항목을 호출하기 위한 함수
-		function expenseDetailItemLoad(id, val, chdVal){	// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
+		function expenseDetailItemLoad(id, val, chdVal, idNum){	// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
 			
 			// item_modify ajaxSetup 선언
 			$.ajaxSetup({
@@ -377,7 +379,7 @@ input, select, option {
 			var parent_code = val;				// 부모 아이템 코드
 			var children_code = chdVal;		// 자식 아이템 코드
 			//var parnet_code = parent_code.substr(0, (idn.length+4));
-			var sendData = 'parent_code='+parent_code+'&children_code='+children_code;
+			var sendData = 'parent_code='+parent_code+'&children_code='+children_code+"&id_num="+idNum;
 			//console.log('parent_code ; '+parent_code);
 			
 			$.ajax({
@@ -387,7 +389,7 @@ input, select, option {
 		}
 		
 		// 페이지로드시 실행하기 지출 세부항목을 호출하기 위한 함수
-		function expenseAssetLoad(id, val, chdVal){			// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
+		function expenseAssetLoad(id, val, chdVal, idNum){			// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
 			
 			if(val == 'cash' || val =='account') {
 				// item_modify ajaxSetup 선언
@@ -405,7 +407,7 @@ input, select, option {
 				var trade_code = val;				// 지출/거래 유형 코드
 				var asset_code = chdVal;			// 지출 자산 코드
 				//var parnet_code = parent_code.substr(0, (idn.length+4));
-				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code;
+				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code+"&id_num="+idNum;
 				//console.log('parent_code ; '+parent_code);
 				
 				$.ajax({
@@ -427,7 +429,7 @@ input, select, option {
 				var trade_code = val;				// 지출/거래 유형 코드
 				var asset_code = chdVal;		// 지출 카드 코드
 				//var parnet_code = parent_code.substr(0, (idn.length+4));
-				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code;
+				var sendData = 'trade_code='+trade_code+'&asset_code='+asset_code+"&id_num="+idNum;
 				//console.log('parent_code ; '+parent_code);
 				
 				$.ajax({
@@ -521,8 +523,8 @@ input, select, option {
 
 		$(document).on('click', '#add_row', function(){
 			var value = row_add();
-			expenseDetailItemLoad(value[0], value[1], value[2])		// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
-			expenseAssetLoad(value[3], value[4], value[5])				// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
+			expenseDetailItemLoad(value[0], value[1], value[2], value[6])		// (삽입할 태그 id, 중분류 코드, 세부항목 코드)
+			expenseAssetLoad(value[3], value[4], value[5], value[6])				// (삽입할 태그 id, 지출유형 코드, 자산/카드 코드)
 		});
 		
 		// 자산 목록 행 추가하는 함수
@@ -534,6 +536,7 @@ input, select, option {
 			value[3] = 'expense_asset_'+btnCnt;		// 자산 삽입할 태그 id
 			value[4] = 'cash';								// 지출 유형 코드
 			value[5] = '1cs001';								// 자산/카드 코드
+			value[6] = btnCnt;								// 아이디 번호
 			
 			var rowItem = "<tr>"
 			rowItem += '<input type="hidden" id="root_idn_'+btnCnt+'" name="root_idn" value="${ root_Idn }">';
@@ -572,7 +575,7 @@ input, select, option {
 			/* 지출할 자산계좌/카드 목록을 보여줄 select 태그 */
 			rowItem += '<td class="text" id="expense_asset_'+btnCnt+'"style="padding: 0;"></td>';
 			rowItem += '<td class="text" style="padding: 0;"><input type="text" id="expense_discription_'+btnCnt+'" name="expense_discription" class="modify" style="width:199px; line-height:40px;" placeholder="상세 지출 정보 입력"></td>';
-			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><b><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 89px;"></b></td>'
+			rowItem += '<td class="text amount" style="padding: 0; text-align: right; padding:5px; "><input type="text" id="expense_amount'+btnCnt+'" name="expense_amount" class="modify" numberOnly value="0" style="text-align: right; padding-right: 5px; line-height:40px; margin:0; border:0; width: 89px; font-weight:bold;"></td>'
 			rowItem += '<td class="text" id="expense_remove_'+btnCnt+'" style="line-height: 50px; padding: 0;"><input id="row_remove" type="button" class="white_btn expense_remove'+btnCnt+'" name="expense_remove" value="삭제" style="width:50px; line-height:45px;"></td>';
 			
 			btnCnt++;
@@ -620,7 +623,7 @@ input, select, option {
 			var id = $(this).children().attr('id');
 			var val = $(this).children().val();
 			var txt = $(this).children().text();
-			//console.log('id : '+id+' / text : '+ txt+ ' / value : '+val);
+			console.log('id : '+id+' / text : '+ txt+ ' / value : '+val);
 		});
 		
 		// 클릭시 td영역을 삭제하는 구문

@@ -56,6 +56,8 @@ insert into expense values('1e000010', 1, 'admin', '2018-02-10', '1e003002', '1e
 insert into expense values('1e000011', 1, 'admin', '2018-02-11', '1e004001', '1e004000', 'cash', '1cs001', '월세 지불', '300000');
 
 
+update expense set trade_code = 'account' where asset_code = '1bk001';
+
 
 select (select sum(expense_amount) from expense where trade_code = 'cash') exp,
 (select sum(expense_amount) from expense where trade_code = 'account') exp2
@@ -63,6 +65,19 @@ from expense group by root_idn;
 
 select sum(expense_amount) from expense where = 'cash';
 
+update expense set asset_code = '1cs001' where trade_code='cash';
 
 
 
+select sum(expense_amount) from expense where root_idn = 1 and expense_date >= '2017-01-01' and trade_code = 'cash';
+
+select basic_amount - (select sum(expense_amount) from expense where root_idn = 1 and expense_date >= '2017-01-01'
+		 and asset_code = '1cs001' and trade_code = 'cash') from asset where asset_code = '1cs001';
+
+select sum(expense_amount) from expense where root_idn = 1 and expense_date >= '2017-01-01'
+		 and asset_code = '1cs001' and trade_code = 'cash';
+
+select * from expense where root_idn = 1 and expense_date >= '2017-01-01'
+		 and asset_code = '1cs001' and trade_code = 'cash';
+
+select * from expense where root_idn = 1 and expense_date >= '2017-01-01' and trade_code = 'cash';

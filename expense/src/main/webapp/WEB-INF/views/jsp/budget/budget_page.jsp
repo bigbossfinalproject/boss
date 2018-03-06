@@ -19,8 +19,7 @@
 <script type="text/javascript" src="./resources/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
 <script type="text/javascript" src="./resources/dist/plugins/jqplot.pointLabels.js"></script>
 <link rel="stylesheet" type="text/css" href="./resources/dist/jquery.jqplot.css" />
-<script src="./resources/js/budget.js" type="text/javascript"
-	charset="utf-8"></script>
+<script src="./resources/js/budget.js" type="text/javascript" charset="utf-8"></script>
 		
 
 <script>	window.onload = function() {
@@ -53,7 +52,7 @@ table.ui-datepicker-calendar {
 </head>
 
 
-<body style="width: 1280px; margin: 0 auto;">
+<body style="width: 1280px; margin: 40px auto 0;">
  <header><jsp:include page="/resources/include/header.jsp"/></header>
  <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
 	<div class="frame_1300">

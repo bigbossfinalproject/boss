@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.ExpenseBean;
 
 @Repository
@@ -31,6 +32,25 @@ public class ExpenseDAOImpl {
 		List<ExpenseBean> list = sql.selectList("expenseTermList", assetInfo);
 		return list;
 	}
+	
+	// 사용자의 지출 자산 목록별 내역을 가져오기
+	public int expenseTermAmount(Map<String, Object> assetInfo) {
+		System.out.println("root_idn : "+assetInfo.get("idn"));
+		System.out.println("StartDay : "+assetInfo.get("startDate"));
+		System.out.println("trade_code : "+assetInfo.get("trade"));
+		System.out.println("asset_code : "+assetInfo.get("asset"));
+		int amount = sql.selectOne("expenseTermAmount", assetInfo);
+		return amount;
+	}
+	
+	/*// 사용자의 지출 자산 목록별 내역을 가져오기
+	public int expenseTermAmount(AssetBean assetInfo) {
+		//System.out.println("root_idn : "+assetInfo.get("idn"));
+		//System.out.println("StartDay : "+assetInfo.get("startDate"));
+		//System.out.println("trade_code : "+assetInfo.get("trade"));
+		int amount = sql.selectOne("expenseTermList", assetInfo);
+		return amount;
+	}*/
 	
 	// 사용자의 지출 자산 개수를 가져오기
 	public int expenseCount(int idn) {

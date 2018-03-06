@@ -74,9 +74,7 @@ function headerFunction() {
 </head>
 <body>
 	<div class="amount_frame">
-				
-				
-							
+										
 					<div class=info_amount>1000</div>"
 					<div class=info_title>자산총액</div>"
 					<div class=info_amount>1000</div>"

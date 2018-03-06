@@ -4,10 +4,13 @@
 <%
 	List<AssetBean> assetList = (List<AssetBean>) request.getAttribute("expenseAssetDetailList");
 	String asset_code = (String) request.getAttribute("asset_code");
-	int dtlCnt = 1;
+	int idNum = 0;
+	if(request.getAttribute("id_num") != null) {
+		idNum = ((Integer)request.getAttribute("id_num")).intValue();
+	}
 %>
 <!-- 지출 세부항목 select 태그 -->
-<select style="width: 130px; height: 50px;" id="asset_code_<%= dtlCnt++ %>" name="asset_code">
+<select style="width: 130px; height: 50px;" id="asset_code_<%= idNum %>" name="asset_code">
 	<%
 		for(AssetBean asset : assetList) {
 			if(asset.getAsset_code().equals(asset_code)) {
