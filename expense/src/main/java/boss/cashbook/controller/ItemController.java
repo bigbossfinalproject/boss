@@ -101,9 +101,18 @@ public class ItemController {
 		Map<String, String> itemMap = new HashMap<String, String>();
 		itemMap.put("item_code", itemCode.substring(6));
 		
-		int expenseCnt = expenseDao.itemUsedCount(itemMap);
-		int incomeCnt = incomeDao.incomeCodeCount(itemMap);
-		int budgetCnt = budgetDao.budgetItemCount(itemMap);
+		int expenseCnt = 0;
+		int incomeCnt = 0;
+		int budgetCnt = 0;
+		
+		try {
+			expenseCnt = expenseDao.itemUsedCount(itemMap);
+			incomeCnt = incomeDao.incomeCodeCount(itemMap);
+			budgetCnt = budgetDao.budgetItemCount(itemMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 		int countResult = expenseCnt + incomeCnt + budgetCnt;
 		//System.out.println("countResult : "+countResult);

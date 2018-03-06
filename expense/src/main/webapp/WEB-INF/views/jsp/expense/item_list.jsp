@@ -197,6 +197,7 @@
 		var btnCnt = <%= btnCnt %>;
 		//console.log('btnCnt에 저장된 값 : '+btnCnt);
 		
+		headerFunction();
 		
 		var td_val = new Array();			// 중분류 항목의 코드 값을 호출하여 변수에 저장
 		var dt_id = new Array();				// 세부 항목의 td태그 id값을 호출하여 변수에 저장

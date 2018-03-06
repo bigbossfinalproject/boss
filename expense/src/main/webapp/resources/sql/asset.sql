@@ -57,6 +57,8 @@ insert into asset values('1bk003', 'account', 1, '2018-02-24', '신한주택저�
 insert into asset values('1cs002', 'cash', 1, '2018/02/14', '지갑속 동전', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 select * from asset;
 
+update asset set asset_use = 'Y';
+
 delete from asset where asset_name = 'test';
 
 select * from asset where asset_code like '1bk%';

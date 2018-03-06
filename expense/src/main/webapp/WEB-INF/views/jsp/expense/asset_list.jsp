@@ -274,7 +274,7 @@ input, select, option {
 							</td>
 							
 							<td class="text" style="line-height: 45px; padding: 0;">
-								<button type="button" id="row_remove_<%= btnCnt %>" class="white_btn asset_remove" name="asset_remove" style="width:39px; height:40px;">
+								<button type="button" id="row_remove_<%= btnCnt %>" class="white_btn asset_remove" name="asset_remove" style="width:59px; height:40px;">
 									<span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</td>
@@ -428,7 +428,7 @@ input, select, option {
 			rowItem += '<td class="text" style="padding:0;"></td>';
 			rowItem += '<td class="text" id="use_frame_'+btnCnt+'" style="line-height: 45px; padding: 0; width:89px;">';
 			rowItem += '<input type="checkbox" id="asset_use_'+btnCnt+'" class="modify" name="checked" checked="checked">';
-			rowItem += '사용중<input type="hidden" id="check_result_'+btnCnt+'" class="check_result" name="asset_use"></td>';
+			rowItem += '사용중<input type="hidden" id="check_result_'+btnCnt+'" class="check_result" name="asset_use" value="Y"></td>';
 			rowItem += '<td class="text" style="line-height: 45px; padding: 0; width: 59px;">';
 			rowItem += '<button type="button" id="row_remove_'+btnCnt+'" class="white_btn asset_remove" name="asset_remove" ';
 			rowItem += 'style="width:39px; height:40px;"><span class="glyphicon glyphicon-remove"></span></button></td></tr>'

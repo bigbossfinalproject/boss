@@ -1,5 +1,5 @@
 --일반 data
-select * from object_root
+select * from object_root;
 
 create table object_root(
    root_idn  number  constraint object_root_idn_pk primary key,
@@ -9,7 +9,7 @@ create table object_root(
    root_email  varchar2(50),   
    root_grade  number default 0
 );
-create sequence object_root_seq
+create sequence object_root_seq;
 
 --분석용 추가 data
 create table object_root_big(
@@ -39,7 +39,7 @@ insert into OBJECT_ROOT
 values(object_root_seq.nextVal, 'Admin', 1, 1, 1, 1);
 
 insert into OBJECT_ROOT
-values(, 1, 1, 1, 1, 1)
+values(object_root_seq.nextVal, 1, 1, 1, 1, 1);
 
 --insert into object_root(root_idn, root_name, root_id, root_pwd, root_email, root_grade)
 --	values (object_root_seq.nextVal, '관리자', 'admin', '1234', 'admin@thejoeun.com', 1);

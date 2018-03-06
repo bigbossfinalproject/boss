@@ -46,20 +46,19 @@ function headerFunction() {
 			dataType : 'json',
 			success : function(data) {
 				var result=data.list;
-				console.log(result);
+				//console.log(result);
 				var row="";
 				for (var i = 0; i < result.length; i++) {				
-					
-					row+="<div class=info_amount>"+result[i].toLocaleString()+"</div>"
+					console.log('result value : '+i);
+					row+='<div class="info_amount">'+result[i].toLocaleString()+'</div>';
 					if(i==0){
-						row+="<div class=info_title>자산총액</div>"
+						row+='<div class="info_title">자산총액</div>';
 					}else if(i==1){
-						row+="<div class=info_title>계좌잔액</div>"
+						row+='<div class="info_title">계좌잔액</div>';
 					}else if(i==2){
-						row+="<div class=info_title>현금잔액</div>"
+						row+='<div class="info_title">현금잔액</div>';
 					}
 				}
-				$(".amount_frame").html("");
 				$('.amount_frame').append(row);
 				
 			},
@@ -74,15 +73,7 @@ function headerFunction() {
 </head>
 <body>
 	<div class="amount_frame">
-										
-					<div class=info_amount>1000</div>"
-					<div class=info_title>자산총액</div>"
-					<div class=info_amount>1000</div>"
-					<div class=info_title>계좌잔액</div>"
-					<div class=info_amount>1000</div>"
-					<div class=info_title>현금잔액</div>"
-	
-	
+		
 	</div>
 </body>
 </html>

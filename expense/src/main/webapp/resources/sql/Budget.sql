@@ -20,7 +20,7 @@ select * from expense
 
 create sequence budget_code_seq;
 
-select * from budget
+select * from budget;
 
 drop table budget;
 

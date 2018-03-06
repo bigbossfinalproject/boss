@@ -6,14 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>메인 홈</title>
 <style>
-<<<<<<< HEAD
- 
+
 .header, .inner_frame {
-	width:1280px;
-=======
-.header {
 	width: 1280px;
->>>>>>> refs/remotes/origin/master
 	margin: 0 auto;
 }
 
@@ -42,19 +37,9 @@ header {
 </script>
 </head>
 <body>
-<<<<<<< HEAD
-	<header class="header"><jsp:include page="/resources/include/header.jsp"/></header>
-  <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div> 
- 
- 
- <div class="container">
 
-		
-=======
-	<header><jsp:include page="/resources/include/header.jsp" /></header>
-	<div class="inner_frame"><jsp:include
-			page="/resources/include/info_header.jsp" /></div>
->>>>>>> refs/remotes/origin/master
+	<header class="header"><jsp:include page="/resources/include/header.jsp" /></header>
+	<div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp" /></div>
 
 
 	<div class="container">

@@ -12,7 +12,7 @@
 
 
 	#section {
-		margin: 0 auto; 
+		margin: 100px auto 0;
 		width: 1280px; height: 800px;
 		position: relative;
 		/* background-color:green;  */

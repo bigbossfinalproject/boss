@@ -358,31 +358,6 @@ public class AssetController {
 		list.add(value2);
 		list.add(value3);
 		
-		
-
-		
-		int a=0;
-		int b=0;
-		int c=0;
-		try {
-			 a=bean.getTotal_amount();
-			 b=bean.getAccount_amount();
-			 c=bean.getCash_amount();
-			
-			
-		} catch (Exception e) {
-			System.out.println();
-		}
-
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
-		
-		
-		list.add(a);
-		list.add(b);
-		list.add(c);
-
 		obj.put("list", list);
 
 		System.out.println(obj.toString());
