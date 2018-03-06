@@ -1,4 +1,6 @@
 --일반 data
+select * from object_root
+
 create table object_root(
    root_idn  number  constraint object_root_idn_pk primary key,
    root_id  varchar2(20)  constraint object_root_idn_id unique,

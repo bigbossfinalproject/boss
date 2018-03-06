@@ -37,7 +37,6 @@ public class BudgetController {
 		
 		String item_code=request.getParameter("item_code");
 		int budget_code=Integer.parseInt(request.getParameter("budget_code"));
-		int budget_amount_spent=Integer.parseInt(request.getParameter("budget_amount_spent"));
 		String budget_date=request.getParameter("budget_date");
 		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
@@ -52,7 +51,7 @@ public class BudgetController {
 		
 		bean.setBudget_code(budget_code);
 		bean.setBudget_amount(budget_amount);
-		bean.setBudget_amount_spent(budget_amount_spent);
+		
 		bean.setBudget_date(budget_date);
 		
 		int modify_check=0;
