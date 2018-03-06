@@ -1,20 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
 <title>로그인 화면</title>
 </head>
 
 <style rel="stylesheet">
-
-.header {
-	width:1280px;
-	margin:0 auto;
-}
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 * {
   -moz-box-sizing: border-box;
@@ -34,7 +28,7 @@ body .container {
   overflow: hidden;  
   width: 1000px;  
   height: 800px;
-  margin: 120px auto 0;
+  margin: 80px auto 0;
   background-color: #ffffff;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
@@ -94,7 +88,7 @@ body .container .tabs .tab.active {
 /* 로그인 폼 사이즈 */
 body .container .content form {
   position: relative;
-  height: 400px;
+  height: 450px;
   
 }
 /* 회원가입의 폼 사이즈 */
@@ -166,6 +160,31 @@ body .container .content input.inpt2 {
   -webkit-border-radius: 2px;
   border-radius: 2px;
 }
+/*id 중복  */
+body .container .content input.checkId {
+  font-size: 14px;
+  display: block;
+  width: 78%;
+  height: 30px;
+  margin-bottom: 3px;
+  padding: 16px 13px;
+  color: #999999;
+  border: 1px solid #d9d9d9;
+  background: transparent;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  float:left;
+  margin-right: 2%;
+}
+
+body .container .content .checkId2 {
+  
+  position: absolute;
+  bottom: 0;
+  width: 20%;
+}
+
 
 /*게시판 옵션  */
 body .container .content .inpt2 {
@@ -232,6 +251,25 @@ body .container .content input.inpt:-ms-input-placeholder {
 body .container .content input.inpt:focus {
   border-color: #999999;
 }
+
+body .container .content input.check {
+ 
+  font-size: 12px;
+  line-height: 30px;
+  display: block;
+  width: 20%;
+  
+  cursor: pointer;
+  vertical-align: middle;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #263238;
+  border: 1px solid #263238;
+  background: transparent;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
 body .container .content input.submit {
  
   font-size: 12px;
@@ -251,6 +289,15 @@ body .container .content input.submit {
   border-radius: 2px;
 }
 body .container .content input.submit:hover {
+  background-color: #263238;
+  color: #ffffff;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+body .container .content input.check:hover {
   background-color: #263238;
   color: #ffffff;
   -moz-transition: all 0.2s;
@@ -305,6 +352,8 @@ body .container .content .submit-wrap {
   bottom: 0;
   width: 100%;
 }
+
+
 body .container .content .submit-wrap a {
   font-size: 12px;
   display: block;
@@ -328,10 +377,11 @@ body .container .content .join-cont {
   }
 
 /*빅데이터 추가 폼  */
-body .container .content .join-cont2 {
-  display: none;  
-}
 
+
+body .container .content #bigDataJoin {
+  display: none;
+}
 @keyframes slideIn {
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -387,6 +437,7 @@ String communiteSize = (String)request.getAttribute("communiteSize");
 %>
 
  <body>
+ 
  
 
 <section class="container" id="container">
@@ -475,7 +526,7 @@ String communiteSize = (String)request.getAttribute("communiteSize");
                                       		<input type="checkbox" id="remember" class="checkbox">
 						                    <label for="remember">Remember me</label>						                    
                                       		
-                                      		<div class="submit-wrap">
+                                      		<div class="submit-wrap" style="margin-top: 70px;">
 							                        <input type="submit" value="Sign in" class="submit">
 							                        <a href="#" class="more">Forgot your password ?</a>
 						                    </div>
@@ -486,11 +537,15 @@ String communiteSize = (String)request.getAttribute("communiteSize");
             				
             				 
                       		<div class="join-cont cont">
-              				
-                              		<form class="join-cont1" id ="basicJoin" name="basicJoin" action="userJoin.uo" class="join">
-						                    <input type="text" name="root_Id" id="root_Id" class="inpt2" required="required" placeholder="Your id">
+              					<form action ="userJoin.uo" name="goJoin" id="goJoin">
+                              		<div class="joincont1" id ="basicJoin" name="basicJoin" action="userJoin.uo" class="join">
+						                    <input type="text" name="root_Id" id="root_Id" class="checkId" required="required" placeholder="Your id">
 						                    <label for="root_Id">id</label>
-                                      
+							                <input type="button" value="check Id" class="check" id="submit_button" name="submit_button" onclick="idCheck();">
+							                
+							                
+							                <td id="check_Result"></td>							                
+						    	 			 
                                       		<input type="password" name="root_Pwd" id="root_Pwd" class="inpt2" required="required" placeholder="Your password">
 						                    <label for="root_Pwd">password</label>
                                       
@@ -506,9 +561,9 @@ String communiteSize = (String)request.getAttribute("communiteSize");
                                     		<input type="checkbox" id="agree" name ="agree" class="checkbox">						                 
 						                    <label for="agree">agree bigdata</label>
 						                
-        					        </form>  
+        					        </div>  
         					        
-        					        <form class="join-cont2" id="bigDataJoin" name="bigDataJoin" action="userJoin.uo" class="join">
+        					        <div class="joincont1" id="bigDataJoin" name="bigDataJoin" action="userJoin.uo" class="join">
         					             <input type="text" name="root_Address" id="root_Address" class="inpt2" required="required" placeholder="Your address">
                 						    <label for="root_Address">Your address</label>   
                 						    
@@ -525,17 +580,15 @@ String communiteSize = (String)request.getAttribute("communiteSize");
 						                    <label for="root_Marry">marry</label>                                      
                                       
                     						<input type="text" name="root_Job" id="root_Job" class="inpt2" required="required" placeholder="Your Job">
-						                    <label for="root_Job">job</label>                           
-											 
-        					        </form>   
-        					        
-        					         <div class="submit-wrap2" >
-										<input type="button" value="Sign up" class="submit" id="submit_button" name="submit_button" onclick="aa();">
-									</div> 
-						    	
+						                    <label for="root_Job">job</label>   
+        					        </div>   
+        					         
+						    	 	
+						    	</form>
+						    		<div class="submit-wrap2" style="margin-top: 1px;">
+							                        <input type="button" value="Sign up" class="submit" id="submit_button" name="submit_button" onclick="Join();">
+						    	 	</div> 
 			        		</div>
-			        		
-			        		
 			        		
 			        </div>
 		    </article>
@@ -543,17 +596,44 @@ String communiteSize = (String)request.getAttribute("communiteSize");
 </section>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+
+</script> 
+
 <script type="text/javascript">
-function aa(){
-	 if ($('#agree').is(":checked"))
-		{
-		  alert("check됨");
-		  
-		}else{
-	 alert("check안됨");
-		}
+function Join(){
+	document.goJoin.submit();
 };
+
+</script>
+
+<script>
+function idCheck(){
+	
+	var root_Id = $('#root_Id').val();
+	
+	$.ajax({
+		url : './userId_Check.uo?root_Id='+root_Id,
+		type : 'POST',
+		dataType : 'text',
+		success : function(data) {
+			console.log("성공");
+
+			var result = data;
+			var row="<input type=text name=check_Result id=check_Result class=inpt2  required=requiredstyle=border:none; readonly=readonly >";
+			   $("#check_Result").html("");
+	            $('#check_Result').append(row);
+            	
+			
+			
+		},
+		error : function() {
+			console.log("에러");
+		}
+	})
+};
+
 </script>
 
 
@@ -564,19 +644,19 @@ var agreeCheckBox = document.getElementById('agree')
 
 agreeCheckBox.onchange = function() {
   if(agreeCheckBox.checked) {	  
-	 $('.join-cont1').css('width','47%'); 
-	  $('.join-cont1').css('float','left');
+	 $('#basicJoin').css('width','47%');
+	  $('#basicJoin').css('float','left');
 	  
-	  $('.join-cont2').css('width','47%');
-	  $('.join-cont2').css('float','right');
+	  $('#bigDataJoin').css('width','47%');
+	  $('#bigDataJoin').css('float','right');
 		
 	
-	  $('.join-cont2').show();
+	  $('#bigDataJoin').show();
 	
   } else {
 	 
-	  $('.join-cont1').css('width','100%');
-	  $('.join-cont2').hide();
+	  $('#basicJoin').css('width','100%');
+	  $('#bigDataJoin').hide();
 	  
   }
 };  

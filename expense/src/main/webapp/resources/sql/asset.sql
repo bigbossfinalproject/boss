@@ -10,7 +10,7 @@ select sum(basic_amount) total_amount,
 (select sum(e2.expense_amount) from expense e2 where trade_code='cash') cash_amount_spent
 from asset a where a.root_idn=1 group by a.root_idn
 
-select * from budget
+select * from asset
 
 
 create table asset(

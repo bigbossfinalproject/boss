@@ -6,7 +6,7 @@
 <title>header</title>
 <style type="text/css">
 	.main_header {
-		position: fixed;
+		position: fixed; 
 		top:0;
 		background:#1e90ff;
 		width:1280px;
@@ -160,8 +160,8 @@
 				<li><a href="#" style="font-size: 20px">▼</a>
 					<ul>
 						<li><a href="userLogout.uo">로그아웃</a></li>
-						<li><a href="userModify_view.uo?root_Id=${root_Id }">정보 수정</a></li>
-						<li><a href="userDelete.uo?root_Id=${root_Id }">탈퇴</a></li>
+						<li><a href="userModify_view.uo?root_Idn=${root_Idn }">정보 수정</a></li>
+						<li><a href="userDelete.uo?root_Idn=${root_Idn }">탈퇴</a></li>
 					</ul>	 
 				 </li>		 
 				</ul>		

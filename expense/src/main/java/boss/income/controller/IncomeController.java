@@ -86,7 +86,8 @@ public class IncomeController {
 		bean.setIncome_Code(incomeName);
 		bean.setTrade_Code(tradeCode);
 		bean.setAsset_Code(assetCode);
-		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
+
+		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4).replace(",", "")));
 		bean.setIncome_Description(arrayData.get(5));
 
 		incomeService.addIncomeList(bean);
@@ -118,7 +119,7 @@ public class IncomeController {
 		bean.setIncome_Code(incomeName);
 		bean.setTrade_Code(tradeCode);
 		bean.setAsset_Code(assetCode);
-		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4)));
+		bean.setIncome_Amount(Integer.parseInt(arrayData.get(4).replace(",", "")));
 		bean.setIncome_Description(arrayData.get(5));
 
 		incomeService.updateImcomeList(bean);
@@ -147,12 +148,14 @@ public class IncomeController {
 		}
 		JSONObject obj = new JSONObject();
 
-		//jsonarray를 jsonObject에 저장함
+		// jsonarray를 jsonObject에 저장함
 		obj.put("cash", cash);
 		obj.put("account", account);
+		System.out.println(obj.toString());
+
 		response.getWriter().write(obj.toString());
 	}
-	
+
 	@RequestMapping(value = "/getTotalAmount", method = RequestMethod.POST)
 	public void getTotalAmount(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {

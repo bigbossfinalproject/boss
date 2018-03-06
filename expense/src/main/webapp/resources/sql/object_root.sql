@@ -27,6 +27,7 @@ drop sequence object_root_seq;
 drop table object_root purge;
 drop table object_root_big purge;
 
+truncate table object_root;
 
 --조회
 select * from object_root
@@ -35,10 +36,10 @@ select * from object_root_big
 
 --사용자 추가
 insert into OBJECT_ROOT
-values(1, 'Admin', 1, 1, 1, 1)
+values(object_root_seq.nextVal, 'Admin', 1, 1, 1, 1);
 
 insert into OBJECT_ROOT
-values(2, 1, 1, 1, 1, 1)
+values(, 1, 1, 1, 1, 1)
 
 --insert into object_root(root_idn, root_name, root_id, root_pwd, root_email, root_grade)
 --	values (object_root_seq.nextVal, '관리자', 'admin', '1234', 'admin@thejoeun.com', 1);
