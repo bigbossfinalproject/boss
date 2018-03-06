@@ -13,26 +13,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--탈퇴  --> 	
 	 <delete id="userDelete" parameterType="java.util.Map">
-		delete from object_root where root_Id = #{root_Id}		
+		delete from object_root where root_Idn = #{root_Idn}		
+	</delete>
+	 <delete id="bigDataDelete" parameterType="java.util.Map">
+		delete from object_root_big where root_Idn = #{root_Idn}		
 	</delete>
 	
 	<!--가입  --> 	
 	 <insert id="userJoin" parameterType="java.util.Map">
 		insert into object_root 
 		(root_idn, root_name, root_id, root_pwd, root_email, root_grade) values
-		(object_root_seq.nextVal, #{root_Name},#{root_Id},#{root_Pwd},#{root_Email}, 0)		
+		(object_root_seq.nextVal, #{root_Name},#{root_Id},#{root_Pwd},#{root_Email}, ${root_Grade})		
+	</insert>
+	 <insert id="bigDataJoin" parameterType="java.util.Map">
+		insert into object_root_big 
+		(root_idn, root_Address, root_Birth, root_Gender, root_Edu, root_Marry, root_Job) values
+		(object_root_seq.currVal, #{root_Address},#{root_Birth},#{root_Gender},#{root_Edu},#{root_Marry}, #{root_Job})
+				
 	</insert>
 	
 	<!--정보 수정 뷰  -->
 	 <select id="userModify_view" parameterType="String" resultType="User_Bean">
-		select * from object_root where root_id = #{root_Id}		
+		select * from object_root where root_idn = #{root_Idn}		
+	</select>
+		 <select id="userModify_view2" parameterType="String" resultType="User_Bean">
+		select * from object_root_big where root_idn = #{root_Idn}		
 	</select>
 	
-	<!--정보 수정  -->
-	 <update id="userModify" parameterType="java.util.Map">
-		update object_root set root_Pwd = #{root_Pwd}, root_Email=#{root_Email}, root_Job=#{root_Job}, root_Address=#{root_Address} where root_Id = #{root_Id}			
+	<!--정보 수정 테이블1  -->
+	 <update id="userModify1" parameterType="java.util.Map">
+		update object_root set root_Pwd = #{root_Pwd}, root_Email=#{root_Email} where root_Idn = #{root_Idn}			
+	</update>
+	<!--정보 수정 테이블2  -->
+	 <update id="userModify2" parameterType="java.util.Map">
+		update object_root_big set root_Address=#{root_Address}, root_Job = #{root_Job} where root_Idn = #{root_Idn}			
 	</update>
 	
+	<!--id중복확인  -->
+	 <select id="userId_Check" parameterType="String" resultType="int">
+		select count(*) from object_root where root_id = #{root_Id}		
+	</select>
+	
+	<!-- idn값 가져오기 -->
+	<select id="userIdnValue" resultType="int">
+		select root_idn from object_root where root_Id <![CDATA[=]]> #{root_Id}
+	</select>
  
 </mapper>
 

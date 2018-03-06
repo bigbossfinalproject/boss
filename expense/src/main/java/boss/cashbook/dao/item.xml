@@ -56,4 +56,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select max(item_seq) from item where parent_code like #{item_code}
 	</select>
 	
+	<!-- 관리자 계정의 아이템 목록을 가져오기 -->
+	<select id="idnItemList" parameterType="int" resultType="item">
+		select * from item where root_idn <![CDATA[=]]> #{root_idn}
+	</select>
+	
+	<!-- 관리자 계정의 아이템 목록을 가져오기 -->
+	<delete id="idnDeleteItem" parameterType="int">
+		delete from item where root_idn <![CDATA[=]]> #{root_idn}
+	</delete>
+	
 </mapper>

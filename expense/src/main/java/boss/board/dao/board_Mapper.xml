@@ -59,5 +59,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="boardModify">
 		update communite set bTitle=#{bTitle}, bContent=#{bContent} where bId = #{bId}
 	</update>
+	<!--답글 하기위한 정보 얻기  -->
+	 <select id="noticeReply_view" parameterType="String" resultType="Board_Bean">
+		SELECT * FROM notice where bId = #{bId}
+	</select>
+	 <select id="boardReply_view" parameterType="String" resultType="Board_Bean">
+		SELECT * FROM communite where bId = #{bId}
+	</select>
+	<!--답글  -->
+	 <insert id="noticeReply" parameterType="String">
+		insert into notice(bId, root_id, bTitle, bContent, bHit, bGroup, bStep, bIndent, bGrade)
+		values(notice_seq.nextVal, #{root_Id}, #{bTitle}, #{bContent}, 0, 0, 0, 0, 1)			
+	</insert>
+	 <insert id="boardReply" parameterType="String">
+		insert into communite(bId, root_id, bTitle, bContent, bHit, bGroup, bStep, bIndent, bGrade)
+		values(notice_seq.nextVal, #{root_Id}, #{bTitle}, #{bContent}, 0, 0, 0, 0, 1)			
+	</insert>
 	
 </mapper>

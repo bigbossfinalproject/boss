@@ -97,7 +97,7 @@ public class Board_Dao {
 			sqlSession.update("noticeModify", map);
 		}
 	
-	//글 수정
+	//글 수정(communite)
 	public void boardModify(String bId, String bTitle, String bContent) {
 		
 		Map<String, String>map = new HashMap<String, String>();
@@ -108,14 +108,34 @@ public class Board_Dao {
 		sqlSession.update("boardModify", map);
 	}
 	
-	//답글 : 현재 게시물의 정보 가져오기 
-	public Board_Bean boardReply_view(String bId) {
+	//답글 : 현재 게시물의 정보 가져오기(notice) 
+	public Board_Bean noticeReply_view(String bId) {
 		
-		Board_Bean dto = sqlSession.selectOne("board_reply_view", bId);	
+		Board_Bean dto = sqlSession.selectOne("noticeReply_view", bId);	
 		return dto;
 	}
+	//답글 : 현재 게시물의 정보 가져오기(notice) 
+		public Board_Bean boardReply_view(String bId) {
+			
+			Board_Bean dto = sqlSession.selectOne("boardReply_view", bId);	
+			return dto;
+		}
 	
-	//답글
+	//답글(notice)
+	public void noticeReply(String bId, String bGroup, String bStep, String bIndent, String root_Id, String bTitle, String bContent) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("bId", bId);
+		map.put("bGroup", bGroup);
+		map.put("bStep", bStep);
+		map.put("bIndent", bIndent);
+		map.put("root_Id", root_Id);
+		map.put("bTitle", bTitle);
+		map.put("bContent", bContent);
+		
+		sqlSession.insert("noticeReply", map);
+	}
+	//답글(communite)
 	public void boardReply(String bId, String bGroup, String bStep, String bIndent, String root_Id, String bTitle, String bContent) {
 		
 		Map<String, String> map = new HashMap<String, String>();

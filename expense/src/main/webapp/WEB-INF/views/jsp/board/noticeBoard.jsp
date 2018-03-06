@@ -9,20 +9,16 @@
 </head>
 
 <style rel="stylesheet">
-
- 
-.header {
-	width:1280px;
-	margin: 0 auto;
-}
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+.header{
+margin: 0 auto;
+width: 1280px;
+}
 body {
   font-family: 'Lato', sans-serif;
   background-color: #f8f8f8;  
@@ -34,7 +30,7 @@ body .container {
   width: 1000px;
   
   height: 700px;
-  margin: 120px auto 0;
+  margin: 80px auto 0;
   background-color: #ffffff;
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
