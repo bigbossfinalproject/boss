@@ -121,4 +121,10 @@ public class IncomeDaoImpl implements IncomeDao {
 		return this.sqlSession.selectOne("getTradeCode", tradeName);
 	}
 
+	@Override
+	public int getIncomeAmount_month(int root_Idn) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -245,13 +245,14 @@
 				row += "<td>"+ result[i][0].value + "</td>"
 				row += "<td><input type=text class=aa id=update_amount" + i + " value=" + result[i][1].value + "></td>"
 				row += "<input type=hidden id=update_budget_code" + i + " value=" + result[i][2].value + ">"
-				row += "<td><input type=text class=aa id=update_amount_spent" + i + " value=" + result[i][3].value + "></td>"
+				row += "<td>" + result[i][3].value +"</td>"
 				row += "<td>" + ((result[i][1].value) - (result[i][3].value)) + "</td>"
+				if(i!=result.length-1){
 				row += "<td><input type=date id=update_date" + i + " value="+result[i][4].value+"></td>"
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=updateFunction(" + i + "); type=button >" + "수정" + "</button></td>"
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=deleteFunction(" + result[i][2].value + "); type=button >" + "삭제" + "</button></td>"
 				row += "</tr>"
-						
+				}
 				graph3Val1.push(parseInt(result[i][3].value));
 				graph3Val2.push((result[i][1].value) - (result[i][3].value));
 				graph3Val3.push(result[i][0].value);

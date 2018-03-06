@@ -10,6 +10,14 @@ CREATE TABLE budget
     item_code       VARCHAR2(20)    NULL   
 );
 
+
+
+
+(select (select item_name from item where item_code=e.item_code)item_code, sum(expense_amount) from expense e where to_char(expense_date,'YYYY-MM')='2018-02' and root_idn=1 group by item_code)
+
+
+select * from expense
+
 create sequence budget_code_seq;
 
 select * from budget

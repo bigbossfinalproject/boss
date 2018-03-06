@@ -1,3 +1,4 @@
+
 <!DOCTYPE html >
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -8,14 +9,33 @@
 <title>소득 보기</title>
 
 <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="./resources/bootstrap/js/bootstrap.js"></script>
 <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 
 <!-- chart 용 라이브러리 -->
+<!-- <script type="text/javascript" src="./resources/dist/jquery.jqplot.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.json2.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="./resources/dist/jquery.jqplot.css" />
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
+-->
+
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="./resources/dist/jquery.jqplot.js"></script>
-<script type="text/javascript" src="./resources/dist/plugins/jqplot.json2.js"></script>
-<link rel="stylesheet" type="text/css" href="./resources/dist/jquery.jqplot.css" />
-<script type="text/javascript" src="./resources/dist/plugins/jqplot.dateAxisRenderer.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.barRenderer.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.pieRenderer.js"></script>
+<script type="text/javascript"
+	src="./resources/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
+<script type="text/javascript"
+	src="./resources/dist//plugins/jqplot.pointLabels.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="./resources/dist/jquery.jqplot.css" />
 
 <script src="./resources/js/incomeBoard.js?ver=1.9"></script>
 
@@ -23,6 +43,11 @@
 body {
 	width: 1280px;
 	margin: 170px auto 0;
+}
+
+#income_chart {
+	width: 1280px;
+	margin: 0 auto;
 }
 </style>
 <script type="text/javascript">

@@ -130,7 +130,7 @@ public class IncomeController {
 			throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		int root_Idn = 1;
+		int root_Idn = (int) session.getAttribute("root_Idn");
 		List<IncomeOptionBean> list = this.incomeService.getIncomeOptions(root_Idn);
 		JSONArray cash = new JSONArray();
 		JSONArray account = new JSONArray();
@@ -145,14 +145,17 @@ public class IncomeController {
 				account.add(list.get(i).getAsset_Name());
 			}
 		}
-
 		JSONObject obj = new JSONObject();
 
 		//jsonarray를 jsonObject에 저장함
 		obj.put("cash", cash);
 		obj.put("account", account);
-
 		response.getWriter().write(obj.toString());
-
+	}
+	
+	@RequestMapping(value = "/getTotalAmount", method = RequestMethod.POST)
+	public void getTotalAmount(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws IOException {
+		int root_idn = (int) session.getAttribute("root_Idn");
 	}
 }

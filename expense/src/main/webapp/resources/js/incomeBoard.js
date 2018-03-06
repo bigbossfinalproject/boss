@@ -44,6 +44,7 @@ function getIncomeBoard() {
 							continue;
 						} else if (j == 5) {
 							rowItem += "<td class = 'text-right'>" + Number(result[i][j].value).toLocaleString() + "</td>";
+							
 							continue;
 						}
 						rowItem += "<td>" + result[i][j].value + "</td>";
@@ -154,7 +155,7 @@ $(document).on("click", "#row_add", function() {
 		if (td.eq(i).children().val != null) {
 			tdArr.push(td.eq(i).children().val());
 		} else {
-			
+
 		}
 	});
 	console.log("add배열에 담긴 값 : " + tdArr);
@@ -320,3 +321,35 @@ function getOptions(option) {
 
 	return test;
 }
+
+
+$(document).on("keyup", "input:text", function() {
+    inputNumberFormat(this);
+ });
+
+
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+ }
+ 
+ function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+ }
+ 
+ function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+ }
+
+
+
+
+
+
+
+
+
+
+
+

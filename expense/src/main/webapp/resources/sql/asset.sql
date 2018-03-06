@@ -1,3 +1,4 @@
+
 drop table asset purge;
 
 
@@ -61,6 +62,3 @@ select * from asset where asset_code like '1bk%';
 
 select count(*) from asset where root_id='admin' and trade_code ='account';
 
-
-
-select sum(expense_amount) from expense where root_idn = 1 and trade_code='cash';

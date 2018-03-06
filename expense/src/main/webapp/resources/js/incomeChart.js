@@ -3,7 +3,7 @@
  *  - 소득 테이블에 차트 뿌리는 용도.  
  */
 
-function drawChart(){
+function drawChart() {
 	$.ajax({
 		async : 'false',
 		url : './list2.io',
@@ -14,26 +14,46 @@ function drawChart(){
 			var data_Json = JSON.parse(data);
 			var result = data_Json.result;
 			var line = new Array();
-
+			var x = new Array();
 			for (var i = 0; i < result.length; i++) {
-				var linepush = new Array();
-				linepush.push(result[i][1].value, (Number)(result[i][5].value));
-				line[i] = linepush;
+
+				x[i] = result[i][1].value;
+				line[i] = (Number)(result[i][5].value);
+
+
 
 			}
 			console.log(line);
 			$("#income_chart").html("");
-			var plot1 = $.jqplot('income_chart', [ line ], {
-				axes : {
-					xaxis : {
-						renderer : $.jqplot.DateAxisRenderer,
-						tickOptions : {
-							formatString : '%y-%m-%d'
+
+			if (result.length > 0) {
+				var plot1 = $.jqplot('income_chart', [ line ], {
+					// Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+					animate : !$.jqplot.use_excanvas,
+					seriesDefaults : {
+						renderer : $.jqplot.BarRenderer,
+						pointLabels : {
+							show : true
 						}
+					},
+					axes : {
+						xaxis : {
+							renderer : $.jqplot.CategoryAxisRenderer,
+							ticks : x
+						}
+					},
+					highlighter : {
+						show : false
+					},
+					legend : {
+						show : true,
+						location : 'e',
+						placement : 'outside'
 					}
-				},
-				series:[{lineWidth:4, markerOptions:{style:'square'}}]
-			});
+				});
+			} else {
+				$('#income_chart').append("데이터가 없습니다.");
+			}
 		},
 
 		error : function(xhr, status) {
@@ -41,4 +61,5 @@ function drawChart(){
 		}
 	});
 
-};
+}
+;

@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- asset 테이블에서 회원의 고유 번호와 맞는 소득 코드, 자산 이름 불러오기 -->
 	<select id="getIncomeOptions" parameterType="int" resultType="incomeOption">
-		select trade_code, asset_name from asset where root_idn = #{root_Idn}
+		select trade_code, asset_name from asset where root_idn = #{root_Idn} and asset_use = 'Y'
 	</select>
 
 	<!-- income_id로 해당 소득 테이블의 income_amount 불러오기 -->

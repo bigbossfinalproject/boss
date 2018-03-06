@@ -326,12 +326,22 @@ String root_Id = (String)session.getAttribute("root_Id");
 String noticeSize = (String)request.getAttribute("noticeSize");
 %>
 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ <script type="text/javascript">
+ window.onload = function() {
+		headerFunction();
+	}
+
+ </script>
+
  <body>
+ 
+ 
  
  <%if(root_Id!=null){ %>
  <div class="header">
  	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
- 
+ 	<jsp:include page="/resources/include/info_header.jsp"/>
  </div>	
  <%} %>
 
