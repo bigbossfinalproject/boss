@@ -5,6 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boss.income.bean.IncomeOption">
+
+<!-- 소득구분 이름으로 소득구분 코드를 불러오는 sql -->
 	<select id="setIncomeId" parameterType="String" resultType="String">
 		select income_code from income_classification where item_name =
 		#{income_name}

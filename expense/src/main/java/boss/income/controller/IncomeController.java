@@ -25,7 +25,6 @@ public class IncomeController {
 	@Autowired
 	private IncomeDaoImpl incomeService;
 
-	
 	/* 다른 페이지에서 '소득' 버튼을 눌렀을 때 매핑되는 메서드 */
 	@RequestMapping(value = "/list.io")
 	public String income_Boardlist(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -33,7 +32,7 @@ public class IncomeController {
 		return "income/income_main";
 	}
 
-	/*테이블 새로고침용 메서드*/
+	/* 테이블 새로고침용 메서드 */
 	@RequestMapping(value = "/list2.io", method = RequestMethod.POST)
 	public void getIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
@@ -43,11 +42,10 @@ public class IncomeController {
 		response.getWriter().write(getIncome_JSON(root_idn));
 	}
 
-	/*DB에서 테이블 정보를 읽어와서 JSON 형태로 변환해주는 메서드*/
+	/* DB에서 테이블 정보를 읽어와서 JSON 형태로 변환해주는 메서드 */
 	public String getIncome_JSON(int root_idn) {
 		StringBuffer str = new StringBuffer("");
 		str.append("{\"result\":[");
-		
 
 		List<IncomeBean> list = incomeService.getAllIncomeList(root_idn);
 
@@ -73,12 +71,13 @@ public class IncomeController {
 		return str.toString();
 	}
 
-	/*DB에 저장하는 메서드*/
+	/* DB에 저장하는 메서드 */
 	@RequestMapping(value = "/addIncomeList.io", method = RequestMethod.POST)
 	public void addIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "arrData[]") List<String> arrayData) {
 		IncomeBean bean = new IncomeBean();
-		
+
+		// 화면에서는 코드가 아닌 이름으로 보여지므로, 이름을 코드로 바꾸는 작업이 실행되어야한다.
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
 		String assetCode = incomeService.getAssetCode(arrayData.get(3));
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
@@ -93,28 +92,28 @@ public class IncomeController {
 		incomeService.addIncomeList(bean);
 	}
 
-	/*DB 삭제 메서드*/
+	/* DB 삭제 메서드 */
 	@RequestMapping(value = "/delIncomeList.io", method = RequestMethod.POST)
 	public void delIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "income_Id") String data) {
+		// 고유 income id에 맞는 행만 삭제
 		int dataToInt = Integer.parseInt(data);
 		incomeService.delIncomeList(dataToInt);
 	}
 
-	/*DB 수정 메서드*/
+	/* DB 수정 메서드 */
 	@RequestMapping(value = "/modifyIncomeList.io", method = RequestMethod.POST)
 	public void modifyIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "arrData[]") List<String> arrayData, @RequestParam(value = "income_Id") String data) {
 
 		int dataToInt = Integer.parseInt(data);
 
-		System.out.println("root_idn = " + dataToInt);
 		IncomeBean bean = new IncomeBean();
+
+		// 화면에서는 코드가 아닌 이름으로 보여지므로, 이름을 코드로 바꾸는 작업이 실행되어야한다.
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
 		String assetCode = incomeService.getAssetCode(arrayData.get(3));
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
-
-		System.out.println("tradeCode :" + tradeCode);
 
 		bean.setIncome_Id(data);
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
@@ -127,7 +126,7 @@ public class IncomeController {
 		incomeService.updateImcomeList(bean);
 	}
 
-	/*테이블 selectbox 내용물을 불러오는 메서드*/
+	/* 테이블 selectbox 내용물을 불러오는 메서드 */
 	@RequestMapping(value = "/getOptions.io", method = RequestMethod.GET)
 	public void getOptions(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws IOException {
@@ -138,16 +137,20 @@ public class IncomeController {
 		JSONArray cash = new JSONArray();
 		JSONArray account = new JSONArray();
 
+		// 소득 쪽 거래 코드는 'cash' 또는 'account'만 들어온다.
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getTrade_Code().equals("cash")) {
+				// 'cash'에 해당되는 자산 이름의 목록을 jsonarray에 저장한다.
 				cash.add(list.get(i).getAsset_Name());
 			} else {
+				// 그 외의 이름은 (=account) 다른 jsonarray에 저장한다.
 				account.add(list.get(i).getAsset_Name());
 			}
 		}
 
 		JSONObject obj = new JSONObject();
 
+		//jsonarray를 jsonObject에 저장함
 		obj.put("cash", cash);
 		obj.put("account", account);
 

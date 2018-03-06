@@ -6,7 +6,7 @@
 document.write("<script type='text/javascript' src='./resources/js/incomeChart.js'><" + "/script>");
 
 
-
+//스크립트가 로드 될 때 실행되는 함수 : getIncomeBoard()
 window.onload = function() {
 	getIncomeBoard();
 
@@ -81,22 +81,16 @@ $(document).on('click', '#add_row', function() {
 		optionInit += "<option value = " + a[i] + ">" + a[i] + "</option> ";
 	}
 
-
-
-
-
-
 	var rowItem = "<tr>"
 	rowItem += "<td> <input type='date' class='form-control' value = '" + result + "'> </td>"
 	rowItem += "<td> <select class='form-control' id = 'income_code'>" + income_option + "</select> </td>"
 	rowItem += "<td> <select class='form-control' name='trade'><option value='현금'>현금</option><option value='통장'>통장</option></select> </td>"
-	rowItem += "<td> <select class='form-control' id = 'asset_code'>"+ optionInit + "</select> </td>"
+	rowItem += "<td> <select class='form-control' id = 'asset_code'>" + optionInit + "</select> </td>"
 	rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
 	rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
 	rowItem += "<td><button type='button' id='row_add' ><span class='glyphicon glyphicon-ok' ></span></button></td>"
 	rowItem += "</tr>"
 	$('#incomeTable').append(rowItem);
-
 });
 
 
@@ -144,30 +138,21 @@ $(document).on("change", '[name="trade"]', function() {
 	b += "</select>";
 
 	tr.find('td').eq(3).append(b);
-
-
-
-
-
-
 })
 
 
-
+// 추가 한 행을 db에 저장할때 (v 버튼 눌렀을때) 실행되는 함수
 $(document).on("click", "#row_add", function() {
 
 	var objTable = document.getElementById("incomeTable");
 
-	var tdArr = new Array(); // 배열 선언
-	// 현재 클릭된 Row(<tr>)
+	var tdArr = new Array();
 	var tr = $(this).parent().parent();
 	var td = tr.children();
 
 	td.each(function(i) {
 		if (td.eq(i).children().val != null) {
 			tdArr.push(td.eq(i).children().val());
-		} else {
-
 		}
 	});
 	console.log("add배열에 담긴 값 : " + tdArr);
@@ -192,6 +177,7 @@ $(document).on("click", "#row_add", function() {
 	})
 });
 
+//수정 버튼(연필 모양) 클릭했을때 호출되는 함수
 $(document).on("click", "#row_modify", function() {
 	var tdArr = new Array(); // 배열 선언
 	// 현재 클릭된 Row(<tr>)
@@ -236,8 +222,8 @@ $(document).on("click", "#row_modify", function() {
 });
 
 
+//입력되어있는 각 셀을 눌렀을때 호출되는 함수 (수정 가능하게 바꿔줌)
 $(document).on('click', 'td', function() {
-
 	if ($(".form-control", this).length < 1) {
 		console.log($(".form-control", this).length);
 		var tr = $(this).parent();
@@ -289,6 +275,7 @@ $(document).on('click', 'td', function() {
 	}
 });
 
+//커서가 벗어났을때 실행되는 함수
 $(document).on('blur', 'input', function() {
 	var tr = $(this).parent().parent();
 	var checker = tr.find(".glyphicon-pencil").length;
@@ -302,6 +289,7 @@ $(document).on('blur', 'input', function() {
 
 })
 
+// 소득 코드에 따라 다른 유형의 자산 이름을 불러오게 하는 함수.
 function getOptions(option) {
 	var test = new Array();
 	$.ajax({

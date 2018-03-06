@@ -1,11 +1,7 @@
 /**
- *  income Chart 
+ *  income Chart
+ *  - 소득 테이블에 차트 뿌리는 용도.  
  */
-
-/*$(document).ready(function() {
-	drawChart();
-});*/
-
 
 function drawChart(){
 	$.ajax({
