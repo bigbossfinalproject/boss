@@ -34,22 +34,48 @@ public class BudgetController {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
+		session = request.getSession();
+		
+		String item_code=request.getParameter("item_code");
 		int budget_code=Integer.parseInt(request.getParameter("budget_code"));
 		int budget_amount_spent=Integer.parseInt(request.getParameter("budget_amount_spent"));
 		String budget_date=request.getParameter("budget_date");
 		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));
-	
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		
+		
+		BudgetBean bean2=new BudgetBean(); 
+		bean2.setItem_code(item_code);
+		bean2.setRoot_idn(rootIdn);
+		bean2.setBudget_date(budget_date.substring(0,7));
+		bean2.setBudget_code(budget_code);
+		
+		System.out.println("=============");
+		System.out.println(item_code);
+		System.out.println(rootIdn);
+		System.out.println(budget_date);
+		System.out.println(budget_code);
+		System.out.println("=============");
+		
 		bean.setBudget_code(budget_code);
 		bean.setBudget_amount(budget_amount);
 		bean.setBudget_amount_spent(budget_amount_spent);
 		bean.setBudget_date(budget_date);
 		
+		int modify_check=0;
 		
-		this.budgetService.modifyBudget(bean);
+		modify_check=this.budgetService.modify_check(bean2);
+		System.out.println("중복수 ="+modify_check);
+		
+		
+		
+		if(modify_check>0){
+			response.getWriter().write(1+"");	
+		}else{
+			this.budgetService.modifyBudget(bean);
+			response.getWriter().write(0+"");
+		}
 	
-		response.getWriter().write(1+"");	
-		
-		
 		return null;
 	}
 	
@@ -58,19 +84,22 @@ public class BudgetController {
 	public void budget_insert(HttpServletRequest request, HttpServletResponse response, HttpSession session
 			) throws Exception{
 		System.out.println("인서트");
-		BudgetBean bean=new BudgetBean(); 
-		BudgetBean bean2=new BudgetBean(); 
 		
 		response.setContentType("text/html;charset=UTF-8");
 		session = request.getSession();
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
-		
+		String budget_date=request.getParameter("budget_date");
 		String item_code=request.getParameter("item_code");
+		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));		
+		
+		
+		BudgetBean bean2=new BudgetBean(); 
 		bean2.setItem_code(item_code);
 		bean2.setRoot_idn(rootIdn);
-		int budget_amount=Integer.parseInt(request.getParameter("budget_amount"));		
-		String budget_date=request.getParameter("budget_date");
+		bean2.setBudget_date(budget_date.substring(0,7));
 		
+		
+		BudgetBean bean=new BudgetBean(); 
 		bean.setBudget_amount(budget_amount);
 		bean.setItem_code(item_code);
 		bean.setRoot_idn(rootIdn);
@@ -111,12 +140,11 @@ public class BudgetController {
 	}
 	@RequestMapping(value ="/budget_excel.bg")
 	public void budget_excel(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
-		Budget_excelBean excel_bean= new Budget_excelBean();
 		
 	
 		session = request.getSession();
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
-		
+		Budget_excelBean excel_bean= new Budget_excelBean();
 		excel_bean.setFirstDate(request.getParameter("firstDate"));
 		excel_bean.setLastDate(request.getParameter("lastDate"));
 		excel_bean.setRoot_idn(rootIdn);
@@ -175,25 +203,26 @@ public class BudgetController {
 		
 	}
 
-	public String getTotal_JSON(int rootIdn) {
+	public String getTotal_JSON(Budget_excelBean bean) {
 	      StringBuffer str = new StringBuffer("");
 	      str.append("{\"result\":[");
 	      // 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
 	     
-	      List<BudgetBean> list = this.budgetService.budget_total_list(rootIdn);
+	      List<BudgetBean> list = this.budgetService.budget_total_list(bean);
 	      for (int i = 0; i < list.size(); i++) {
 	         str.append("[{\"value\": \"" + list.get(i).getBudget_amount() + "\"},");
 	         str.append("{\"value\": \"" + list.get(i).getBudget_amount_spent() + "\"},");
 	       
 	         if (i == list.size() - 1) {
 
-	            str.append("{\"value\": \"" + list.get(i).getBudget_date().substring(4, 6) + "\"}]");
+	            str.append("{\"value\": \"" + list.get(i).getBudget_date().substring(0, 7) + "\"}]");
 	         } else {
-	            str.append("{\"value\": \"" + list.get(i).getBudget_date().substring(4, 6) + "\"}],");
+	            str.append("{\"value\": \"" + list.get(i).getBudget_date().substring(0, 7) + "\"}],");
 	         }
 	      }
 	      str.append("]}");
 	    
+	      System.out.println(str.toString());
 	      return str.toString();
 	   }
 	
@@ -203,8 +232,18 @@ public class BudgetController {
 		response.setContentType("text/html;charset=UTF-8");
 		session = request.getSession();
 		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
+		Budget_excelBean bean= new Budget_excelBean();
+		bean.setFirstDate(request.getParameter("firstDate"));
+		bean.setLastDate(request.getParameter("lastDate"));
+		bean.setRoot_idn(rootIdn);
+		
+		System.out.println("========================");
+		System.out.println(request.getParameter("firstDate"));
+		System.out.println(request.getParameter("lastDate"));
+		System.out.println("========================");
+		
 
-		response.getWriter().write(getTotal_JSON(rootIdn));
+		response.getWriter().write(getTotal_JSON(bean));
 		
 	}
 	@RequestMapping(value = "/item_list.bg", method = RequestMethod.GET)

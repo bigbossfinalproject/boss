@@ -9,6 +9,7 @@
 		width: 1280px;
 		height: 50px;
 		background: #4169e1;
+		z-index: 450;
 	}
 	
 	.info_title {
@@ -36,7 +37,6 @@
 	
 </style>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 function headerFunction() {
 	$.ajax(
@@ -69,16 +69,22 @@ function headerFunction() {
 		})
 
 }
-window.onload = function() {
-	headerFunction();
-	
-}
  
 </script>
 </head>
 <body>
 	<div class="amount_frame">
-		
+				
+				
+							
+					<div class=info_amount>1000</div>"
+					<div class=info_title>자산총액</div>"
+					<div class=info_amount>1000</div>"
+					<div class=info_title>계좌잔액</div>"
+					<div class=info_amount>1000</div>"
+					<div class=info_title>현금잔액</div>"
+	
+	
 	</div>
 </body>
 </html>
