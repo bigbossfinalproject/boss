@@ -305,6 +305,8 @@ input, select, option {
 		var useTagId = new Array();
 		var useCodeVal = new Array();
 		
+		headerFunction();
+		
 		for(var i = 1; i < btnCnt; i++) {
 			assetTagId[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(7)').attr('id');
 			assetCodeVal[(i-1)] = $('tr[id^="asset_list_'+i+'"]').children('td:nth-child(7)').children().val();

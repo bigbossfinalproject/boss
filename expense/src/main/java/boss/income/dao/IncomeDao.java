@@ -25,4 +25,6 @@ public interface IncomeDao { // 소득 관련 dao 인터페이스
 	public String getAssetCode(String assetName); //자산 이름으로 자산 코드를 불러옴
 	
 	public String getTradeCode(String tradeName); // 거래 이름으로 거래 코드를 불러옴
+	
+	public int getIncomeAmount_month(int root_Idn);
 }

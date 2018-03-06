@@ -4,17 +4,18 @@ import java.sql.Date;
 
 public class AssetViewBean {
 	private int asset_seq;
+	private String trade_code;
 	private String trade_name;
 	private Date asset_date;
+	private String asset_code;
 	private String asset_name;
 	private String asset_purpose;
-	private String bank_name;
 	private String bank_code;
+	private String bank_name;
 	private int basic_amount;
 	private int now_amount;
 	private int root_idn;
 	private String root_id;
-	private String asset_code;
 	private String asset_use;
 	
 	public int getAsset_seq() {
@@ -22,6 +23,12 @@ public class AssetViewBean {
 	}
 	public void setAsset_seq(int asset_seq) {
 		this.asset_seq = asset_seq;
+	}
+	public String getTrade_code() {
+		return trade_code;
+	}
+	public void setTrade_code(String trade_code) {
+		this.trade_code = trade_code;
 	}
 	public String getTrade_name() {
 		return trade_name;
@@ -35,6 +42,12 @@ public class AssetViewBean {
 	public void setAsset_date(Date asset_date) {
 		this.asset_date = asset_date;
 	}
+	public String getAsset_code() {
+		return asset_code;
+	}
+	public void setAsset_code(String asset_code) {
+		this.asset_code = asset_code;
+	}
 	public String getAsset_name() {
 		return asset_name;
 	}
@@ -47,17 +60,17 @@ public class AssetViewBean {
 	public void setAsset_purpose(String asset_purpose) {
 		this.asset_purpose = asset_purpose;
 	}
-	public String getBank_name() {
-		return bank_name;
-	}
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
-	}
 	public String getBank_code() {
 		return bank_code;
 	}
 	public void setBank_code(String bank_code) {
 		this.bank_code = bank_code;
+	}
+	public String getBank_name() {
+		return bank_name;
+	}
+	public void setBank_name(String bank_name) {
+		this.bank_name = bank_name;
 	}
 	public int getBasic_amount() {
 		return basic_amount;
@@ -82,12 +95,6 @@ public class AssetViewBean {
 	}
 	public void setRoot_id(String root_id) {
 		this.root_id = root_id;
-	}
-	public String getAsset_code() {
-		return asset_code;
-	}
-	public void setAsset_code(String asset_code) {
-		this.asset_code = asset_code;
 	}
 	public String getAsset_use() {
 		return asset_use;

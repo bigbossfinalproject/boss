@@ -77,9 +77,18 @@ public class ExpenseController {
 		if(expense_remove != null) {
 			System.out.println("삭제할 지출 코드 개수 : "+expense_remove.length);
 			for(String str : expense_remove) {
-				/*System.out.println("삭제할 파라미터값 : "+str);
-				System.out.println("삭제할 실제 코드값 : "+str.substring(6));*/
-				expenseDao.expenseDelete(str.substring(6));
+				/*System.out.println("삭제할 파라미터값 : "+str);*/
+				String removeCode = str.substring(6);
+				System.out.println("삭제할 실제 코드값 : "+removeCode);
+				ExpenseBean removeExpense = expenseDao.oneExpense(removeCode);
+				Map<String, Object> removeMap = new HashMap<String, Object>();
+				removeMap.put("root_idn", removeExpense.getRoot_idn());
+				removeMap.put("asset_code", removeExpense.getAsset_code());
+				removeMap.put("amount", removeExpense.getExpense_amount());
+				
+				assetDao.nowAmountMinus(removeMap);
+				
+				expenseDao.expenseDelete(removeCode);
 			}
 		}
 		
@@ -106,11 +115,30 @@ public class ExpenseController {
 				eList.add(expense);
 			}
 			
+			
+			
 			for(ExpenseBean info : eList) {
 				if(info.getExpense_id().equals("new_code")) {								// 자산 코드가 new_code로 지정되어 있으면 실행되는 구문
+					// 지출이 추가한 값을 자산 정보 현재 잔액에 반영시키기
+					Map<String, Object> modifyMap = new HashMap<String, Object>();
+					modifyMap.put("root_idn", info.getRoot_idn());
+					modifyMap.put("asset_code", info.getAsset_code());
+					modifyMap.put("amount", info.getExpense_amount());
+					assetDao.nowAmountMinus(modifyMap);
+					
 					info.setExpense_id(expenseIdCreate(info.getRoot_idn()));			// 새로운 expense_id를 생성하여 setter로 입력
 					expenseDao.expenseInsert(info);											// Dao Insert SQL문 실행
+					
 				} else {
+					// 지출이 수정된 값을 자산 정보 현재 잔액에 반영시키기
+					ExpenseBean bean = expenseDao.oneExpense(info.getExpense_id());
+					int modifyAmount = -(bean.getExpense_amount() - info.getExpense_amount());
+					Map<String, Object> modifyMap = new HashMap<String, Object>();
+					modifyMap.put("root_idn", info.getRoot_idn());
+					modifyMap.put("asset_code", info.getAsset_code());
+					modifyMap.put("amount", modifyAmount);
+					assetDao.nowAmountMinus(modifyMap);
+					
 					expenseDao.expenseUpdate(info);											// Dao Update SQL문 실행
 				}
 			}
@@ -216,6 +244,10 @@ public class ExpenseController {
 	public ModelAndView expenseDetailItem(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String parent_code = request.getParameter("parent_code");
 		String children_code = request.getParameter("children_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_item");
@@ -224,6 +256,9 @@ public class ExpenseController {
 		//System.out.println("itemDetailList 개수 : "+list.size());
 		mv.addObject("expenseItemDetailList", list);
 		mv.addObject("item_code", children_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}
@@ -233,6 +268,10 @@ public class ExpenseController {
 	public ModelAndView expenseDetailAsset(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String trade_code = request.getParameter("trade_code");
 		String asset_code = request.getParameter("asset_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("trade_code : "+trade_code+"\t / asset_code : "+asset_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_asset");
@@ -242,6 +281,9 @@ public class ExpenseController {
 		//System.out.println("assetDetailList 개수 : "+list.size());
 		mv.addObject("expenseAssetDetailList", list);
 		mv.addObject("asset_code", asset_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}
@@ -256,6 +298,10 @@ public class ExpenseController {
 		
 		String trade_code = request.getParameter("trade_code");
 		String card_code = request.getParameter("asset_code");
+		int idNum = 0;
+		if(request.getParameter("id_num") != null){
+			idNum = Integer.parseInt(request.getParameter("id_num"));
+		}
 		
 		//System.out.println("parent_code : "+parent_code+"\t / children_code : "+children_code);
 		ModelAndView mv = new ModelAndView("expense/expense_detail_card");
@@ -268,6 +314,9 @@ public class ExpenseController {
 		//System.out.println("cardDetailList 개수 : "+list.size());
 		mv.addObject("expenseCardDetailList", list);
 		mv.addObject("card_code", card_code);
+		if(idNum != 0) {
+			mv.addObject("id_num", idNum);
+		}
 		
 		return mv;
 	}

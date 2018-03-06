@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.ExpenseBean;
 
 @Repository
@@ -26,10 +27,33 @@ public class ExpenseDAOImpl {
 		return list;
 	}
 	
+	// 지출 코드 조건으로 지출 항목을 가져오기
+	public ExpenseBean oneExpense(String expense_id) {
+		ExpenseBean bean = sql.selectOne("oneExpense", expense_id);
+		return bean;
+	}
+	
+	// 지출정보에서 자산코드 개수를 가져오기
+	public int expenseAssetCount(Map<String, Object> assetInfo) {
+		int count = sql.selectOne("expenseAssetCount", assetInfo);
+		return count;
+	}
+	
 	// 사용자의 지출 자산 목록별 내역을 가져오기
-	public List<ExpenseBean> expenseTermList(Map<String, String> assetInfo) {
+	public List<ExpenseBean> expenseTermList(Map<String, Object> assetInfo) {
 		List<ExpenseBean> list = sql.selectList("expenseTermList", assetInfo);
 		return list;
+	}
+	
+	// 사용자의 지출 자산 목록별 내역을 가져오기
+	public int expenseTermAmount(Map<String, Object> assetInfo) {
+		System.out.println("root_idn : "+assetInfo.get("idn"));
+		System.out.println("StartDay : "+assetInfo.get("startDate"));
+		System.out.println("trade_code : "+assetInfo.get("trade"));
+		System.out.println("asset_code : "+assetInfo.get("asset"));
+		int amount = sql.selectOne("expenseTermAmount", assetInfo);
+		System.out.println("ExpenseDAOImpl - amount : "+amount);
+		return amount;
 	}
 	
 	// 사용자의 지출 자산 개수를 가져오기

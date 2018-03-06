@@ -16,11 +16,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from expense where root_idn <![CDATA[=]]>#{idn} order by expense_date desc
 	</select>
 	
+	<!-- 1개의 지출 정보를 보여주기 -->
+	<select id="oneExpense" resultType="expense">
+		select * from expense where expense_id = #{expense_id}
+	</select>
+	
 	<!-- 사용자 개인별 기간별 지출 내역 보여주기 -->
 	
 	<!-- 사용자 개인별 기간별 자산별 지출 내역 보여주기 -->
 	<select id="expenseTermList" parameterType="java.util.Map" resultType="expense">
-		select * from expense where root_id <![CDATA[=]]> #{id} and expense_date <![CDATA[>=]]> #{startDate} order by expense_date desc
+		select * from expense where root_idn <![CDATA[=]]> #{idn} and expense_date <![CDATA[>=]]> #{startDate} order by expense_date desc
+	</select>
+	
+	<!-- 사용자 개인별 기간별 자산별 지출 금액 보여주기 -->
+	<select id="expenseTermAmount" parameterType="java.util.Map" resultType="int">
+		select now_amount - (select sum(expense_amount) from expense where root_idn <![CDATA[=]]> #{idn} and expense_date <![CDATA[>=]]> #{startDate}
+		 and asset_code <![CDATA[=]]> #{asset} and trade_code <![CDATA[=]]> #{trade}) from asset where asset_code <![CDATA[=]]> #{asset}
+	</select>
+	
+	<!-- 사용자 & 자산별 지출 개수를 보여주기 -->
+	<select id="expenseAssetCount" parameterType="java.util.Map" resultType="int">
+		select count(*) from expense where root_idn <![CDATA[=]]> #{idn} and asset_code <![CDATA[=]]> #{asset}
 	</select>
 	
 	<!-- 사용자 개인별 지출 내역을 보여주기 -->
