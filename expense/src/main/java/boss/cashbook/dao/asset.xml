@@ -68,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 헤더info 가져오기 -->	
 	<select id="header_info" parameterType="int" resultType="header_info">
+<<<<<<< HEAD
 		   select sum(now_amount) total_amount, 
 		(select sum(a1.now_amount) from asset a1 where trade_code='account' and root_idn=#{root_idn} )account_amount, 
 		(select sum(e1.expense_amount) from expense e1 where trade_code='account' and root_idn=#{root_idn}) account_amount_spent,
@@ -75,6 +76,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(select sum(e2.expense_amount) from expense e2 where trade_code='cash' and root_idn=#{root_idn}) cash_amount_spent
 		from asset a where a.root_idn=#{root_idn} group by a.root_idn
    </select> 
+=======
+	select sum(now_amount) total_amount, 
+(select sum(a1.now_amount) from asset a1 where trade_code='account' and root_idn=#{root_idn} )account_amount, 
+(select sum(e1.expense_amount) from expense e1 where trade_code='account' and root_idn=#{root_idn}) account_amount_spent,
+(select sum(a2.now_amount) from asset a2 where trade_code='cash' and root_idn=#{root_idn}) cash_amount,
+(select sum(e2.expense_amount) from expense e2 where trade_code='cash' and root_idn=#{root_idn}) cash_amount_spent
+from asset a where a.root_idn=#{root_idn} group by a.root_idn
+	</select> 
+>>>>>>> refs/remotes/origin/master
 	
 
 	<!-- 자산 계좌 이름을 입력받아서 자산 코드를 받아오기(소득 테이블에서 사용) -->

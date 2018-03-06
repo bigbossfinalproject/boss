@@ -44,7 +44,7 @@ function getIncomeBoard() {
 							continue;
 						} else if (j == 5) {
 							rowItem += "<td class = 'text-right'>" + Number(result[i][j].value).toLocaleString() + "</td>";
-							
+
 							continue;
 						}
 						rowItem += "<td>" + result[i][j].value + "</td>";
@@ -309,7 +309,6 @@ function getOptions(option) {
 
 			if (option == '현금') {
 				test = cash;
-				console.log(cash);
 			} else {
 				test = account;
 			}
@@ -324,32 +323,20 @@ function getOptions(option) {
 
 
 $(document).on("keyup", "input:text", function() {
-    inputNumberFormat(this);
- });
+	inputNumberFormat(this);
+});
 
 
 function inputNumberFormat(obj) {
-    obj.value = comma(uncomma(obj.value));
- }
- 
- function comma(str) {
-    str = String(str);
-    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
- }
- 
- function uncomma(str) {
-    str = String(str);
-    return str.replace(/[^\d]+/g, '');
- }
+	obj.value = comma(uncomma(obj.value));
+}
 
+function comma(str) {
+	str = String(str);
+	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
 
-
-
-
-
-
-
-
-
-
-
+function uncomma(str) {
+	str = String(str);
+	return str.replace(/[^\d]+/g, '');
+}

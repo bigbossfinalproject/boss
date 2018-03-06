@@ -294,8 +294,7 @@
 			{
 				
 				url : "./budget_modify.bg?budget_date=" + document.getElementById("update_date" + i).value + "&budget_amount=" + document.getElementById("update_amount" + i).value
-					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value +"&item_code=" + document.getElementById("update_item_code"+i).value
-					+"&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
+					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value +"&item_code=" + document.getElementById("update_item_code"+i).value,
 				type : 'GET',
 				success : function(result) {
 					if (result == 1) {
