@@ -27,6 +27,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{income_Amount}, #{trade_Code}, #{asset_Code},#{income_Description} )
 	</insert>
 
+	<!-- 자산 정보에 금액 업데이트(DB 저장 메서드와 함께 씀) -->
+	<update id="updateAsset" parameterType="map">
+		update asset set
+		now_amount = now_amount + #{cost} where asset_code =
+		#{assetCode}
+	</update>
+
 	<!-- DB 삭제 메서드 -->
 	<delete id="delIncomeList" parameterType="int">
 		delete from income
@@ -55,6 +62,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getIncomeOptions" parameterType="int" resultType="incomeOption">
 		select trade_code, asset_name from asset where root_idn = #{root_Idn}
 	</select>
+
+	<!-- income_id로 해당 소득 테이블의 income_amount 불러오기 -->
+	<select id="getIncomeAmount" parameterType="int" resultType="int">
+		select income_amount from income where income_id = #{income_Id}
+	</select>
+
+	<!-- income_id로 해당 소득 테이블의 asset_code 불러오기 -->
+	<select id="getAssetCode2" parameterType="int" resultType="String">
+		select asset_code from income where income_id = #{income_Id}
+	</select>
+
+
 
 </mapper>
 

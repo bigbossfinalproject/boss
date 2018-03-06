@@ -153,6 +153,8 @@ $(document).on("click", "#row_add", function() {
 	td.each(function(i) {
 		if (td.eq(i).children().val != null) {
 			tdArr.push(td.eq(i).children().val());
+		} else {
+			
 		}
 	});
 	console.log("add배열에 담긴 값 : " + tdArr);
