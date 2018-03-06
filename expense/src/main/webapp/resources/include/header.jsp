@@ -11,7 +11,7 @@
 		background:#1e90ff;
 		width:1280px;
 		height:100px;
-		z-index: 250;
+		z-index: 500;
 		margin:0 auto;
 	}
 	

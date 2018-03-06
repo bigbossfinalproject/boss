@@ -269,7 +269,8 @@
 				row += "<td colspan=1><button class=btn btn-primary pull-right onclick=deleteFunction(" + result[i][2].value + "); type=button >" + "삭제" + "</button></td>"
 				row += "</tr>"
 					
-
+				
+					
 				graph3Val1.push(parseInt(result[i][3].value));
 				graph3Val2.push((result[i][1].value) - (result[i][3].value));
 				graph3Val3.push(result[i][0].value);
@@ -280,12 +281,28 @@
 
 			$('#budgetTable').append(row);
 
+			
 			var amount_residual = sum_amount - sum_amount_spent
 
+			console.log(typeof graph3Val1);
+			console.log(typeof graph3Val2);
+			console.log(typeof graph3Val3);
 
+
+			
+			
+			if(result.length>0){
 			graphy(amount_residual, sum_amount_spent);
 			graph3(graph3Val1, graph3Val2, graph3Val3);
-
+			
+			}else{
+				$("#graph").html("");
+				$('#graph').append("데이터가 없습니다.");
+				$("#chart6").html("");
+				$('#chart6').append("데이터가 없습니다.");
+				
+				
+			}
 
 		}
 	}
@@ -293,11 +310,17 @@
 	function updateFunction(i) {
 		$.ajax(
 			{
+				
 				url : "./budget_modify.bg?budget_date=" + document.getElementById("update_date" + i).value + "&budget_amount=" + document.getElementById("update_amount" + i).value
-					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value + "&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
+					+ "&budget_code=" + document.getElementById("update_budget_code" + i).value +"&item_code=" + document.getElementById("update_item_code"+i).value
+					+"&budget_amount_spent=" + document.getElementById("update_amount_spent" + i).value,
 				type : 'GET',
 				success : function(result) {
+					if (result == 1) {
+						alert('이미 존재하는 예산입니다.')
+					}else{
 					selectFunction();
+					}
 				},
 				error : function() {
 					alert('통신실패!!');
@@ -321,7 +344,6 @@
 					for (var i = 0; i < result.length; i++) {
 						row+="<option value="+result[i]+">"+result[i]+"</option>";
 					}
-					console.log(row);
 					
 					$("#item_code").html("");
 					$('#item_code').append(row);
@@ -334,9 +356,12 @@
 	}
 	
 	function total_listFunction() {
+		var firstDate=document.getElementById("total_firstDate").value;
+		var lastDate=document.getElementById("total_lastDate").value;
+		
 		$.ajax(
 			{
-				url : './budget_list_total.bg',
+				url : "./budget_list_total.bg?firstDate="+firstDate+"&lastDate="+lastDate,
 				type : 'GET',
 				dataType : 'text',
 				success : function(data) {
@@ -344,23 +369,23 @@
 					var result = jsonObj.result;
 					var value1 = new Array();
 					var value2 = new Array();
+					var value3 = new Array();
 					for (var i = 0; i < result.length; i++) {
-						var value3 = new Array();
-						var value4 = new Array();
 
-						value3.push(parseInt(result[i][2].value), parseInt(result[i][0].value));
-						value4.push(parseInt(result[i][2].value), parseInt(result[i][1].value));
+						value1.push(parseInt(result[i][0].value));
+						value2.push(parseInt(result[i][1].value));
+						value3.push(result[i][2].value);
 
-						value1.push(value3);
-						value2.push(value4);
 					}
 
-					console.log(value1);
-					console.log(value2);
-
-					graphy2(value2, value1)
-
-
+					if(result.length>0){
+					graph2(value1, value2,value3);
+					
+					}else{
+						$("#chart5").html("");
+						$('#chart5').append("데이터가 없습니다.");
+					
+					}
 				},
 				error : function() {
 					alert('제이슨통신실패!!');
