@@ -89,9 +89,25 @@ public class AssetDAOImpl {
 	}
 	
 	//헤더info 가져오기
-		public header_infoBean header_info(int root_idn){
-			header_infoBean bean=sql.selectOne("header_info",root_idn);
-			return bean;
-		}
+	public header_infoBean header_info(int root_idn){
+		header_infoBean bean=sql.selectOne("header_info",root_idn);
+		return bean;
+	}
+	
+	// 사용자 개인의 현재 잔액에서 금액 더하기
+	public void nowAmountPlus(Map<String, Object> plus) {
+		sql.update("nowAmountPlus", plus);
+	}
+	
+	// 사용자 개인의 현재 잔액에서 금액 빼기
+	public void nowAmountMinus(Map<String, Object> minus) {
+		sql.update("nowAmountMinus", minus);
+	}
+	
+	// 사용자 개인의 자산별 현재 잔액 가져오기
+	public int nowAmount(Map<String, Object> map) {
+		int amount = sql.selectOne("nowAmount", map);
+		return amount;
+	}
 	
 }

@@ -77,9 +77,18 @@ public class ExpenseController {
 		if(expense_remove != null) {
 			System.out.println("삭제할 지출 코드 개수 : "+expense_remove.length);
 			for(String str : expense_remove) {
-				/*System.out.println("삭제할 파라미터값 : "+str);
-				System.out.println("삭제할 실제 코드값 : "+str.substring(6));*/
-				expenseDao.expenseDelete(str.substring(6));
+				/*System.out.println("삭제할 파라미터값 : "+str);*/
+				String removeCode = str.substring(6);
+				System.out.println("삭제할 실제 코드값 : "+removeCode);
+				ExpenseBean removeExpense = expenseDao.oneExpense(removeCode);
+				Map<String, Object> removeMap = new HashMap<String, Object>();
+				removeMap.put("root_idn", removeExpense.getRoot_idn());
+				removeMap.put("asset_code", removeExpense.getAsset_code());
+				removeMap.put("amount", removeExpense.getExpense_amount());
+				
+				assetDao.nowAmountMinus(removeMap);
+				
+				expenseDao.expenseDelete(removeCode);
 			}
 		}
 		
@@ -106,11 +115,30 @@ public class ExpenseController {
 				eList.add(expense);
 			}
 			
+			
+			
 			for(ExpenseBean info : eList) {
 				if(info.getExpense_id().equals("new_code")) {								// 자산 코드가 new_code로 지정되어 있으면 실행되는 구문
+					// 지출이 추가한 값을 자산 정보 현재 잔액에 반영시키기
+					Map<String, Object> modifyMap = new HashMap<String, Object>();
+					modifyMap.put("root_idn", info.getRoot_idn());
+					modifyMap.put("asset_code", info.getAsset_code());
+					modifyMap.put("amount", info.getExpense_amount());
+					assetDao.nowAmountMinus(modifyMap);
+					
 					info.setExpense_id(expenseIdCreate(info.getRoot_idn()));			// 새로운 expense_id를 생성하여 setter로 입력
 					expenseDao.expenseInsert(info);											// Dao Insert SQL문 실행
+					
 				} else {
+					// 지출이 수정된 값을 자산 정보 현재 잔액에 반영시키기
+					ExpenseBean bean = expenseDao.oneExpense(info.getExpense_id());
+					int modifyAmount = -(bean.getExpense_amount() - info.getExpense_amount());
+					Map<String, Object> modifyMap = new HashMap<String, Object>();
+					modifyMap.put("root_idn", info.getRoot_idn());
+					modifyMap.put("asset_code", info.getAsset_code());
+					modifyMap.put("amount", modifyAmount);
+					assetDao.nowAmountMinus(modifyMap);
+					
 					expenseDao.expenseUpdate(info);											// Dao Update SQL문 실행
 				}
 			}

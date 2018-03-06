@@ -50,7 +50,7 @@ function headerFunction() {
 				var row="";
 				for (var i = 0; i < result.length; i++) {				
 					
-					row+="<div class=info_amount>"+result[i]+"</div>"
+					row+="<div class=info_amount>"+result[i].toLocaleString()+"</div>"
 					if(i==0){
 						row+="<div class=info_title>자산총액</div>"
 					}else if(i==1){
@@ -67,7 +67,7 @@ function headerFunction() {
 				alert('통신실패!!');
 			}
 		})
-
+	
 }
  
 </script>

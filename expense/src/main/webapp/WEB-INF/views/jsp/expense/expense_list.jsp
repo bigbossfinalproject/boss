@@ -13,7 +13,7 @@
 <title>지출 보기</title>
 <script src="./resources/bootstrap/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="./resources/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="./resources/bootstrap/js/jquery.number.js"></script>
+<!-- <script type="text/javascript" src="/resources/bootstrap/js/jquery.number.js"></script> -->
 <link rel="stylesheet" href="./resources/bootstrap/css/bootstrap.css">
 <script type="text/javascript">
 	var itemcnt = 0, tradecnt = 0, assetcnt = 0, cardcnt = 0;
@@ -669,10 +669,23 @@ input, select, option {
 		 * $.number( 5020.2364, 1, ',', ' ' );	// Outputs: 5 020,2 
 		 */
 		 
-		$(document).on("keyup", "input:text[numberOnly]", function() {
-			$(this).number(true);
+		$(document).on("keyup", 'input[name="expense_amount"]', function() {
+			inputNumberFormat(this);
 		});
 		
+		function inputNumberFormat(obj) {
+			obj.value = comma(uncomma(obj.value));
+		}
+		
+		function comma(str) {
+			str = String(str);
+			return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+		}
+		
+		function uncomma(str) {
+			str = String(str);
+			return str.replace(/[^\d]+/g, '');
+		}
 		
 	})
 

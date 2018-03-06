@@ -43,7 +43,7 @@ function getIncomeBoard() {
 							rowItem += "<td><input type='hidden' name='account' value ='" + result[i][j].value + "'>" + result[i][j].value + "</td>";
 							continue;
 						} else if (j == 5) {
-							rowItem += "<td class = 'text-right'>" + result[i][j].value + "</td>";
+							rowItem += "<td class = 'text-right'>" + Number(result[i][j].value).toLocaleString() + "</td>";
 							continue;
 						}
 						rowItem += "<td>" + result[i][j].value + "</td>";
