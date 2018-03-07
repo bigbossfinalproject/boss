@@ -81,7 +81,7 @@ public class IncomeController {
 
 		// 화면에서는 코드가 아닌 이름으로 보여지므로, 이름을 코드로 바꾸는 작업이 실행되어야한다.
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
-		String assetCode = incomeService.getAssetCode(arrayData.get(3));
+		String assetCode = incomeService.getAssetCode(arrayData.get(3), id);
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
 
 		
@@ -111,11 +111,12 @@ public class IncomeController {
 	public void modifyIncome_list(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(value = "arrData[]") List<String> arrayData, @RequestParam(value = "income_Id") String data) {
 
+		int id = (int) session.getAttribute("root_Idn");
 		IncomeBean bean = new IncomeBean();
 
 		// 화면에서는 코드가 아닌 이름으로 보여지므로, 이름을 코드로 바꾸는 작업이 실행되어야한다.
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
-		String assetCode = incomeService.getAssetCode(arrayData.get(3));
+		String assetCode = incomeService.getAssetCode(arrayData.get(3), id);
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
 
 		bean.setIncome_Id(data);

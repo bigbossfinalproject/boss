@@ -412,14 +412,14 @@ body .container .content .join-cont2 {
 							                    <input type="text" class="inpt3" required="required" value="Impossible" readonly="readonly">
 	                                      		
 	                                      		<input type="text" class="inpt1" required="required" value="Level of education" readonly="readonly">
-	                                      		<input type="text" name="root_Edu" id="root_Edu" class="inpt2" required="required" placeholder="Your level of education" value="${dto2.root_Edu }" readonly="readonly">
+	                                      		<input type="text" name="root_Edu" id="root_Edu" class="inpt4" required="required" placeholder="Your level of education" value="${dto2.root_Edu }" readonly="readonly">
 							                    <label for="root_Edu">education</label>
-							                    <input type="text" class="inpt3" required="required" value="" readonly="readonly">
+							                    <input type="text" class="inpt3" required="required" value="Impossible" readonly="readonly">
 	                                      
 	                                      		<input type="text" class="inpt1" required="required" value="Marry" readonly="readonly">
-	                                       		<input type="text" name="root_Marry" id="root_Marry" class="inpt2" required="required" placeholder="married ?" value="${dto2.root_Marry }" readonly="readonly">
+	                                       		<input type="text" name="root_Marry" id="root_Marry" class="inpt4" required="required" placeholder="married ?" value="${dto2.root_Marry }" readonly="readonly">
 							                    <label for="root_Marry">marry</label>                                      
-							                    <input type="text" class="inpt3" required="required" value="" readonly="readonly">
+							                    <input type="text" class="inpt3" required="required" value="Impossible" readonly="readonly">
 	                                      
 	                                      
 	                                      		<input type="text" class="inpt1" required="required" value="Job" readonly="readonly">

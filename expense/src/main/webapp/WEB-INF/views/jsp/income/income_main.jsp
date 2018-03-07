@@ -37,7 +37,7 @@
 <link rel="stylesheet" type="text/css"
 	href="./resources/dist/jquery.jqplot.css" />
 
-<script src="./resources/js/incomeBoard.js?ver=1.4"></script>
+<script src="./resources/js/incomeBoard.js?ver=1.6"></script>
 
 <style type="text/css">
 body {
