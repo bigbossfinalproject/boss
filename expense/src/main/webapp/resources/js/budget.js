@@ -243,7 +243,11 @@
 				
 				row += "<input type=hidden class=aa id=update_item_code" + i + " value=" + result[i][0].value + ">"
 				row += "<td>"+ result[i][0].value + "</td>"
+				if(i!=result.length-1){
 				row += "<td><input type=text class=aa id=update_amount" + i + " value=" + result[i][1].value + "></td>"
+				}else{
+					row+="<td>"+result[i][1].value+"</td>"
+				}
 				row += "<input type=hidden id=update_budget_code" + i + " value=" + result[i][2].value + ">"
 				row += "<td>" + result[i][3].value +"</td>"
 				row += "<td>" + ((result[i][1].value) - (result[i][3].value)) + "</td>"

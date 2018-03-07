@@ -336,7 +336,7 @@ public class BudgetController {
 		
 		
 
-			System.out.println("기타금액 ="+num);
+			System.out.println("미지정예산 ="+num);
 		
 
 	      System.out.println("이거 값 모지? "+result.toString());
