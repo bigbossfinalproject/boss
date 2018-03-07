@@ -72,5 +72,9 @@ public class BudgetDaoImpl {
 		List<BudgetBean> bean= this.sqlSession.selectList("budget_total_list",date_bean);
 		return bean;
 	}
+	public List<BudgetBean> budget_expense_list(Budget_excelBean date_bean){
+		List<BudgetBean> bean= this.sqlSession.selectList("budget_expense_list",date_bean);
+		return bean;
+	}
 	
 }

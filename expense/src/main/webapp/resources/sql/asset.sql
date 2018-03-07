@@ -13,6 +13,28 @@ from asset a where a.root_idn=1 group by a.root_idn
 select * from asset
 
 
+select sum(budget_amount) budget_amount from budget 
+where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date('2018-02','YYYY-MM') and to_date('20181-02','YYYY-MM') 
+and root_idn=1 
+group by to_char(budget_date,'YYYY-MM')  
+order by budget_date
+
+select sum(budget_amount) budget_amount, (select sum(expense_amount) from expense where to_date(to_char(expense_date,'YYYY-MM'),'YYYY-MM') 
+between to_date('2018-02','YYYY-MM') and to_date('2018-03','YYYY-MM') 
+and root_idn=1 group by to_char(expense_date,'YYYY-MM')
+) budget_amount_spent,to_char(budget_date,'YYYY-MM') budget_date 
+from budget 
+where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date('2018-02','YYYY-MM') and to_date('2018-03','YYYY-MM') 
+and root_idn=1 group by to_char(budget_date,'YYYY-MM')  
+order by budget_date
+
+
+select sum(expense_amount),to_char(budget_date,'YYYY-MM') budget_date from expense where to_date(to_char(expense_date,'YYYY-MM'),'YYYY-MM') 
+between to_date('2018-02','YYYY-MM') and to_date('2018-03','YYYY-MM') 
+and root_idn=1 group by to_char(expense_date,'YYYY-MM')
+
+
+
 create table asset(
 	asset_code  varchar2(20)  constraint asset_asset_code_pk primary key,
 	trade_code  varchar2(20)  constraint asset_trade_code_fk references trade(trade_code),

@@ -9,6 +9,8 @@ create table item(
 
 );
 
+select * from item
+
 create table item(
 	item_code  varchar2(20)  constraint item_item_code_pk primary key,
 	parent_code  varchar2(20),
@@ -17,12 +19,14 @@ create table item(
 	item_seq  number
 );
 
+select item_name from item where item_level=2
+
 select * from budget where to_char(budget_date,'YYYY-MM')='2017-02' and root_idn=2
 
 select * from item; where item_code like '14%';
 
 
-
+select * from item
 
 update item set parent_code = '' where item_code = '1a000000';
 update item set parent_code = '' where item_code = '1l000000';

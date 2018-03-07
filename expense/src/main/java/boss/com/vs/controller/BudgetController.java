@@ -200,10 +200,25 @@ public class BudgetController {
 	      // 로그인 유지 기능을 세션으로 한다면 매개변수로 request 받아와야함.
 	     
 	      List<BudgetBean> list = this.budgetService.budget_total_list(bean);
+	      List<BudgetBean> list2 = this.budgetService.budget_expense_list(bean);
+	      int cnt=0;
+	     
 	      for (int i = 0; i < list.size(); i++) {
 	         str.append("[{\"value\": \"" + list.get(i).getBudget_amount() + "\"},");
-	         str.append("{\"value\": \"" + list.get(i).getBudget_amount_spent() + "\"},");
-	       
+	         
+	         for (int j = 0; j < list2.size(); j++) {		
+
+	         if(list.get(i).getBudget_date().equals(list2.get(j).getBudget_date())){
+	         str.append("{\"value\": \"" + list2.get(j).getBudget_amount_spent() + "\"},");
+	         System.out.println("중복된거 몇개임?"+list.size()+list2.size());	
+	         System.out.println(list2.get(j).getBudget_amount_spent());
+	         cnt++;
+	         }
+	         }
+	         if(cnt==0){
+	        	 str.append("{\"value\": \"" + 0 + "\"},");
+	         }
+	         cnt=0;
 	         if (i == list.size() - 1) {
 
 	            str.append("{\"value\": \"" + list.get(i).getBudget_date().substring(0, 7) + "\"}]");
