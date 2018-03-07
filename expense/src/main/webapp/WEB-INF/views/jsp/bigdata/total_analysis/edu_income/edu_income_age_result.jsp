@@ -8,7 +8,11 @@
 
 <style type="text/css">
 
-
+	.header {
+		width:1280px;
+		margin: 0 auto;
+	}
+	
 
 	#section {
 		margin: 100px auto 0;
@@ -48,9 +52,9 @@
 </head>
 <body style="width: 1280px; background-color:#f8f8f8; margin: 0 auto;">
 
-	<header>
+	<div class="header">
 			<jsp:include page="/resources/include/header.jsp"></jsp:include>
-	</header>	
+	</div>	
 
 	<div id="section">
 		

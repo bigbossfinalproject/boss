@@ -7,9 +7,7 @@
 <title>소비 나이 분석</title>
 
 <style type="text/css">
-
-
-
+	
 	#section {
 		margin: 100px auto 0;
 		width: 1280px; height: 800px;
@@ -40,7 +38,11 @@
 		overflow: auto;
 	}
 	
-
+	.header {
+		width:1280px;
+		margin: 0 auto;
+	}
+	
 	
 		
 </style>
@@ -48,9 +50,9 @@
 </head>
 <body style="width: 1280px; background-color:#f8f8f8; margin: 0 auto;">
 
-	<header>
+	<div class="header">
 			<jsp:include page="/resources/include/header.jsp"></jsp:include>
-	</header>	
+	</div>	
 
 	<div id="section">
 		

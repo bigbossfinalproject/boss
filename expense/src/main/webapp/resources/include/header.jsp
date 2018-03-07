@@ -6,13 +6,14 @@
 <title>header</title>
 <style type="text/css">
 	.main_header {
-		position: fixed; 
+		position: fixed;
 		top:0;
 		background:#1e90ff;
 		width:1280px;
 		height:100px;
 		z-index: 500;
 		margin:0 auto;
+		clear:both;
 	}
 	
 	.menutop{
@@ -144,8 +145,8 @@
 				</li>
 				<li><a href="#">분석</a>
 					<ul>
-						<li><a href="<%=request.getContextPath() %>/income-analysis.do">분석 1</a></li>
-					    <li><a href="<%=request.getContextPath() %>/expense-analysis.do">분석 2</a></li>		 	
+						<li><a href="<%=request.getContextPath() %>/income-analysis.do">소득 분석</a></li>
+					    <li><a href="<%=request.getContextPath() %>/expense-analysis.do">소비 분석</a></li>		 	
 					</ul>
 				</li> <li><a href="#">설정</a>
 					<ul>
