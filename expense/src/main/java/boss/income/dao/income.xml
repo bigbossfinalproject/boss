@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- DB 저장 메서드 -->
 	<insert id="addIncomeList" parameterType="incomeBoard">
 		insert into income
-		values(1,income_code_seq.nextVal, #{income_Date}, #{income_Code},
+		values(#{root_Idn}, income_code_seq.nextVal, #{income_Date}, #{income_Code},
 		#{income_Amount}, #{trade_Code}, #{asset_Code},#{income_Description} )
 	</insert>
 
