@@ -111,8 +111,12 @@ public class IncomeDaoImpl implements IncomeDao {
 	}
 
 	@Override
-	public String getAssetCode(String assetName) {
-		return this.sqlSession.selectOne("getAssetCode", assetName);
+	public String getAssetCode(String assetName, int id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("assetName",assetName);
+		map.put("rootIdn", id);
+		
+		return this.sqlSession.selectOne("getAssetCode", map);
 
 	}
 

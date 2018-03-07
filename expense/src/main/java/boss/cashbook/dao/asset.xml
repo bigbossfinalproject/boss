@@ -77,8 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select> 
 
 	<!-- 자산 계좌 이름을 입력받아서 자산 코드를 받아오기(소득 테이블에서 사용) -->
-	<select id="getAssetCode" parameterType="String" resultType="String">
-		select asset_code from asset where asset_name <![CDATA[=]]> #{assetName}
+	<select id="getAssetCode" parameterType="map" resultType="String">
+		select asset_code from asset where asset_name <![CDATA[=]]> #{assetName} and root_idn <![CDATA[=]]> #{rootIdn}
 	</select>
 	
 	<!-- 자산 정보에서 현재 금액에서 마이너스 하기 -->

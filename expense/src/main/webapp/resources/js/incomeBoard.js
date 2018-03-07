@@ -9,7 +9,7 @@ document.write("<script type='text/javascript' src='./resources/js/incomeChart.j
 //스크립트가 로드 될 때 실행되는 함수 : getIncomeBoard()
 window.onload = function() {
 	getIncomeBoard();
-	
+
 }
 
 var income_option = "<option >주요소득</option><option >기타소득</option>";
@@ -79,7 +79,7 @@ $(document).on('click', '#add_row', function() {
 	var optionInit = "";
 
 	for (var i = 0; i < a.length; i++) {
-		optionInit += "<option value = " + a[i] + ">" + a[i] + "</option> ";
+		optionInit += "<option value = '" + a[i] + "'>" + a[i] + "</option> ";
 	}
 
 	var rowItem = "<tr>"
@@ -87,7 +87,7 @@ $(document).on('click', '#add_row', function() {
 	rowItem += "<td> <select class='form-control' id = 'income_code'>" + income_option + "</select> </td>"
 	rowItem += "<td> <select class='form-control' name='trade'><option value='현금'>현금</option><option value='통장'>통장</option></select> </td>"
 	rowItem += "<td> <select class='form-control' id = 'asset_code'>" + optionInit + "</select> </td>"
-	rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' > </td>"
+	rowItem += "<td> <input type='text' class='form-control text-right' placeholder='금액' name = 'amount' > </td>"
 	rowItem += "<td> <input type='text' class='form-control' placeholder='비고'> </td>"
 	rowItem += "<td><button type='button' id='row_add' ><span class='glyphicon glyphicon-ok' ></span></button></td>"
 	rowItem += "</tr>"
@@ -266,9 +266,9 @@ $(document).on('click', 'td', function() {
 
 				$(this).append(b);
 
-			} else if(tdIdx === 4) {
+			} else if (tdIdx === 4) {
 				$(this).html("<input type='text' class='form-control text-right' name='amount' value = " + data + "></input>");
-			}else{
+			} else {
 				$(this).html("<input type='text' class='form-control text-right' value = " + data + "></input>");
 			}
 
