@@ -7,10 +7,10 @@ document.write("<script type='text/javascript' src='./resources/js/incomeChart.j
 
 
 //스크립트가 로드 될 때 실행되는 함수 : getIncomeBoard()
-//window.onload = function() {
-//	getIncomeBoard();
-//	
-//}
+window.onload = function() {
+	getIncomeBoard();
+	
+}
 
 var income_option = "<option >주요소득</option><option >기타소득</option>";
 
@@ -54,7 +54,7 @@ function getIncomeBoard() {
 				$('#incomeTable').append(rowItem);
 
 				drawChart();
-
+				headerFunction();
 			},
 			error : function() {
 				alert('통신실패!!');
@@ -114,6 +114,7 @@ $(document).on("click", "#row_remove", function() {
 			alert("삭제완료!");
 			getIncomeBoard();
 			drawChart();
+			
 		},
 		error : function() {
 			alert('삭제실패!!');
@@ -265,7 +266,9 @@ $(document).on('click', 'td', function() {
 
 				$(this).append(b);
 
-			} else {
+			} else if(tdIdx === 4) {
+				$(this).html("<input type='text' class='form-control text-right' name='amount' value = " + data + "></input>");
+			}else{
 				$(this).html("<input type='text' class='form-control text-right' value = " + data + "></input>");
 			}
 
@@ -322,7 +325,7 @@ function getOptions(option) {
 }
 
 
-$(document).on("keyup", "input:text", function() {
+$(document).on("keyup", "[name='amount']", function() {
 	inputNumberFormat(this);
 });
 
