@@ -341,7 +341,7 @@ String noticeSize = (String)request.getAttribute("noticeSize");
  <%if(root_Id!=null){ %>
  <div class="header">
  	<jsp:include page="../../../../resources/include/header.jsp"></jsp:include>	
- 	<jsp:include page="/resources/include/info_header.jsp"/>
+ <%-- 	<jsp:include page="/resources/include/info_header.jsp"/> --%>
  </div>	
  <%} %>
 

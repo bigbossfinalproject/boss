@@ -259,8 +259,8 @@ public class BudgetController {
 		
 		
 		List<String> list=null; 
-		
-		list=this.budgetService.item_list();
+		int root_idn=(int) session.getAttribute("root_Idn");
+		list=this.budgetService.item_list(root_idn);
 		JSONArray item_list = new JSONArray();
 		JSONObject obj = new JSONObject();
 		for (int i = 0; i < list.size(); i++) {
@@ -328,7 +328,7 @@ public class BudgetController {
 			
 		}
 		
-		result.append("[{\"value\": \"기타금액\"},");
+		result.append("[{\"value\": \"미지정예산\"},");
 		result.append("{\"value\": \""+0+"\"},");
 		result.append("{\"value\": \""+0+"\"},");
 		result.append("{\"value\": \""+num+"\"},");
@@ -336,7 +336,6 @@ public class BudgetController {
 		
 		
 
-			System.out.println("기타금액 ="+num);
 		
 
 	      System.out.println("이거 값 모지? "+result.toString());

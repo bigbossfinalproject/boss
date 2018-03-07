@@ -180,6 +180,7 @@ public class ExpenseController {
 		
 		// 자산계좌(asset) 코드를 불러와서 scope영역에 올리기
 		List<AssetBean> aList = assetDao.memAssetList(rootIdn);
+		System.out.println("assetList 개수 : "+aList.size());
 		mv.addObject("assetList", aList);
 		
 		// 카드(card) 코드를 불러와서 scope영역에 올리기
@@ -268,6 +269,7 @@ public class ExpenseController {
 	public ModelAndView expenseDetailAsset(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String trade_code = request.getParameter("trade_code");
 		String asset_code = request.getParameter("asset_code");
+		int root_idn = (int) session.getAttribute("root_Idn");
 		int idNum = 0;
 		if(request.getParameter("id_num") != null){
 			idNum = Integer.parseInt(request.getParameter("id_num"));
@@ -277,7 +279,11 @@ public class ExpenseController {
 		ModelAndView mv = new ModelAndView("expense/expense_detail_asset");
 		
 		//List<ItemBean> list = itemDao.itemDetailList((as+"%"));
-		List<AssetBean> list = assetDao.tradeAssetList(trade_code);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("trade_code", trade_code);
+		map.put("root_idn", root_idn);
+		
+		List<AssetBean> list = assetDao.tradeAssetList(map);
 		//System.out.println("assetDetailList 개수 : "+list.size());
 		mv.addObject("expenseAssetDetailList", list);
 		mv.addObject("asset_code", asset_code);

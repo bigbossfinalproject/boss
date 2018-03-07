@@ -9,7 +9,7 @@ create table item(
 
 );
 
-select * from item
+select * from item where root_idn = 1;
 
 create table item(
 	item_code  varchar2(20)  constraint item_item_code_pk primary key,

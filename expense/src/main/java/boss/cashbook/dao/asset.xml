@@ -32,8 +32,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 지출 유형별 자산목록 가져오기 -->
-	<select id="tradeAssetList" resultType="asset">
-		select * from asset where trade_code <![CDATA[=]]> #{trade_code}
+	<select id="tradeAssetList" parameterType="java.util.Map" resultType="asset">
+		select * from asset where trade_code <![CDATA[=]]> #{trade_code} and root_idn <![CDATA[=]]> #{root_idn}
 	</select>
 	
 	<!-- 자산코드별 자산 목록 개수를 불러오기 -->

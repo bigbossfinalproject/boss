@@ -43,8 +43,8 @@ public class BudgetDaoImpl {
 		this.sqlSession.update("budget_modify",bean);
 	}
 	
-	public List<String> item_list(){
-		List<String> bean=this.sqlSession.selectList("item_list");
+	public List<String> item_list(int root_idn){
+		List<String> bean=this.sqlSession.selectList("item_list",root_idn);
 		return bean;
 	}
 	

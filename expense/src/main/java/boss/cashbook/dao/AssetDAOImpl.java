@@ -45,8 +45,8 @@ public class AssetDAOImpl {
 	}
 	
 	// 지출 유형별 자산 목록 가져오기
-	public List<AssetBean> tradeAssetList(String trade_code) {
-		List<AssetBean> list = sql.selectList("tradeAssetList", trade_code);
+	public List<AssetBean> tradeAssetList(Map<String, Object> map) {
+		List<AssetBean> list = sql.selectList("tradeAssetList", map);
 		return list;
 	}
 	

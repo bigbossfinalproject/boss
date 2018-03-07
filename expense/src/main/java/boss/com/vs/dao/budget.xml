@@ -46,12 +46,9 @@ select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') bet
 	
 	
 	
-	
-	
-	
 	<!-- 아이템 리스트 -->
 	<select id="item_list" parameterType="int" resultType="String">
-	select item_name from item where item_level=2
+	select item_name from item where root_idn =#{root_idn} and item_level=3
 	</select>
 	
 	<!-- 예산 등록 -->

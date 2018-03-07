@@ -50,19 +50,7 @@ public class ItemController {
 		String item_name = request.getParameter("item_name");
 		String item_level = request.getParameter("item_level");
 		String item_class = null;
-		String strIdn = rootIdn+"";
-		String itemClass = parent_code.substring(strIdn.length(), 1);
-		if(itemClass.equals("a")) {
-			item_class = "asset";
-		} else if(itemClass.equals("l")) {
-			item_class = "loan";
-		} else if(itemClass.equals("i")) {
-			item_class = "income";
-		} else if(itemClass.equals("e")) {
-			item_class = "expense";
-		}
 		
-		//String idn = rootIdn+"";
 		ModelAndView mv = new ModelAndView("/expense/item_detail");
 		//int seq = 0;
 		if(item_code != null) {
@@ -85,7 +73,26 @@ public class ItemController {
 				item.setItem_seq(maxSeq+1);
 				item.setRoot_idn(rootIdn);
 				item.setItem_class(item_class);
-				//System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "+item.getItem_seq()+" / "+item.getRoot_idn()+" / "+item.getItem_class());
+				String strIdn = rootIdn+"";
+				String itemClass = item.getItem_code().substring(strIdn.length(), 2);
+				
+				/*System.out.println("strIdn : "+strIdn+ " / strIdn length : "+strIdn.length());
+				System.out.println("root_idn : "+rootIdn+" / item_code :  "+item.getItem_code()+" / parent_code : "+item.getParent_code()+" / item_name : "
+							+item.getItem_name()+" / item_level : "+item.getItem_level()+" / itemClass : "+itemClass);
+				//System.out.println("itemController - itemClass : "+itemClass);
+*/				if(itemClass.equals("a")) {
+					item_class = "asset";
+				} else if(itemClass.equals("l")) {
+					item_class = "loan";
+				} else if(itemClass.equals("i")) {
+					item_class = "income";
+				} else if(itemClass.equals("e")) {
+					item_class = "expense";
+				}
+				item.setItem_class(item_class);
+				/*System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "
+							+item.getItem_seq()+" / "+item.getRoot_idn()+" / "+item.getItem_class());*/
+				
 				itemDao.addItem(item);
 			}
 		}
@@ -189,9 +196,9 @@ public class ItemController {
 		
 		ModelAndView mv = new ModelAndView("expense/item_list");
 		List<ItemBean> iList = itemDao.itemList(item_code+"%");
-		for(ItemBean item : iList) {
+		/*for(ItemBean item : iList) {
 			System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "+item.getItem_seq()+" / "+item.getRoot_idn()+" / "+item.getItem_class());
-		}
+		}*/
 		mv.addObject("itemList", iList);
 		
 		return mv;
