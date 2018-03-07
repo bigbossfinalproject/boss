@@ -7,10 +7,10 @@ document.write("<script type='text/javascript' src='./resources/js/incomeChart.j
 
 
 //스크립트가 로드 될 때 실행되는 함수 : getIncomeBoard()
-/*window.onload = function() {
-	getIncomeBoard();
-	headerFunction();
-}*/
+//window.onload = function() {
+//	getIncomeBoard();
+//	
+//}
 
 var income_option = "<option >주요소득</option><option >기타소득</option>";
 
@@ -54,7 +54,7 @@ function getIncomeBoard() {
 				$('#incomeTable').append(rowItem);
 
 				drawChart();
-				headerFunction();
+
 			},
 			error : function() {
 				alert('통신실패!!');

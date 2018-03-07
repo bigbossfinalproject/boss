@@ -51,18 +51,19 @@ body {
 }
 </style>
 <script type="text/javascript">
-window.onload = function() {
-	getIncomeBoard();
-	headerFunction();
-}
+	window.onload = function() {
+		getIncomeBoard();
+		
+	}
 </script>
 </head>
 <body>
 	<header><jsp:include page="/resources/include/header.jsp" /></header>
-	 <div class="inner_frame"><jsp:include page="/resources/include/info_header.jsp"/></div>
+	<div class="inner_frame"><jsp:include
+			page="/resources/include/info_header.jsp" /></div>
 	<h2 class="text-center">소득 내역</h2>
 
-	<div id="income_chart" class="container"></div>
+	<div id="income_chart" class="container" align="center"></div>
 
 
 
