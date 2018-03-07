@@ -33,13 +33,25 @@ select * from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') bet
 
 	<!-- 통합 예산 목록 -->
 	<select id="budget_total_list" parameterType="int" resultType="budget">
-	select sum(budget_amount) budget_amount, sum(budget_amount_spent) budget_amount_spent,to_char(budget_date,'YYYY-MM') budget_date from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date(#{firstDate},'YYYY-MM') and to_date(#{lastDate},'YYYY-MM') and root_idn=#{root_idn} group by to_char(budget_date,'YYYY-MM')  
+	select sum(budget_amount) budget_amount, to_char(budget_date,'YYYY-MM') budget_date from budget where to_date(to_char(budget_date,'YYYY-MM'),'YYYY-MM') between to_date(#{firstDate},'YYYY-MM') and to_date(#{lastDate},'YYYY-MM') and root_idn=#{root_idn} group by to_char(budget_date,'YYYY-MM')  
 	order by budget_date
 	</select>
 	
+	<!-- 통합 지출 목록 -->
+	<select id="budget_expense_list" parameterType="int" resultType="budget">
+	select sum(expense_amount) budget_amount_spent,to_char(expense_date,'YYYY-MM') budget_date from expense where to_date(to_char(expense_date,'YYYY-MM'),'YYYY-MM') 
+	between to_date(#{firstDate},'YYYY-MM') and to_date(#{lastDate},'YYYY-MM') 
+	and root_idn=#{root_idn} group by to_char(expense_date,'YYYY-MM')
+	</select>
+	
+	
+	
+	
+	
+	
 	<!-- 아이템 리스트 -->
 	<select id="item_list" parameterType="int" resultType="String">
-	select item_name from item
+	select item_name from item where item_level=2
 	</select>
 	
 	<!-- 예산 등록 -->

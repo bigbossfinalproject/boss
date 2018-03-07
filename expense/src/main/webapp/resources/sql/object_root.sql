@@ -11,7 +11,6 @@ create table object_root(
    root_grade  number default 0
 );
 create sequence object_root_seq;
-
 --분석용 추가 data
 create table object_root_big(
    root_idn  number,  

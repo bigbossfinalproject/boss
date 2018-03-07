@@ -77,11 +77,15 @@ public class IncomeController {
 			@RequestParam(value = "arrData[]") List<String> arrayData) {
 		IncomeBean bean = new IncomeBean();
 
+		int id = (int) session.getAttribute("root_Idn");
+
 		// 화면에서는 코드가 아닌 이름으로 보여지므로, 이름을 코드로 바꾸는 작업이 실행되어야한다.
 		String incomeName = incomeService.getIncomeName(arrayData.get(1));
 		String assetCode = incomeService.getAssetCode(arrayData.get(3));
 		String tradeCode = incomeService.getTradeCode(arrayData.get(2));
 
+		
+		bean.setRoot_Idn(id);
 		bean.setIncome_Date(java.sql.Date.valueOf(arrayData.get(0)));
 		bean.setIncome_Code(incomeName);
 		bean.setTrade_Code(tradeCode);
