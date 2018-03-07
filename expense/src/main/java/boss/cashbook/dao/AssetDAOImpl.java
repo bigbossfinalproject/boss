@@ -110,4 +110,14 @@ public class AssetDAOImpl {
 		return amount;
 	}
 	
+	// 사용자 전체 자산 정보 삭제하기
+	public void idnAssetDelete(int root_idn) {
+		sql.delete("idnAssetDelete", root_idn);
+	}
+	
+	// 기초 정보 데이터를 가져오기
+	public List<AssetBean> basicAssetList() {
+		return sql.selectList("basicAssetList");
+	}
+	
 }

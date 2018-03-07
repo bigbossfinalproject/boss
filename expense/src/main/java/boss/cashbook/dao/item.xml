@@ -8,7 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 분류 항목을 저장하기 -->
 	<insert id="addItem" parameterType="item">
-		insert into item values(#{item_code}, #{parent_code}, #{item_level}, #{item_name}, #{item_seq})
+		insert into item(item_code, parent_code, item_level, item_name, item_seq, root_idn, item_class)
+		values(#{item_code}, #{parent_code}, #{item_level}, #{item_name}, #{item_seq}, #{root_idn}, #{item_class})
 	</insert>
 	
 	<!-- 분류 항목을 수정하기(사용할 계획이 없음) -->
@@ -65,5 +66,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="idnDeleteItem" parameterType="int">
 		delete from item where root_idn <![CDATA[=]]> #{root_idn}
 	</delete>
+	
+	<!-- 분류항목 기초데이터 정보 가져오기 -->
+	<select id="basicItemList" resultType="item">
+		select * from item where root_idn <![CDATA[=]]> 0
+	</select>
 	
 </mapper>

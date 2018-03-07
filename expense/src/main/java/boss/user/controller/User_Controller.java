@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import boss.cashbook.dao.AssetDAOImpl;
 import boss.cashbook.dao.ItemDAOImpl;
+import boss.cashbook.model.AssetBean;
 import boss.cashbook.model.ItemBean;
 import boss.user.dao.User_Dao;
 import boss.user.model.User_Bean;
@@ -28,6 +30,9 @@ public class User_Controller {
 		
 		@Autowired
 		ItemDAOImpl itemDao;
+		
+		@Autowired
+		AssetDAOImpl assetDao;
 		
 		//로그인 체크
 		@RequestMapping(value="/userLogin.uo")
@@ -78,7 +83,8 @@ public class User_Controller {
 				String root_Grade = "0"; //일반회원 등급
 				dao.userJoin(root_Id, root_Pwd, root_Name ,root_Email, root_Grade);
 				itemCreate(root_Id);
-				System.out.println("userController - root_Id : "+root_Id);
+				assetCreate(root_Id);
+				//System.out.println("userController - root_Id : "+root_Id);
 				return "redirect:mainBoard.bo";
 			}
 			String root_Grade = "1"; //빅데이터 회원 등급
@@ -86,6 +92,7 @@ public class User_Controller {
 			dao.bigDataJoin(root_Address, root_Birth, root_Gender, root_Edu, root_Marry, root_Job);
 			
 			itemCreate(root_Id);
+			assetCreate(root_Id);
 			
 			return "redirect:mainBoard.bo";
 		}
@@ -96,21 +103,18 @@ public class User_Controller {
 		public String userDelete(HttpSession session ,@RequestParam(value="root_Idn") String root_Idn) {
 			
 			String root_Grade = String.valueOf(session.getAttribute("root_Grade"));
+			int root_idn = Integer.parseInt(root_Idn);
 			if(root_Grade.equals("0")){
 				dao.userDelete(root_Idn);
-				itemDao.deleteItem(root_Idn+"a%");
-				itemDao.deleteItem(root_Idn+"l%");
-				itemDao.deleteItem(root_Idn+"i%");
-				itemDao.deleteItem(root_Idn+"e%");
+				itemDao.idnDeleteItem(root_idn);
+				assetDao.idnAssetDelete(root_idn);
 				session.invalidate();
 				return "redirect:mainBoard.bo";
 			}
 			dao.userDelete(root_Idn);
 			dao.bigDataDelete(root_Idn);
-			itemDao.deleteItem(root_Idn+"a%");
-			itemDao.deleteItem(root_Idn+"l%");
-			itemDao.deleteItem(root_Idn+"i%");
-			itemDao.deleteItem(root_Idn+"e%");
+			itemDao.idnDeleteItem(root_idn);
+			assetDao.idnAssetDelete(root_idn);
 			session.invalidate();
 			return "redirect:mainBoard.bo";
 			
@@ -164,52 +168,28 @@ public class User_Controller {
 			
 			int root_idn = dao.userIdnValue(root_Id);
 			System.out.println("itemCreate - root_idn : "+root_idn);
-			List<ItemBean> asset = itemDao.itemList("1a%");
-			System.out.println("asset 개수 : "+asset.size());
-			for(ItemBean a : asset) {
-				a.setItem_code(root_idn + a.getItem_code().substring(1));
-				if(a.getParent_code() == null) {
-					a.setParent_code("");
-				} else {
-					a.setParent_code(root_idn+a.getItem_code().substring(1));
-				}
-				itemDao.addItem(a);
-			}
-			List<ItemBean> loan = itemDao.itemList("1l%");
-			System.out.println("loan 개수 : "+loan.size());
-			for(ItemBean l : loan) {
-				l.setItem_code(root_idn + l.getItem_code().substring(1));
-				if(l.getParent_code() == null) {
-					l.setParent_code("");
-				} else {
-					l.setParent_code(root_idn+l.getItem_code().substring(1));
-				}
-				System.out.println("loan item_code : "+l.getItem_code());
-				itemDao.addItem(l);
-			}
-			List<ItemBean> income = itemDao.itemList("1i%");
-			System.out.println("income 개수 : "+income.size());
-			for(ItemBean i : income) {
-				i.setItem_code(root_idn + i.getItem_code().substring(1));
+			List<ItemBean> item = itemDao.basicItemList();
+			for(ItemBean i : item) {
+				i.setItem_code(root_idn+i.getItem_code());
 				if(i.getParent_code() == null) {
 					i.setParent_code("");
 				} else {
-					i.setParent_code(root_idn+i.getItem_code().substring(1));
+					i.setParent_code(root_idn+i.getParent_code());
 				}
-				System.out.println("income item_code : "+i.getItem_code());
+				i.setRoot_idn(root_idn);
 				itemDao.addItem(i);
 			}
-			List<ItemBean> expense = itemDao.itemList("1e%");
-			System.out.println("expense 개수 : "+expense.size());
-			for(ItemBean e : expense) {
-				e.setItem_code(root_idn + e.getItem_code().substring(1));
-				if(e.getParent_code() == null) {
-					e.setParent_code("");
-				} else {
-					e.setParent_code(root_idn+e.getItem_code().substring(1));
-				}
-				System.out.println("expense item_code : "+e.getItem_code());
-				itemDao.addItem(e);
+		}
+		
+		// 자산 항목 생성
+		private void assetCreate(String root_Id) {
+			int root_idn = dao.userIdnValue(root_Id);
+			List<AssetBean> asset = assetDao.basicAssetList();
+			for(AssetBean a : asset) {
+				a.setAsset_code(root_idn+a.getAsset_code());
+				a.setRoot_idn(root_idn);
+				a.setRoot_id(root_Id);
+				assetDao.userAssetInsert(a);
 			}
 		}
 }

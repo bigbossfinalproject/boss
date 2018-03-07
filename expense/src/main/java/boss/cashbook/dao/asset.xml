@@ -96,4 +96,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select now_amount from asset where root_idn <![CDATA[=]]> #{idn} and asset_code <![CDATA[=]]> #{asset}
 	</select>
 	
+	<!-- 사용자 전체 자산 정보 삭제하기 -->
+	<delete id="idnAssetDelete" parameterType="int">
+		delete from asset where root_idn <![CDATA[=]]> #{root_idn}
+	</delete>
+	
+	<!-- 기초 정보 데이터 가져오기 -->
+	<select id="basicAssetList" resultType="asset">
+		select * from asset where root_idn <![CDATA[=]]> 0
+	</select>
+	
 </mapper>

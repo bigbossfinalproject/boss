@@ -6,6 +6,8 @@ public class ItemBean {
 	private int item_level;				// 아이템 레벨
 	private String item_name;		// 아이템 이름
 	private int item_seq;				// 아이템 순번
+	private int root_idn;				// 회원 고유번호
+	private String item_class;		// 아이템 분류
 	
 	public String getItem_code() {
 		return item_code;
@@ -36,6 +38,18 @@ public class ItemBean {
 	}
 	public void setItem_seq(int item_seq) {
 		this.item_seq = item_seq;
+	}
+	public int getRoot_idn() {
+		return root_idn;
+	}
+	public void setRoot_idn(int root_idn) {
+		this.root_idn = root_idn;
+	}
+	public String getItem_class() {
+		return item_class;
+	}
+	public void setItem_class(String item_class) {
+		this.item_class = item_class;
 	}
 	
 }

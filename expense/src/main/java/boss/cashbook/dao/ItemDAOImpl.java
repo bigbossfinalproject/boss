@@ -72,4 +72,14 @@ public class ItemDAOImpl {
 		int result = sql.selectOne("maxSeq", item_code);
 		return result;
 	}
+	
+	// 사용자의 모든 분류항목 삭제하기
+	public void idnDeleteItem(int root_idn) {
+		sql.delete("idnDeleteItem", root_idn);
+	}
+	
+	// 분류항목 기초데이터 정보 가져오기
+	public List<ItemBean> basicItemList() {
+		return sql.selectList("basicItemList");
+	}
 }

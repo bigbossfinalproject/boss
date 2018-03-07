@@ -43,13 +43,24 @@ public class ItemController {
 		response.setCharacterEncoding("UTF-8");
 		session = request.getSession();
 		
-		//int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
-		
 		// 파라메터 value 호출 및 변수에 저장
+		int rootIdn = ((Integer) session.getAttribute("root_Idn")).intValue();
 		String item_code = request.getParameter("item_code");
 		String parent_code = request.getParameter("parent_code");
 		String item_name = request.getParameter("item_name");
 		String item_level = request.getParameter("item_level");
+		String item_class = null;
+		String strIdn = rootIdn+"";
+		String itemClass = parent_code.substring(strIdn.length(), 1);
+		if(itemClass.equals("a")) {
+			item_class = "asset";
+		} else if(itemClass.equals("l")) {
+			item_class = "loan";
+		} else if(itemClass.equals("i")) {
+			item_class = "income";
+		} else if(itemClass.equals("e")) {
+			item_class = "expense";
+		}
 		
 		//String idn = rootIdn+"";
 		ModelAndView mv = new ModelAndView("/expense/item_detail");
@@ -72,7 +83,9 @@ public class ItemController {
 				}
 				//System.out.println("countSeq : "+cntSeq+"\tmaxSeq : "+maxSeq);
 				item.setItem_seq(maxSeq+1);
-				//System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "+item.getItem_seq());
+				item.setRoot_idn(rootIdn);
+				item.setItem_class(item_class);
+				//System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "+item.getItem_seq()+" / "+item.getRoot_idn()+" / "+item.getItem_class());
 				itemDao.addItem(item);
 			}
 		}
@@ -176,6 +189,9 @@ public class ItemController {
 		
 		ModelAndView mv = new ModelAndView("expense/item_list");
 		List<ItemBean> iList = itemDao.itemList(item_code+"%");
+		for(ItemBean item : iList) {
+			System.out.println(item.getItem_code()+" / "+item.getItem_name()+" / "+item.getParent_code()+" / "+item.getItem_level()+" / "+item.getItem_seq()+" / "+item.getRoot_idn()+" / "+item.getItem_class());
+		}
 		mv.addObject("itemList", iList);
 		
 		return mv;

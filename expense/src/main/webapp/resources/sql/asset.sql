@@ -10,7 +10,7 @@ select sum(basic_amount) total_amount,
 (select sum(e2.expense_amount) from expense e2 where trade_code='cash') cash_amount_spent
 from asset a where a.root_idn=1 group by a.root_idn
 
-select * from asset
+select * from asset;
 
 
 create table asset(
@@ -43,18 +43,15 @@ create table asset(
 	root_id varchar2(20)
 );
 
-update asset set now_amount = now_amount+30000000 where asset_code = '1bk001';
-
-update asset set now_amount = -374300 where asset_code = '1cs001';
-update asset set now_amount = 21506300 where asset_code = '1bk001';
-
-
+insert into asset values('cs001', 'cash', 0, '2017/01/01', '지갑속 현금', '현금 필요시 사용', 'money', 0, 0, 'Y' , 'basic');
+insert into asset values('bk001', 'account', 0, '2017-01-01', '통장', '통장', 'fnc001', 0, 0, 'Y', 'basic');
 
 insert into asset values('1cs001', 'cash', 1, '2018/02/14', '지갑속 현금', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
 insert into asset values('1bk001', 'account', 1, '2018-02-14', '신한입출금통장', '주 사용 통장', 'fnc011', 1000000, 1000000, 'Y', 'admin');
 insert into asset values('1bk002', 'account', 1, '2018-02-14', '신한주택청약저축통장', '주택 구입 준비용', 'fnc011', 1500000, 1500000, 'Y', 'admin');
 insert into asset values('1bk003', 'account', 1, '2018-02-24', '신한주택저축통장', '주택 준비용', 'fnc011', 1500000, 1500000, 'Y', 'admin');
 insert into asset values('1cs002', 'cash', 1, '2018/02/14', '지갑속 동전', '현금 필요시 사용', 'money', 100000, 100000, 'Y' , 'admin');
+
 select * from asset;
 
 update asset set asset_use = 'Y';
