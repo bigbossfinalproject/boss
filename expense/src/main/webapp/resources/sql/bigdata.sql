@@ -1,3 +1,5 @@
+drop table test purge;
+
 create table test(
 	age			number(3)		not null,
 	income		number(20)		

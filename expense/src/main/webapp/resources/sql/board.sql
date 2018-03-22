@@ -1,3 +1,4 @@
+drop table communite purge;
 
 --   int bId;  //게시판 번호
 --   String root_Id; //작성 자 ID   

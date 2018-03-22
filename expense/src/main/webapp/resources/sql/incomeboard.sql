@@ -1,4 +1,5 @@
 drop table income purge;
+drop sequence income_code_seq;
 
 CREATE TABLE income
 (
